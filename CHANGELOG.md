@@ -1,5 +1,9 @@
 # Larlen Cache Opener Changelog
 
+## v1.03
+- Added missing Midnight crafting weekly, treatise, and work order knowledge items. 
+- Profiles are now account-wide, switching profiles on one character applies to all characters.
+
 ## v1.0.2
 - Fixed a Lua error that could occasionally occur when bags updated during combat.
 

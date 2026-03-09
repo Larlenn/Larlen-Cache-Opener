@@ -2,7 +2,7 @@ local _, L = ...;
 
 LarlenCacheOpener.option_buttons = {};
 local testActive = false;
-local isRefreshing = false; -- guard to stop sliders firing OnValueChanged during RefreshPanelValues
+local isRefreshing = false;
 
 local directions = {
     {name = "Grow Right", value = "RIGHT"},
@@ -366,7 +366,7 @@ function LarlenCacheOpener:initializeOptions()
         UIDropDownMenu_Initialize(profileDropdown, function(self, level, menuList)
             local info = UIDropDownMenu_CreateInfo()
             local names = LarlenCacheOpener:GetProfileNames()
-            local active = LarlenCacheOpenerDB and LarlenCacheOpenerDB.activeProfile or "Default"
+            local active = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
             for _, name in ipairs(names) do
                 info.text = name
                 info.arg1 = name
@@ -381,7 +381,7 @@ function LarlenCacheOpener:initializeOptions()
                 UIDropDownMenu_AddButton(info)
             end
         end)
-        UIDropDownMenu_SetText(profileDropdown, LarlenCacheOpenerDB and LarlenCacheOpenerDB.activeProfile or "Default")
+        UIDropDownMenu_SetText(profileDropdown, LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default")
     end
 
     -- Name input + New / Copy / Delete on one row
@@ -404,7 +404,6 @@ function LarlenCacheOpener:initializeOptions()
                 newProfileInput:SetText("")
                 newProfileInput:ClearFocus()
                 RebuildProfileDropdown()
-                -- SwitchProfile already calls RefreshOptionsPanelValues
             end
         end
     end)
@@ -421,7 +420,6 @@ function LarlenCacheOpener:initializeOptions()
                 newProfileInput:SetText("")
                 newProfileInput:ClearFocus()
                 RebuildProfileDropdown()
-                -- SwitchProfile already calls RefreshOptionsPanelValues
             end
         end
     end)
@@ -431,16 +429,14 @@ function LarlenCacheOpener:initializeOptions()
     deleteProfileBtn:SetSize(55, 22)
     deleteProfileBtn:SetText("Delete")
     deleteProfileBtn:SetScript("OnClick", function()
-        local active = LarlenCacheOpenerDB and LarlenCacheOpenerDB.activeProfile or "Default"
+        local active = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
         if LarlenCacheOpener:DeleteProfile(active) then
             RebuildProfileDropdown()
-            -- DeleteProfile calls SwitchProfile("Default") which calls RefreshOptionsPanelValues
         end
     end)
 
     -----------------------------------------
     -- RIGHT COLUMN: HIDDEN GROUPS
-    -- y=-230 separator + y=-240 header matches "Appearance & Position" on the left
     -----------------------------------------
     CreateSeparator(panel, -230)
     CreateSectionHeader(panel, L["hidden_groups"], 350, -240)
@@ -564,12 +560,11 @@ function LarlenCacheOpener:initializeOptions()
         end
 
         if _G["SCO_ProfileDropdown"] then
-            UIDropDownMenu_SetText(_G["SCO_ProfileDropdown"], LarlenCacheOpenerDB.activeProfile or "Default")
+            UIDropDownMenu_SetText(_G["SCO_ProfileDropdown"], LarlenCacheOpenerProfiles.activeProfile or "Default")
         end
 
         isRefreshing = false
     end
-    -- Expose so SwitchProfile can call it
     LarlenCacheOpener.RefreshOptionsPanelValues = RefreshPanelValues
 
     panel:RegisterEvent("ADDON_LOADED")

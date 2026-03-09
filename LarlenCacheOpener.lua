@@ -61,10 +61,9 @@ end
 
 -- Returns the currently active profile data table (writable)
 function LarlenCacheOpener:GetActiveProfile()
-    local profileName = (LarlenCacheOpenerDB and LarlenCacheOpenerDB.activeProfile) or "Default"
+    local profileName = (LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile) or "Default"
     if not LarlenCacheOpenerProfiles or not LarlenCacheOpenerProfiles.profiles then
-        -- Profiles not initialized yet - return a temp table, writes will be lost
-        -- but this only happens before ADDON_LOADED which is fine
+        -- Profiles not initialized yet
         return CopyProfileData(defaultProfileData)
     end
     if not LarlenCacheOpenerProfiles.profiles[profileName] then
@@ -90,7 +89,7 @@ function LarlenCacheOpener:SwitchProfile(name)
     if not LarlenCacheOpenerProfiles.profiles[name] then
         LarlenCacheOpenerProfiles.profiles[name] = CopyProfileData(defaultProfileData)
     end
-    LarlenCacheOpenerDB.activeProfile = name
+    LarlenCacheOpenerProfiles.activeProfile = name
     -- Reposition the frame to the new profile's saved position
     local pos = self:GetActiveProfile().position
     self.frame:ClearAllPoints()
@@ -104,8 +103,6 @@ function LarlenCacheOpener:SwitchProfile(name)
     self:UpdateMinimapPosition()
     self:UpdateMinimapVisibility()
     self:updateButtons()
-    -- Refresh options panel UI if it's open.
-    -- RefreshOptionsPanelValues sets isRefreshing internally to block slider writes.
     if LarlenCacheOpener.RefreshOptionsPanelValues then
         LarlenCacheOpener.RefreshOptionsPanelValues()
     end
@@ -138,7 +135,7 @@ function LarlenCacheOpener:DeleteProfile(name)
         LarlenCacheOpenerProfiles.profiles[name] = nil
         print("|cffffa500Larlen Cache Opener|r: Deleted profile |cffffd100" .. name .. "|r")
         -- If this was the active profile, fall back to Default
-        if LarlenCacheOpenerDB.activeProfile == name then
+        if LarlenCacheOpenerProfiles.activeProfile == name then
             self:SwitchProfile("Default")
         end
         return true
@@ -400,14 +397,13 @@ function LarlenCacheOpener:UpdateMinimapVisibility()
         self.ldbi:Hide("LarlenCacheOpener")
     end
 end
--- Position is managed automatically by LibDBIcon (stored in minimapDB.minimapPos).
 function LarlenCacheOpener:UpdateMinimapPosition()
 end
 
 function LarlenCacheOpener:reset()
     if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "8 - Reset Called") end end
     -- Reset the active profile's data to defaults
-    local profileName = LarlenCacheOpenerDB and LarlenCacheOpenerDB.activeProfile or "Default"
+    local profileName = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     LarlenCacheOpenerProfiles.profiles[profileName] = CopyProfileData(defaultProfileData)
     self.frame:SetPoint('CENTER', UIParent, 'CENTER', 0, 0);
@@ -424,7 +420,7 @@ function LarlenCacheOpener:resetPosition()
 end
 
 function resetAll() 
-    local profileName = LarlenCacheOpenerDB and LarlenCacheOpenerDB.activeProfile or "Default"
+    local profileName = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     LarlenCacheOpenerProfiles.profiles[profileName] = CopyProfileData(defaultProfileData)
     LarlenCacheOpener:UpdateCombatState();
@@ -435,8 +431,6 @@ end
 
 function LarlenCacheOpener:AddButton()
     if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "2 - Add Button Called") end end
-    -- Never call Show() during combat - WoW blocks it with ADDON_ACTION_BLOCKED.
-    -- The frame visibility is already managed by UpdateCombatState via RegisterStateDriver.
     if not InCombatLockdown() then
         self.frame:Show();
     end
@@ -472,28 +466,36 @@ function LarlenCacheOpener:OnEvent(event, ...)
         if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "0 - Addon Loaded") end end
         self.frame:UnregisterEvent("ADDON_LOADED");
 
-        -- Initialize per-character DB
-        LarlenCacheOpenerDB = LarlenCacheOpenerDB or {}
-        if LarlenCacheOpenerDB.activeProfile == nil then
-            LarlenCacheOpenerDB.activeProfile = "Default"
-        end
 
-        -- Initialize global profiles store
+        LarlenCacheOpenerDB = LarlenCacheOpenerDB or {}
+
+
         LarlenCacheOpenerProfiles = LarlenCacheOpenerProfiles or {}
         LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
 
-        -- Ensure the Default profile exists
+
+        if LarlenCacheOpenerDB.activeProfile ~= nil and LarlenCacheOpenerProfiles.activeProfile == nil then
+            LarlenCacheOpenerProfiles.activeProfile = LarlenCacheOpenerDB.activeProfile
+            LarlenCacheOpenerDB.activeProfile = nil
+        end
+
+
+        if LarlenCacheOpenerProfiles.activeProfile == nil then
+            LarlenCacheOpenerProfiles.activeProfile = "Default"
+        end
+
+
         if not LarlenCacheOpenerProfiles.profiles["Default"] then
             LarlenCacheOpenerProfiles.profiles["Default"] = CopyProfileData(defaultProfileData)
         end
 
-        -- Ensure the active profile exists (in case it was deleted externally)
-        local activeProfile = LarlenCacheOpenerDB.activeProfile
+
+        local activeProfile = LarlenCacheOpenerProfiles.activeProfile
         if not LarlenCacheOpenerProfiles.profiles[activeProfile] then
             LarlenCacheOpenerProfiles.profiles[activeProfile] = CopyProfileData(defaultProfileData)
         end
 
-        -- Back-compat: if old per-character DB had real settings, migrate them to Default profile
+
         if LarlenCacheOpenerDB.alignment ~= nil then
             local p = LarlenCacheOpenerProfiles.profiles["Default"]
             local fields = {"enable","alignment","ignored_items","ignored_groups","custom_items",
@@ -508,7 +510,7 @@ function LarlenCacheOpener:OnEvent(event, ...)
             print("|cffffa500Larlen Cache Opener|r: Migrated existing settings to the Default profile.")
         end
 
-        -- Ensure active profile has all required keys (fills in missing keys after upgrades)
+
         local p = self:GetActiveProfile()
         if p.ignored_items == nil then p.ignored_items = {} end
         if p.ignored_groups == nil then p.ignored_groups = {} end
@@ -524,26 +526,15 @@ function LarlenCacheOpener:OnEvent(event, ...)
         if p.alpha == nil then p.alpha = 1.0 end
         if p.locked == nil then p.locked = false end
 
-        -- Match old behaviour: use dot notation (no implicit self) for these two calls
         LarlenCacheOpener.updateIgnoreItems();
         LarlenCacheOpener.initializeOptions();
         LarlenCacheOpener:UpdateCombatState();
 
-        -- Register the minimap button with LibDBIcon now that SavedVariables are loaded.
-        -- LarlenCacheOpenerMinimapDB persists the hide flag and angle between sessions.
-        -- Set default minimap position if not saved yet
+
         if not LarlenCacheOpenerDB.minimapPos then
             LarlenCacheOpenerDB.minimapPos = 225
         end
-        -- Sync hide flag from profile into the main SavedVariables table.
-        -- LibDBIcon reads .hide from this table to control button visibility.
         LarlenCacheOpenerDB.hide = not LarlenCacheOpener:P("showMinimap")
-        -- Defer LibDBIcon registration by one frame using C_Timer.After(0).
-        -- HidingBar's init() runs during ADDON_LOADED and grabs buttons from
-        -- ldbi:GetButtonList() WITHOUT calling setParams -- only setHooks.
-        -- Any button registered before HidingBar's init ends up with the
-        -- SetShown stub installed but no btnParams entry, causing a nil crash.
-        -- Registering after all ADDON_LOADED events finish sidesteps this.
         C_Timer.After(0, function()
             if not LarlenCacheOpener.ldbi:IsRegistered("LarlenCacheOpener") then
                 LarlenCacheOpener.ldbi:Register("LarlenCacheOpener", LarlenCacheOpener.ldb, LarlenCacheOpenerDB)
@@ -636,7 +627,7 @@ local function slashHandler(msg)
         subcmd = subcmd and subcmd:lower() or ""
         if subcmd == "list" then
             local names = LarlenCacheOpener:GetProfileNames()
-            local active = LarlenCacheOpenerDB.activeProfile or "Default"
+            local active = LarlenCacheOpenerProfiles.activeProfile or "Default"
             print("|cffffa500Larlen Cache Opener|r: Profiles:")
             for _, n in ipairs(names) do
                 if n == active then
@@ -741,20 +732,9 @@ LarlenCacheOpener.frame:SetScript("OnShow", function(self,event,...)
  end);
 
 ------------------------------------------------
--- Minimap Button  (LibDBIcon-1.0)
--- LibDBIcon is the standard WoW library used by HidingBar, ElvUI, and all
--- minimap-manager addons to discover and manage minimap buttons. Using it
--- means our button automatically appears in HidingBar, gets hidden by ElvUI
--- minimap hiding, etc. -- exactly like Dejunk and Simulationcraft do.
---
--- REQUIRED: place these two files inside your addon folder under libs\ :
---   libs\LibStub\LibStub.lua
---   libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
---   libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
--- and load them in your .toc BEFORE LarlenCacheOpener.lua.
+-- Minimap Button (LibDBIcon-1.0)
 ------------------------------------------------
 
--- LibDataBroker data object -- defines icon, tooltip, click behaviour.
 local _ldb_data = {
     type  = "launcher",
     label = "Larlen Cache Opener",
@@ -778,16 +758,13 @@ local _ldb_data = {
         tt:AddLine("|cffffffffDrag|r to move.", 1, 1, 1)
     end,
 }
--- GetDataObjectByName returns the existing object on /reload (NewDataObject would return nil)
 local ldb = LibStub("LibDataBroker-1.1"):GetDataObjectByName("LarlenCacheOpener")
         or LibStub("LibDataBroker-1.1"):NewDataObject("LarlenCacheOpener", _ldb_data)
--- Update callbacks on the existing object in case of reload
 if ldb then
     ldb.OnClick       = _ldb_data.OnClick
     ldb.OnTooltipShow = _ldb_data.OnTooltipShow
     ldb.icon          = _ldb_data.icon
 end
 
--- Store LibDBIcon reference on the addon table for use in UpdateMinimapVisibility.
 LarlenCacheOpener.ldbi = LibStub("LibDBIcon-1.0")
 LarlenCacheOpener.ldb = ldb  -- store reference so ADDON_LOADED can reach it
