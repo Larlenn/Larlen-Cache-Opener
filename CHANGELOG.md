@@ -1,5 +1,9 @@
 # Larlen Cache Opener Changelog
 
+## v1.0.5
+- Added more missing Midnight 12.0 items to the database
+- Unified item database formatting and removed duplicate entry
+
 ## v1.0.4
 - Added missing Midnight crafting weekly, treatise, and work order knowledge items. 
 - Profiles are now account-wide, switching profiles on one character applies to all characters.

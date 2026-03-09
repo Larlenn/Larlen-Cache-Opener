@@ -6,30 +6,30 @@ LarlenCacheOpener.buttons = {};
 LarlenCacheOpener.items = {
 
     -- siren isle
-    {--[[ ["name"] = "crate-of-bygone-riches",]] ["id"] = 232372,["minCount"] = 1},  
+    {--[[ ["name"] = "crate-of-bygone-riches",]] ["id"] = 232372,["minCount"] = 1},
 
-    {--[[ ["name"] = "bag-of-timeworn-badges",]] ["id"] = 232598,["minCount"] = 1},  
-    {--[[ ["name"] = "bronze-celebration-cache",]] ["id"] = 232471,["minCount"] = 1},  
-    {--[[ ["name"] = "bronze-celebration-cache",]] ["id"] = 233014,["minCount"] = 1},  
+    {--[[ ["name"] = "bag-of-timeworn-badges",]] ["id"] = 232598,["minCount"] = 1},
+    {--[[ ["name"] = "bronze-celebration-cache",]] ["id"] = 232471,["minCount"] = 1},
+    {--[[ ["name"] = "bronze-celebration-cache",]] ["id"] = 233014,["minCount"] = 1},
     -- update of an assortment of missing items
 
-    {--[[ ["name"] = "flicker-of-blacksmithing-knowledge",]] ["id"] = 228726,["minCount"] = 1},  
-    {--[[ ["name"] = "flicker-of-engineering-knowledge",]] ["id"] = 228730,["minCount"] = 1},  
-    {--[[ ["name"] = "flicker-of-alchemy-knowledge",]] ["id"] = 228724,["minCount"] = 1},  
-    {--[[ ["name"] = "flicker-of-tailoring-knowledge",]] ["id"] = 228738,["minCount"] = 1},  
-    {--[[ ["name"] = "flicker-of-leatherworking-knowledge",]] ["id"] = 228736,["minCount"] = 1},  
-    {--[[ ["name"] = "flicker-of-inscription-knowledge",]] ["id"] = 228732,["minCount"] = 1},  
-    {--[[ ["name"] = "flicker-of-enchanting-knowledge",]] ["id"] = 228728,["minCount"] = 1},  
-    {--[[ ["name"] = "flicker-of-jewelcrafting-knowledge",]] ["id"] = 228734,["minCount"] = 1},  
+    {--[[ ["name"] = "flicker-of-blacksmithing-knowledge",]] ["id"] = 228726,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-engineering-knowledge",]] ["id"] = 228730,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-alchemy-knowledge",]] ["id"] = 228724,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-tailoring-knowledge",]] ["id"] = 228738,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-leatherworking-knowledge",]] ["id"] = 228736,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-inscription-knowledge",]] ["id"] = 228732,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-enchanting-knowledge",]] ["id"] = 228728,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-jewelcrafting-knowledge",]] ["id"] = 228734,["minCount"] = 1},
 
-    {--[[ ["name"] = "glimmer-of-alchemy-knowledge",]] ["id"] = 228725,["minCount"] = 1},  
-    {--[[ ["name"] = "glimmer-of-tailoring-knowledge",]] ["id"] = 228739,["minCount"] = 1},  
-    {--[[ ["name"] = "glimmer-of-engineering-knowledge",]] ["id"] = 228731,["minCount"] = 1},  
-    {--[[ ["name"] = "glimmer-of-leatherworking-knowledge",]] ["id"] = 228737,["minCount"] = 1},  
-    {--[[ ["name"] = "glimmer-of-inscription-knowledge",]] ["id"] = 228733,["minCount"] = 1},  
-    {--[[ ["name"] = "glimmer-of-enchanting-knowledge",]] ["id"] = 228729,["minCount"] = 1},  
-    {--[[ ["name"] = "glimmer-of-jewelcrafting-knowledge",]] ["id"] = 228735,["minCount"] = 1},  
-    {--[[ ["name"] = "glimmer-of-blacksmith-knowledge",]] ["id"] = 228727,["minCount"] = 1},  
+    {--[[ ["name"] = "glimmer-of-alchemy-knowledge",]] ["id"] = 228725,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-tailoring-knowledge",]] ["id"] = 228739,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-engineering-knowledge",]] ["id"] = 228731,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-leatherworking-knowledge",]] ["id"] = 228737,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-inscription-knowledge",]] ["id"] = 228733,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-enchanting-knowledge",]] ["id"] = 228729,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-jewelcrafting-knowledge",]] ["id"] = 228735,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-blacksmith-knowledge",]] ["id"] = 228727,["minCount"] = 1},
     {--[[ ["name"] = "rattling-bag-o-gold",]] ["id"] = 225249,["minCount"] = 1},
     {--[[ ["name"] = "bottomless-bag-of-khaz-algar-general-goods",]] ["id"] = 224100,["minCount"] = 1},
     {--[[ ["name"] = "wax-sealed-weathered-crests",]] ["id"] = 226148,["minCount"] = 1},
@@ -881,7 +881,7 @@ LarlenCacheOpener.items = {
     --{--[[ ["name"] = "LarlenCacheOpener_Draconic-Treatise-on-Jewelcrafting",]] ["id"] = 194703,["minCount"] = 1},
     --{--[[ ["name"] = "LarlenCacheOpener_Draconic-Treatise-on-Leatherworking",]] ["id"] = 194700,["minCount"] = 1},
     --{--[[ ["name"] = "LarlenCacheOpener_Draconic-Treatise-on-Tailoring",]] ["id"] = 194698,["minCount"] = 1},
-    
+
     -- Random missing items
     {--[[ ["name"] = "LarlenCacheOpener_adventurers-footlocker",]] ["id"] = 208878,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_hearthstone-starter-pack",]] ["id"] = 212979,["minCount"] = 1},
@@ -937,7 +937,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_satchel-of-dreams",]] ["id"] = 210872,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_stolen-hearthstone-card",]] ["id"] = 212924,["minCount"] = 1},
 
-    --10.2.6 Awakened Caches
+    -- 10.2.6 Awakened Caches
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Embers",]] ["id"] = 215363,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Awakened-Embers",]] ["id"] = 217110,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Storms",]] ["id"] = 215362,["minCount"] = 1},
@@ -946,8 +946,8 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Awakened-Dreams",]] ["id"] = 217111,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Awakened-TreasuresA",]] ["id"] = 217728,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Awakened-TreasuresB",]] ["id"] = 217729,["minCount"] = 1},
-    
-    --10.2.6 Flightstone Wings
+
+    -- 10.2.6 Flightstone Wings
     {--[[ ["name"] = "LarlenCacheOpener_Awakening_Ruby_Wing",]] ["id"] = 217243,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Awakening_Stone_Wing",]] ["id"] = 217242,["minCount"] = 1},
     -- Crests
@@ -955,10 +955,10 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_lively-clutch-of-wyrms-awakened-crests",]] ["id"] = 211950,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_restless-satchel-of-drakes-awakened-crests",]] ["id"] = 212384,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_restless-satchel-of-aspects-awakened-crests",]] ["id"] = 212383,["minCount"] = 1},
-    
+
     -- Azerothian Archives
     {--[[ ["name"] = "LarlenCacheOpener_meticulous-archivists-appendix",]] ["id"] = 213429,["minCount"] = 1},
-    
+
     -- Tomes (These are gained every 1000 points at the Big Dig Event)
     {--[[ ["name"] = "LarlenCacheOpener_dusty-djaradin-tome",]] ["id"] = 213175,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_preserved-isles-tome",]] ["id"] = 213176,["minCount"] = 1},
@@ -968,7 +968,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_preserved-dragonkin-tome",]] ["id"] = 213189,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_preserved-djaradin-tome",]] ["id"] = 213190,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_dusty-drakonid-tome",]] ["id"] = 213187,["minCount"] = 1},
-    
+
     -- Consumables
     -- These may be consumed to provide Mysterious Fragments (Currency for Transmog) or sold for gold
     {--[[ ["name"] = "LarlenCacheOpener_pot-of-tattooing-ink",]] ["id"] = 212650,["minCount"] = 1},
@@ -998,7 +998,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_crude-toy-ducky",]] ["id"] = 212687,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_ancient-centaur-diary",]] ["id"] = 213389,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_book-of-horoscopes",]] ["id"] = 213200,["minCount"] = 1},
-    
+
     -- Doomshadow Drops
     {--[[ ["name"] = "LarlenCacheOpener_excavators-trusty-satchel",]] ["id"] = 212640,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_excavators-glovelettes",]] ["id"] = 212639,["minCount"] = 1},
@@ -1007,18 +1007,18 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_clayscale-hornstrider",]] ["id"] = 212645,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_excavators-boots",]] ["id"] = 212642,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_excavators-pack-of-findings",]] ["id"] = 212793,["minCount"] = 1},
-    
-    --Patch 10.2.0
+
+    -- Patch 10.2.0
     {--[[ ["name"] = "LarlenCacheOpener_sprouting-dreamtrove",]] ["id"] = 211411,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_budding-dreamtrove",]] ["id"] = 211413,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_blossoming-dreamtrove",]] ["id"] = 211414,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_cache-of-overblooming-treasures",]] ["id"] = 211389,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_harvested-dreamseed-cache",]] ["id"] = 211394,["minCount"] = 1},
-    
+
     -- Test Equipment on PTR
     {--[[ ["name"] = "LarlenCacheOpener_PTR-PlayTest-Equipment",]] ["id"] = 186520,["minCount"] = 1},
     --
-    
+
     -- Rousing (Stack of 10) - Listed also in the updateButton function as items that need to be in a stack of 10
     {--[[ ["name"] = "LarlenCacheOpener_rousing-earth",]] ["id"] = 190315,["minCount"] = 10},
     {--[[ ["name"] = "LarlenCacheOpener_rousing-fire",]] ["id"] = 190320,["minCount"] = 10},
@@ -1027,64 +1027,64 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_rousing-frost",]] ["id"] = 190328,["minCount"] = 10},
     {--[[ ["name"] = "LarlenCacheOpener_rousing-decay",]] ["id"] = 190330,["minCount"] = 10},
     {--[[ ["name"] = "LarlenCacheOpener_rousing-ire",]] ["id"] = 190451,["minCount"] = 10},
-    -- 
+    --
     -- Different stack sizes
     {--[[ ["name"] = "LarlenCacheOpener_splintered-spark-of-shadowflame",]] ["id"] = 204717,["minCount"] = 2},
     {--[[ ["name"] = "LarlenCacheOpener_whelplings-shadowflame-crest-fragment",]] ["id"] = 204075,["minCount"] = 15},
     {--[[ ["name"] = "LarlenCacheOpener_drakes-shadowflame-crest-fragment",]] ["id"] = 204076,["minCount"] = 15},
     {--[[ ["name"] = "LarlenCacheOpener_aspects-shadowflame-crest-fragment",]] ["id"] = 204078,["minCount"] = 15},
-    
-    
-    
-    --Darkmoon Faire
+
+
+
+    -- Darkmoon Faire
     {--[[ ["name"] = "LarlenCacheOpener_RideTicketBook",]] ["id"] = 92788,["minCount"] = 1},
-    --Kyrian
-        -- SoulBind
+    -- Kyrian
+        -- Soulbind
     {--[[ ["name"] = "LarlenCacheOpener_CleansingRiteMaterials",]] ["id"] = 183701,["minCount"] = 1},
-    
+
         -- Calling
     {--[[ ["name"] = "LarlenCacheOpener_tributeoftheascended",]] ["id"] = 181372,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_tributeoftheparagon",]] ["id"] = 181741,["minCount"] = 1},
-    
+
         -- Paragon
     {--[[ ["name"] = "LarlenCacheOpener_AscendedSupplies",]] ["id"] = 180647,["minCount"] = 1},
-        
+
     -- Night Fae
-        -- SoulBind
+        -- Soulbind
     {--[[ ["name"] = "LarlenCacheOpener_NaturesSplendor",]] ["id"] = 183702,["minCount"] = 1},
-    
+
         -- Calling
     {--[[ ["name"] = "LarlenCacheOpener_bountyofthegrovewardens",]] ["id"] = 181475,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_tributeofthewildhunt",]] ["id"] = 181476,["minCount"] = 1},
-    
+
         -- Paragon
     {--[[ ["name"] = "LarlenCacheOpener_WildHuntSupplies",]] ["id"] = 180649,["minCount"] = 1},
-    
+
     -- Necrolord
-        -- SoulBind
+        -- Soulbind
     {--[[ ["name"] = "LarlenCacheOpener_BonesmithsSatchel",]] ["id"] = 183703,["minCount"] = 1},
-    
+
         -- Calling
     {--[[ ["name"] = "LarlenCacheOpener_tributeoftheambitious",]] ["id"] = 181732,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_tributeofthedutybound",]] ["id"] = 181733,["minCount"] = 1},
-    
+
         -- Paragon
     {--[[ ["name"] = "LarlenCacheOpener_SuppliesoftheUndyingArmy",]] ["id"] = 180646,["minCount"] = 1},
-    
+
         -- Abomination
     {--[[ ["name"] = "LarlenCacheOpener_SalvagedSupplies",]] ["id"] = 184843,["minCount"] = 1},
-    
+
     -- Venthyr
-        -- SoulBind
+        -- Soulbind
     {--[[ ["name"] = "LarlenCacheOpener_ExquisiteIngredients",]] ["id"] = 183699,["minCount"] = 1},
-    
+
         -- Calling
     {--[[ ["name"] = "LarlenCacheOpener_tributeofthecourt",]] ["id"] = 181556,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_favorofthecourt",]] ["id"] = 181557,["minCount"] = 1},
-    
+
         -- Paragon
     {--[[ ["name"] = "LarlenCacheOpener_CourtofHarvestersSupplies",]] ["id"] = 180648,["minCount"] = 1},
-    
+
     -- Command Table
     {--[[ ["name"] = "LarlenCacheOpener_AdventurersMiningCache",]] ["id"] = 184635,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_champions-mining-cache",]] ["id"] = 184641,["minCount"] = 1},
@@ -1105,7 +1105,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_heros-fish-cache",]] ["id"] = 184638,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_ChampionsMeatCache",]] ["id"] = 184633,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_heros-meat-cache",]] ["id"] = 184637,["minCount"] = 1},
-    
+
     -- Queen's Conservatory
     {--[[ ["name"] = "LarlenCacheOpener_novicessatchel",]] ["id"] = 180974,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_noviceslargesatchel",]] ["id"] = 180981,["minCount"] = 1},
@@ -1119,47 +1119,47 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_artisanslargesatchel",]] ["id"] = 180979,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_artisansstuffedsatchel",]] ["id"] = 180983,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_spirittenderssatchel",]] ["id"] = 180977,["minCount"] = 1},
-    
+
     -- The Maw
     {--[[ ["name"] = "LarlenCacheOpener_FallenAdventurersCache",]] ["id"] = 184395,["minCount"] = 1},
-    
+
     -- Torghast
     {--[[ ["name"] = "LarlenCacheOpener_BloodedSatchel",]] ["id"] = 171209,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_SatchelofNaturesBounty",]] ["id"] = 171210,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_VenthyrsCoinPurse",]] ["id"] = 171211,["minCount"] = 1},
-    
+
     -- Revendreth
     {--[[ ["name"] = "LarlenCacheOpener_PouchofShinies",]] ["id"] = 178128,["minCount"] = 1},
-    
+
     -- Blingtron
     {--[[ ["name"] = "LarlenCacheOpener_blingtron-4000-gift-package",]] ["id"] = 86623,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_blingtron-5000-gift-package",]] ["id"] = 113258,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_blingtron-6000-gift-package",]] ["id"] = 132892,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_blingtron-7000-gift-package",]] ["id"] = 168740,["minCount"] = 1},
-    
+
     -- Timewalking Cata
     {--[[ ["name"] = "LarlenCacheOpener_cacheofnathriantreasures",]] ["id"] = 184869,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_cacheofnathriantreasures",]] ["id"] = 184868,["minCount"] = 1},
-    
+
     -- LFG Call to Arms
     {--[[ ["name"] = "LarlenCacheOpener_veiledsatchelofcooperation",]] ["id"] = 184522,["minCount"] = 1},
-        
+
     -- Noblegarden
     {--[[ ["name"] = "LarlenCacheOpener_brightlycoloredegg",]] ["id"] = 45072,["minCount"] = 1},
-        
+
     -- Added by Z
     {--[[ ["name"] = "LarlenCacheOpener_GreaterDarkmoonPetSupplies",]] ["id"] = 116062,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_TravelersPetSupplies",]] ["id"] = 122535,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_BigBagofPetSupplies",]] ["id"] = 118697,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_DarkmoonPetSupplies",]] ["id"] = 91086,["minCount"] = 1},
-    
+
     -- 9.0.1
     {--[[ ["name"] = "LarlenCacheOpener_condensed-stygia",]] ["id"] = 178040,["minCount"] = 1},
-    
+
     -- 9.1 Korthia
     {--[[ ["name"] = "LarlenCacheOpener_tormentorscache",]] ["id"] = 185972,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_AbandonedBrokerSatchel",]] ["id"] = 187354,["minCount"] = 1},
-    
+
     -- Assault Rewards
     {--[[ ["name"] = "LarlenCacheOpener_WarChestoftheUndyingArmy",]] ["id"] = 185992,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_WarChestoftheWildHunt",]] ["id"] = 185991,["minCount"] = 1},
@@ -1167,13 +1167,13 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_HarvestersWarChest",]] ["id"] = 185990,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_DeathsAdvanceWarChest",]] ["id"] = 186196,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_DeathsAdvanceWarChest2",]] ["id"] = 187543,["minCount"] = 1},
-    
+
     -- Added by modrogon
     {--[[ ["name"] = "LarlenCacheOpener_FeatherStuffedHelm",]] ["id"] = 187440,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_DivinersRuneChit",]] ["id"] = 185963,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_TalonPiercedMawswornLockbox",]] ["id"] = 187278,["minCount"] = 1},
-        
-    --Korthia Cache
+
+    -- Korthia Cache
     {--[[ ["name"] = "LarlenCacheOpener_KorthianMeatCache",]] ["id"] = 187577,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_KorthianSkinningCache",]] ["id"] = 187576,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_KorthianFishingCache",]] ["id"] = 187575,["minCount"] = 1},
@@ -1202,16 +1202,16 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_GoldFilledWheelbarrow",]] ["id"] = 186693,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_SuppliesoftheArchivistsCodex",]] ["id"] = 187028,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_StygicCluster",]] ["id"] = 187351,["minCount"] = 1},
-    
+
     -- Brewfest
     {--[[ ["name"] = "LarlenCacheOpener_KegShapedTreasureChest",]] ["id"] = 117393,["minCount"] = 1},
-    
-    --Hallows end
+
+    -- Hallows End
     {--[[ ["name"] = "LarlenCacheOpener_LootStuffedPumpkin",]] ["id"] = 149574,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_LootFilledPumpkinRare",]] ["id"] = 54516,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_LootFilledPumpkinEpic",]] ["id"] = 117392,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_HandfulofTreats",]] ["id"] = 37586,["minCount"] = 1},
-        
+
     -- Patch 9.2
     {--[[ ["name"] = "LarlenCacheOpener_olea-cache",]] ["id"] = 187781,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_overflowing-chest-of-riches",]] ["id"] = 191303,["minCount"] = 1},
@@ -1229,18 +1229,18 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_tribute-of-the-enlightened-elders1",]] ["id"] = 191139,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_tribute-of-the-enlightened-elders2",]] ["id"] = 190610,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_bag-of-explored-souls",]] ["id"] = 191701,["minCount"] = 1},
-    
-    --Patch 9.25
+
+    -- Patch 9.25
     {--[[ ["name"] = "LarlenCacheOpener_cache-of-fated-treasures278",]] ["id"] = 192437,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_cache-of-fated-treasures291",]] ["id"] = 192438,["minCount"] = 1},
-        
+
     -- 2022 Anniversary
     {--[[ ["name"] = "LarlenCacheOpener_anniversary-gift2022",]] ["id"] = 187710,["minCount"] = 1},
-        
+
     -- Pet Bags
     {--[[ ["name"] = "LarlenCacheOpener_sack-of-pet-supplies",]] ["id"] = 89125,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_fabled-pandaren-pet-supplies",]] ["id"] = 94207,["minCount"] = 1},
-        
+
     -- Legion Rep Chests
     {--[[ ["name"] = "LarlenCacheOpener_dreamweaver-provisions",]] ["id"] = 157822,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_kirin-tor-chest",]] ["id"] = 157828,["minCount"] = 1},
@@ -1248,10 +1248,10 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_wardens-field-kit",]] ["id"] = 157827,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_wardens-supply-kit",]] ["id"] = 152107,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_overflowing_dream_warden_trove",]] ["id"] = 210992,["minCount"] = 1},
-        
+
     -- 9.0 command table
     {--[[ ["name"] = "LarlenCacheOpener_bulging-collection-of-random-bits",]] ["id"] = 183883,["minCount"] = 1},
-        
+
     -- MoP
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Vault-Treasures",]] ["id"] = 104272,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_stormtouched-cache",]] ["id"] = 95602,["minCount"] = 1},
@@ -1260,29 +1260,29 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_marauders-gleaming-sack-of-gold",]] ["id"] = 90840,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_spoils-of-the-thunder-king",]] ["id"] = 97153,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_small-bag-of-goods",]] ["id"] = 87217,["minCount"] = 1},
-        
-    --Mechagon
+
+    -- Mechagon
     {--[[ ["name"] = "LarlenCacheOpener_azeroth-mini-pack-mechagon",]] ["id"] = 169850,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_strange-recycling-requisition",]] ["id"] = 168266,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_recycling-requisition",]] ["id"] = 168264,["minCount"] = 1},
-        
-    --pet bags
+
+    -- Pet Bags
     {--[[ ["name"] = "LarlenCacheOpener_torn-sack-of-pet-supplies",]] ["id"] = 142447,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_grummlepouch",]] ["id"] = 184866,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_fel-touched-pet-supplies",]] ["id"] = 127751,["minCount"] = 1},
-        
+
     -- BfA Paragon chests
     {--[[ ["name"] = "LarlenCacheOpener_honorbound-supplies",]] ["id"] = 166299,["minCount"] = 1},
-        
+
     -- vanilla
     {--[[ ["name"] = "LarlenCacheOpener_small-barnacled-clam",]] ["id"] = 5523,["minCount"] = 1},
-    
+
     -- Legion Rep Chests
     {--[[ ["name"] = "LarlenCacheOpener_valarjar-cache",]] ["id"] = 157824,["minCount"] = 1},
-        
+
     -- Pilgrim's Bounty
     {--[[ ["name"] = "LarlenCacheOpener_pilgrims-bounty",]] ["id"] = 116404,["minCount"] = 1},
-    
+
     -- Patch 10.0.2 Pre-Patch
     {--[[ ["name"] = "LarlenCacheOpener_Weighted-Sac-of-Swog-Treasures",]] ["id"] = 199342,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Primal-Chaos-Cluster",]] ["id"] = 202122,["minCount"] = 1},
@@ -1327,7 +1327,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_Obsidian-Forgemaster's-Cache",]] ["id"] = 201754,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Cache-of-Vault-Treasures",]] ["id"] = 202079,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_earthbound-tome",]] ["id"] = 194741,["minCount"] = 1},
-        
+
     -- Dragonflight Crafting
     {--[[ ["name"] = "LarlenCacheOpener_Notebook-of-Crafting-Knowledge1",]] ["id"] = 201700,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Notebook-of-Crafting-Knowledge2",]] ["id"] = 201705,["minCount"] = 1},
@@ -1342,11 +1342,11 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_Notebook-of-Crafting-Knowledge11",]] ["id"] = 201716,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Notebook-of-Crafting-Knowledge12",]] ["id"] = 201717,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Notebook-of-Crafting-Knowledge14",]] ["id"] = 201718,["minCount"] = 1},
-        
+
     -- Fishing
     {--[[ ["name"] = "LarlenCacheOpener_Draconic-Recipe-in-a-Bottle",]] ["id"] = 198438,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Aged-Recipe-in-a-Bottle",]] ["id"] = 198439,["minCount"] = 1},
-    
+
     -- Mining Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Elementally-Charged-Stone",]] ["id"] = 202011,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Heated-Ore-Sample",]] ["id"] = 194039,["minCount"] = 1},
@@ -1355,45 +1355,45 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_Iridescent-Ore",]] ["id"] = 201301,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Mining-Field-Notes",]] ["id"] = 199122,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Miner's-Notes",]] ["id"] = 200981,["minCount"] = 1},
-    
+
     -- Herbalism Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Infused-Pollen",]] ["id"] = 202014,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Dreambloom-Petal",]] ["id"] = 200677,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Dreambloom",]] ["id"] = 200678,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Herbalism-Field-Notes",]] ["id"] = 199115,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Herbalist's-Notes",]] ["id"] = 200980,["minCount"] = 1},
-    
+
     -- Skinning Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Curious-Hide-Scraps",]] ["id"] = 198837,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Saturated-Bone",]] ["id"] = 202016,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Large-Sample-of-Curious-Hide",]] ["id"] = 198841,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Skinning-Field-Notes",]] ["id"] = 199128,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Skinner's-Notes",]] ["id"] = 200982,["minCount"] = 1},
-    
+
     -- Alchemy Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Alchemist's-Research",]] ["id"] = 200974,["minCount"] = 1},
-    
+
     -- Blacksmithing Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Blacksmith's-Diagrams",]] ["id"] = 200972,["minCount"] = 1},
-    
+
     -- Enchanting Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Enchanter's-Research",]] ["id"] = 200976,["minCount"] = 1},
-    
+
     -- Engineering Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Engineer's-Scribblings",]] ["id"] = 200977,["minCount"] = 1},
-    
+
     -- Inscription Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Scribe's-Runic-Drawings",]] ["id"] = 200973,["minCount"] = 1},
-    
+
     -- Jewelcrafting Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Jeweler's-Illustrations",]] ["id"] = 200978,["minCount"] = 1},
-    
+
     -- Leatherworking Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Leatherworker's-Diagrams",]] ["id"] = 200979,["minCount"] = 1},
-    
+
     -- Tailoring Knowledge
     {--[[ ["name"] = "LarlenCacheOpener_Dusty-Tailor's-Diagrams",]] ["id"] = 200975,["minCount"] = 1},
-    
+
     -- Knowledge Treasures
     {--[[ ["name"] = "LarlenCacheOpener_experimental-decay-sample",]] ["id"] = 198599,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_painters-pretty-jewel",]] ["id"] = 198656,["minCount"] = 1},
@@ -1450,7 +1450,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_well-danced-drum",]] ["id"] = 201018,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_ancient-dragonweave-bolt",]] ["id"] = 201019,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_silky-surprise",]] ["id"] = 201020,["minCount"] = 1},
-    
+
     -- Consortium Quartermaster
     {--[[ ["name"] = "LarlenCacheOpener_rare-blacksmiths-diagrams",]] ["id"] = 201268,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_rare-scribes-runic-drawings",]] ["id"] = 201269,["minCount"] = 1},
@@ -1698,7 +1698,6 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_technique-highland-drake-spined-head",]] ["id"] = 198895,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_technique-highland-drake-spined-neck",]] ["id"] = 198896,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_technique-highland-drake-steel-and-yellow-armor",]] ["id"] = 201737,["minCount"] = 1},
-    {--[[ ["name"] = "LarlenCacheOpener_vakrils-strongbox",]] ["id"] = 201728,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_caravan-strongbox",]] ["id"] = 200094,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_dragonbane-keep-strongbox",]] ["id"] = 202142,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_dragonbane-keep-strongbox",]] ["id"] = 200072,["minCount"] = 1},
@@ -1718,7 +1717,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_ohnarhan-weave",]] ["id"] = 198977,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_stupidly-effective-stitchery",]] ["id"] = 198978,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_valdrakken-treasures",]] ["id"] = 200073,["minCount"] = 1},
-    
+
     -- Winter Veil
     {--[[ ["name"] = "LarlenCacheOpener_stolen-gift",]] ["id"] = 149503,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_smokywood-pastures-special-present",]] ["id"] = 149504,["minCount"] = 1},
@@ -1813,8 +1812,8 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_technique-windborne-velocidrake-windswept-pattern",]] ["id"] = 198904,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_technique-windborne-velocidrake-steel-and-yellow-armor",]] ["id"] = 201739,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_technique-windborne-velocidrake-silver-and-blue-armor",]] ["id"] = 201743,["minCount"] = 1},
-    
-    -- Added by Curseforge Comments 
+
+    -- Added by Curseforge Comments
     {--[[ ["name"] = "LarlenCacheOpener_supply-laden-soup-pot",]] ["id"] = 200095,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_keepers-mark",]] ["id"] = 198969,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_ohuna-companion-color-brown",]] ["id"] = 193205,["minCount"] = 1},
@@ -1878,10 +1877,10 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_regurgitated-half-digested-fish",]] ["id"] = 205992,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_sign-of-respect",]] ["id"] = 205998,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_symbol-of-friendship",]] ["id"] = 205989,["minCount"] = 1},
-    
-    
+
+
     -- Patch 10.0.5, 10.0.7 and 10.1
-    
+
     {--[[ ["name"] = "LarlenCacheOpener_brimming-loamm-niffen-supply-satchel",]] ["id"] = 204712,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_whelplings-small-chest",]] ["id"] = 204721,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_whelplings-bountiful-chest",]] ["id"] = 204722,["minCount"] = 1},
@@ -1935,7 +1934,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_snarfangs-stomach-sac",]] ["id"] = 204636,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_primalist-cache",]] ["id"] = 203476,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_stormed-primalist-cache",]] ["id"] = 203681,["minCount"] = 1},
-    
+
     -- Need to add an option to include these or not at users choice
     {--[[ ["name"] = "LarlenCacheOpener_maruuk-centaur-insignia",]] ["id"] = 200454,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_maruuk-centaur-insignia",]] ["id"] = 200288,["minCount"] = 1},
@@ -1953,9 +1952,9 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_dragonscale-expedition-insignia",]] ["id"] = 200285,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_loamm-niffen-insignia",]] ["id"] = 205985,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_loamm-niffen-insignia",]] ["id"] = 205342,["minCount"] = 1},
-    
-    --Patch 10.1.5
-    
+
+    -- Patch 10.1.5
+
     {--[[ ["name"] = "LarlenCacheOpener_warmongers-plate-gear-bag",]] ["id"] = 207050,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_warmongers-plate-equipment-bag",]] ["id"] = 207051,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_jingoists-plate-equipment-bag",]] ["id"] = 207052,["minCount"] = 1},
@@ -2006,12 +2005,13 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_crate-of-dreambound-mail",]] ["id"] = 209834,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_crate-of-dreambound-plate",]] ["id"] = 209835,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_hidden-stash",]] ["id"] = 61387,["minCount"] = 1},
-	
-	-- Midnight 12.0
-	    -- Knowledge Points
-	{--[[ ["name"] = "septarian-nodule",]] ["id"] = 237506,["minCount"] = 1},
-	{--[[ ["name"] = "igneous-rock-specimen",]] ["id"] = 237496,["minCount"] = 1},
-	{--[[ ["name"] = "failed-experiment",]] ["id"] = 238539,["minCount"] = 1},
+
+    -- Midnight 12.0
+        -- Knowledge Points
+
+    {--[[ ["name"] = "septarian-nodule",]] ["id"] = 237506,["minCount"] = 1},
+    {--[[ ["name"] = "igneous-rock-specimen",]] ["id"] = 237496,["minCount"] = 1},
+    {--[[ ["name"] = "failed-experiment",]] ["id"] = 238539,["minCount"] = 1},
     {--[[ ["name"] = "sindorei-masters-forgemace",]] ["id"] = 238546,["minCount"] = 1},
     {--[[ ["name"] = "silvermoon-blacksmiths-hammer",]] ["id"] = 238547,["minCount"] = 1},
     {--[[ ["name"] = "deconstructed-forge-techniques",]] ["id"] = 238540,["minCount"] = 1},
@@ -2093,7 +2093,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "book-of-sindorei-stitches",]] ["id"] = 238616,["minCount"] = 1},
     {--[[ ["name"] = "satin-throw-pillow",]] ["id"] = 238617,["minCount"] = 1},
     {--[[ ["name"] = "abyss-anglers-fish-log",]] ["id"] = 255157,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-phoenix-plume",]] ["id"] = 238465,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-phoenix-plume",]] ["id"] = 238465,["minCount"] = 1},
     {--[[ ["name"] = "thalassian-phoenix-tail",]] ["id"] = 238466,["minCount"] = 1},
     {--[[ ["name"] = "voidstorm-ashes",]] ["id"] = 259192,["minCount"] = 1},
     {--[[ ["name"] = "thalassian-whestone",]] ["id"] = 259190,["minCount"] = 1},
@@ -2104,7 +2104,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "dance-gear",]] ["id"] = 259194,["minCount"] = 1},
     {--[[ ["name"] = "ensemble-scorching-conqueror",]] ["id"] = 257547,["minCount"] = 1},
     {--[[ ["name"] = "soggy-copy-of-magic-and-you-an-arcane-awakening",]] ["id"] = 240963,["minCount"] = 1},
-	{--[[ ["name"] = "fine-void-tempered-hide",]] ["id"] = 238625,["minCount"] = 1},
+    {--[[ ["name"] = "fine-void-tempered-hide",]] ["id"] = 238625,["minCount"] = 1},
     {--[[ ["name"] = "thalassian-phoenix-ember",]] ["id"] = 238467,["minCount"] = 1},
     {--[[ ["name"] = "infused-quenching-oil",]] ["id"] = 259191,["minCount"] = 1},
     {--[[ ["name"] = "mana-infused-bone",]] ["id"] = 238626,["minCount"] = 1},
@@ -2114,205 +2114,254 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "thalassian-mana-oil",]] ["id"] = 259201,["minCount"] = 1},
     {--[[ ["name"] = "dawn-capacitor",]] ["id"] = 259195,["minCount"] = 1},
     {--[[ ["name"] = "brimming-mana-shard",]] ["id"] = 267655,["minCount"] = 1},
-	    -- Midnight 12.0 crafting weekly knowledge
-	{--[[ ["name"] = "thalassian-alchemists-notebook",]] ["id"] = 263454,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-blacksmiths-journal",]] ["id"] = 263455,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-engineers-notepad",]] ["id"] = 263456,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-scribes-journal",]] ["id"] = 263457,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-jewelcrafters-notebook",]] ["id"] = 263458,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-leatherworkers-journal",]] ["id"] = 263459,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-tailors-notebook",]] ["id"] = 263460,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-skinners-notes",]] ["id"] = 263461,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-herbalists-notes",]] ["id"] = 263462,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-miners-notes",]] ["id"] = 263463,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-enchanters-folio",]] ["id"] = 263464,["minCount"] = 1},
-	    -- Midnight 12.0 crafting treatise knowledge
-	{--[[ ["name"] = "thalassian-treatise-on-alchemy",]] ["id"] = 245755,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-tailoring",]] ["id"] = 245756,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-inscription",]] ["id"] = 245757,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-leatherworking",]] ["id"] = 245758,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-enchanting",]] ["id"] = 245759,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-jewelcrafting",]] ["id"] = 245760,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-herbalism",]] ["id"] = 245761,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-mining",]] ["id"] = 245762,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-blacksmithing",]] ["id"] = 245763,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-engineering",]] ["id"] = 245809,["minCount"] = 1},
-	{--[[ ["name"] = "thalassian-treatise-on-skinning",]] ["id"] = 245828,["minCount"] = 1},
-	    -- Midnight 12.0 crafting work order rewards
-	{--[[ ["name"] = "flicker-of-midnight-alchemy-knowledge",]] ["id"] = 246320,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-alchemy-knowledge",]] ["id"] = 246321,["minCount"] = 1},
-	{--[[ ["name"] = "flicker-of-midnight-blacksmithing-knowledge",]] ["id"] = 246322,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-blacksmithing-knowledge",]] ["id"] = 246323,["minCount"] = 1},
-	{--[[ ["name"] = "flicker-of-midnight-enchanting-knowledge",]] ["id"] = 246324,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-enchanting-knowledge",]] ["id"] = 246325,["minCount"] = 1},
-	{--[[ ["name"] = "flicker-of-midnight-engineering-knowledge",]] ["id"] = 246326,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-engineering-knowledge",]] ["id"] = 246327,["minCount"] = 1},
-	{--[[ ["name"] = "flicker-of-midnight-inscription-knowledge",]] ["id"] = 246328,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-inscription-knowledge",]] ["id"] = 246329,["minCount"] = 1},
-	{--[[ ["name"] = "flicker-of-midnight-jewelcrafting-knowledge",]] ["id"] = 246330,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-jewelcrafting-knowledge",]] ["id"] = 246331,["minCount"] = 1},
-	{--[[ ["name"] = "flicker-of-midnight-leatherworking-knowledge",]] ["id"] = 246332,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-leatherworking-knowledge",]] ["id"] = 246333,["minCount"] = 1},
-	{--[[ ["name"] = "flicker-of-midnight-tailoring-knowledge",]] ["id"] = 246334,["minCount"] = 1},
-	{--[[ ["name"] = "glimmer-of-midnight-tailoring-knowledge",]] ["id"] = 246335,["minCount"] = 1},
-	    -- Midnight 12.0 Openable
-	{ id = 260940, minCount = 1 }, -- Victorious Stormarion Pinnacle Cache
-    { id = 260979, minCount = 1 }, -- Victorious Stormarion Cache
-    { id = 268485, minCount = 1 }, -- Victorious Stormarion Pinnacle Cache
-    { id = 259086, minCount = 1 }, -- Void-Touched Satchel of Cooperation
-    { id = 257023, minCount = 1 }, -- Preyseeker's Adventurer Chest
-    { id = 267299, minCount = 1 }, -- Slayer's Duellum Trove
-    { id = 251287, minCount = 1 }, -- Generous Bundle of Petrified Roots
-    { id = 251321, minCount = 1 }, -- Collection of Eversong Minerals
-    { id = 251286, minCount = 1 }, -- Bundle of Petrified Roots
-    { id = 251322, minCount = 1 }, -- Thalassian Leatherworker's Duffel
-    { id = 251327, minCount = 1 }, -- Thalassian Tailor's Tote Bag
-    { id = 251324, minCount = 1 }, -- Basket of Eversong Herbs
-    { id = 263466, minCount = 1 }, -- Overflowing Abundant Satchel
-    { id = 242650, minCount = 1 }, -- Box of Rocks
-    { id = 263465, minCount = 1 }, -- Surplus Bag of Party Favors
-    { id = 251326, minCount = 1 }, -- Thalassian Enchanter's Purse
-    { id = 269704, minCount = 1 }, -- Victorious Stormarion Cache
-    { id = 268489, minCount = 1 }, -- Surplus Bag of Party Favors
-    { id = 260543, minCount = 1 }, -- Master Miner's Surplus Reagents
-    { id = 255428, minCount = 1 }, -- Tolbani's Medicine Satchel
-    { id = 258534, minCount = 1 }, -- Illustrious Contender's Strongbox
-    { id = 258839, minCount = 1 }, -- Concealed Catalogue
-    { id = 260539, minCount = 1 }, -- Master Herbalist's Surplus Reagents
-    { id = 268488, minCount = 1 }, -- Overflowing Abundant Satchel
-    { id = 264475, minCount = 1 }, -- Umbral Tin Lockbox
-    { id = 238531, minCount = 1 }, -- Radiant Stomach
-    { id = 245651, minCount = 1 }, -- Bouquet of Herbs
-    { id = 268545, minCount = 1 }, -- Aspiring Preyseeker's Chest
-    { id = 263467, minCount = 1 }, -- Avid Learner's Supply Pack
-    { id = 255666, minCount = 1 }, -- Huge Bag of Midnight General Goods
-    { id = 257026, minCount = 1 }, -- Preyseeker's Veteran Chest
-    { id = 254677, minCount = 1 }, -- Apex Cache
-    { id = 245647, minCount = 1 }, -- School of Gems
-    { id = 262928, minCount = 1 }, -- Preyseeker's Adventurer Sack
-    { id = 260544, minCount = 1 }, -- Master Skinner's Surplus Reagents
-    { id = 255684, minCount = 1 }, -- Huge Bag of Midnight Leatherworking Goods
-    { id = 245650, minCount = 1 }, -- Bouquet of Herbs
-    { id = 260173, minCount = 1 }, -- Crystallized Dawnlight Manaflux
-    { id = 255682, minCount = 1 }, -- Huge Bag of Midnight Skins
-    { id = 269702, minCount = 1 }, -- Overflowing Abundant Satchel
-    { id = 245644, minCount = 1 }, -- Box of Rocks
-    { id = 268490, minCount = 1 }, -- Apex Cache
-    { id = 264274, minCount = 1 }, -- Fabled Adventurer's Cache
-    { id = 269701, minCount = 1 }, -- Surplus Bag of Party Favors
-    { id = 268487, minCount = 1 }, -- Avid Learner's Supply Pack
-    { id = 260534, minCount = 1 }, -- Master Alchemist's Surplus Reagents
-    { id = 250753, minCount = 1 }, -- Bag of Cracked Orebits
-    { id = 263433, minCount = 1 }, -- Overflowing Silvermoon Trove
-    { id = 250754, minCount = 1 }, -- Bag of Wild Skinnings
-    { id = 255687, minCount = 1 }, -- Huge Bag of Midnight Optional Goods
-    { id = 264587, minCount = 1 }, -- Ani's Trinket Bag
-    { id = 262634, minCount = 1 }, -- Preyseeker's Cache of Voidlight Marl
-    { id = 245648, minCount = 1 }, -- School of Gems
-    { id = 250750, minCount = 1 }, -- Pouch of Sprouted Clippings
-    { id = 260538, minCount = 1 }, -- Master Engineer's Surplus Reagents
-    { id = 260537, minCount = 1 }, -- Master Enchanter's Surplus Reagents
-    { id = 246585, minCount = 1 }, -- Artisan's Consortium Payout
-    { id = 260536, minCount = 1 }, -- Master Smith's Surplus Reagents
-    { id = 241138, minCount = 1 }, -- Harandar Peridot Prism
-    { id = 264470, minCount = 1 }, -- Ash-Tied Offering
-    { id = 255691, minCount = 1 }, -- Huge Bag of Midnight Tailoring Goods
-    { id = 260545, minCount = 1 }, -- Master Tailor's Surplus Reagents
-    { id = 251970, minCount = 1 }, -- Overflowing Amani Trove
-    { id = 259334, minCount = 1 }, -- Overflowing Singularity Trove
-    { id = 260541, minCount = 1 }, -- Master Jewelcrafter's Surplus Reagents
-    { id = 250755, minCount = 1 }, -- Pouch of Mystic Grindings
-    { id = 255679, minCount = 1 }, -- Huge Bag of Midnight Minerals
-    { id = 262662, minCount = 1 }, -- Thalassian Distinguishment
-    { id = 241134, minCount = 1 }, -- Tenebrous Amethyst Prism
-    { id = 241137, minCount = 1 }, -- Harandar Peridot Prism
-    { id = 255686, minCount = 1 }, -- Huge Bag of Midnight Alchemy Goods
-    { id = 260542, minCount = 1 }, -- Master Leatherworker's Surplus Reagents
-    { id = 262633, minCount = 1 }, -- Preyseeker's Cache of Champion Dawncrests
-    { id = 263179, minCount = 1 }, -- Delver's Cosmetic Surprise Bag
-    { id = 265995, minCount = 1 }, -- Quel'Thalas Adventurer's Cache
-    { id = 255678, minCount = 1 }, -- Huge Bag of Midnight Herbs
-    { id = 262631, minCount = 1 }, -- Preyseeker's Cache of Anguish
-    { id = 263468, minCount = 1 }, -- Stormarion Spoils
-    { id = 269007, minCount = 1 }, -- Preyseeker's Glittering Coin Pouch
-    { id = 269703, minCount = 1 }, -- Avid Learner's Supply Pack
-    { id = 262936, minCount = 1 }, -- Preyseeker's Veteran Sack
-    { id = 269005, minCount = 1 }, -- Preyseeker's Glinting Coin Pouch
-    { id = 263934, minCount = 1 }, -- Chest of Gold
-    { id = 241136, minCount = 1 }, -- Sanguine Garnet Prism
-    { id = 255683, minCount = 1 }, -- Huge Bag of Midnight Jewelcrafting Goods
-    { id = 256055, minCount = 1 }, -- Overflowing Hara'ti Trove
-    { id = 241131, minCount = 1 }, -- Amani Lapis Prism
-    { id = 241135, minCount = 1 }, -- Sanguine Garnet Prism
-    { id = 250117, minCount = 1 }, -- Cache of Quel'Thalas Treasures
-    { id = 269006, minCount = 1 }, -- Preyseeker's Gleaming Coin Pouch
-    { id = 262630, minCount = 1 }, -- Preyseeker's Box of Voidlight Marl
-    { id = 262635, minCount = 1 }, -- Cache of Delver's Spoils
-    { id = 263859, minCount = 1 }, -- Primalist Mail Boots
-    { id = 241133, minCount = 1 }, -- Tenebrous Amethyst Prism
-    { id = 255704, minCount = 1 }, -- Huge Bag of Midnight Inscription Goods
-    { id = 262632, minCount = 1 }, -- Preyseeker's Cache of Coffer Key Shards
-    { id = 241132, minCount = 1 }, -- Amani Lapis Prism
-    { id = 260193, minCount = 1 }, -- Fabled Veteran's Cache
-    { id = 260540, minCount = 1 }, -- Master Scribe's Surplus Reagents
-    { id = 263178, minCount = 1 }, -- Delver's Starter Kit
-    { id = 255690, minCount = 1 }, -- Huge Bag of Midnight Enchanting Goods
-    { id = 250116, minCount = 1 }, -- Cache of Quel'Thalas Treasures
-    { id = 262627, minCount = 1 }, -- Preyseeker's Box of Coffer Key Shards
-    { id = 263713, minCount = 1 }, -- Primalist Leather Helm
-    { id = 263733, minCount = 1 }, -- Primalist Cloth Belt
-    { id = 255703, minCount = 1 }, -- Huge Bag of Midnight Blacksmithing Goods
-    { id = 262623, minCount = 1 }, -- Preyseeker's Satchel of Adventurer Dawncrests
-    { id = 262938, minCount = 1 }, -- Preyseeker's Champion Sack
-    { id = 262596, minCount = 1 }, -- Preyseeker's Satchel of Voidlight Marl
-    { id = 263712, minCount = 1 }, -- Primalist Mail Helm
-    { id = 263864, minCount = 1 }, -- Primalist Plate Gloves
-    { id = 262622, minCount = 1 }, -- Preyseeker's Satchel of Coffer Key Shards
-    { id = 262624, minCount = 1 }, -- Preyseeker's Satchel of Anguish
-    { id = 263822, minCount = 1 }, -- Primalist Leather Boots
-    { id = 262346, minCount = 1 }, -- Preyseeker's Champion Chest
-    { id = 262432, minCount = 1 }, -- Weathered Lockbox
-    { id = 262629, minCount = 1 }, -- Preyseeker's Box of Veteran Dawncrests
-    { id = 263717, minCount = 1 }, -- Primalist Mail Chestpiece
-    { id = 263722, minCount = 1 }, -- Primalist Plate Leggings
-    { id = 263862, minCount = 1 }, -- Primalist Cloth Boots
-    { id = 270431, minCount = 1 }, -- Haranir Footlocker
-    { id = 239077, minCount = 1 }, -- Mound of Mildly-Meaningful Meat
-    { id = 255689, minCount = 1 }, -- Huge Bag of Midnight Engineering Goods
-    { id = 263861, minCount = 1 }, -- Primalist Plate Boots
-    { id = 263865, minCount = 1 }, -- Primalist Mail Gloves
-    { id = 263866, minCount = 1 }, -- Primalist Leather Gloves
-    { id = 258279, minCount = 1 }, -- [DNT] Big Pouch of Supplies
-    { id = 262626, minCount = 1 }, -- Preyseeker's Box of Anguish
-    { id = 263727, minCount = 1 }, -- Primalist Leather Spaulders
-    { id = 263868, minCount = 1 }, -- Primalist Ring
-    { id = 257603, minCount = 1 }, -- Primalist Weapon
-    { id = 262349, minCount = 1 }, -- Satchel of Compensation
-    { id = 263714, minCount = 1 }, -- Primalist Trinket
-    { id = 263716, minCount = 1 }, -- Primalist Cloth Chestpiece
-    { id = 263720, minCount = 1 }, -- Primalist Mail Leggings
-    { id = 263776, minCount = 1 }, -- Primalist Leather Belt
-    { id = 263869, minCount = 1 }, -- Primalist Necklace
-    { id = 263711, minCount = 1 }, -- Primalist Cloth Helm
-    { id = 263715, minCount = 1 }, -- Primalist Plate Chestpiece
-    { id = 263718, minCount = 1 }, -- Primalist Leather Chestpiece
-    { id = 263724, minCount = 1 }, -- Primalist Plate Spaulders
-    { id = 263863, minCount = 1 }, -- Primalist Cloth Gloves
-    { id = 258620, minCount = 1 }, -- Field Medic's Hazard Payout
-    { id = 263710, minCount = 1 }, -- Primalist Plate Helm
-    { id = 263719, minCount = 1 }, -- Primalist Leather Leggings
-    { id = 263721, minCount = 1 }, -- Primalist Cloth Leggings
-    { id = 263726, minCount = 1 }, -- Primalist Mail Spaulders
-    { id = 263728, minCount = 1 }, -- Primalist Leather Bracers
-    { id = 263731, minCount = 1 }, -- Primalist Plate Bracers
-    { id = 263740, minCount = 1 }, -- Primalist Mail Belt
-    { id = 263867, minCount = 1 }, -- Primalist Cloak
-    { id = 263400, minCount = 1 }, -- Cache of Delver's Spoils
-    { id = 263732, minCount = 1 }, -- Primalist Plate Belt
-    { id = 263725, minCount = 1 }, -- Primalist Cloth Spaulders
-    { id = 263729, minCount = 1 }, -- Primalist Mail Bracers
-    { id = 263730, minCount = 1 }, -- Primalist Cloth Bracers
-    { id = 264972, minCount = 1 }, -- Voidstorm Victuals
-    { id = 264988, minCount = 1 }, -- Endgame Essentials
-     
+        -- Midnight 12.0 Crafting Weekly Knowledge
+    {--[[ ["name"] = "thalassian-alchemists-notebook",]] ["id"] = 263454,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-blacksmiths-journal",]] ["id"] = 263455,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-engineers-notepad",]] ["id"] = 263456,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-scribes-journal",]] ["id"] = 263457,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-jewelcrafters-notebook",]] ["id"] = 263458,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-leatherworkers-journal",]] ["id"] = 263459,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-tailors-notebook",]] ["id"] = 263460,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-skinners-notes",]] ["id"] = 263461,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-herbalists-notes",]] ["id"] = 263462,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-miners-notes",]] ["id"] = 263463,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-enchanters-folio",]] ["id"] = 263464,["minCount"] = 1},
+        -- Midnight 12.0 Crafting Treatise Knowledge
+    {--[[ ["name"] = "thalassian-treatise-on-alchemy",]] ["id"] = 245755,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-tailoring",]] ["id"] = 245756,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-inscription",]] ["id"] = 245757,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-leatherworking",]] ["id"] = 245758,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-enchanting",]] ["id"] = 245759,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-jewelcrafting",]] ["id"] = 245760,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-herbalism",]] ["id"] = 245761,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-mining",]] ["id"] = 245762,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-blacksmithing",]] ["id"] = 245763,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-engineering",]] ["id"] = 245809,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-treatise-on-skinning",]] ["id"] = 245828,["minCount"] = 1},
+        -- Midnight 12.0 Crafting Work Order Rewards
+    {--[[ ["name"] = "flicker-of-midnight-alchemy-knowledge",]] ["id"] = 246320,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-alchemy-knowledge",]] ["id"] = 246321,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-midnight-blacksmithing-knowledge",]] ["id"] = 246322,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-blacksmithing-knowledge",]] ["id"] = 246323,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-midnight-enchanting-knowledge",]] ["id"] = 246324,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-enchanting-knowledge",]] ["id"] = 246325,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-midnight-engineering-knowledge",]] ["id"] = 246326,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-engineering-knowledge",]] ["id"] = 246327,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-midnight-inscription-knowledge",]] ["id"] = 246328,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-inscription-knowledge",]] ["id"] = 246329,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-midnight-jewelcrafting-knowledge",]] ["id"] = 246330,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-jewelcrafting-knowledge",]] ["id"] = 246331,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-midnight-leatherworking-knowledge",]] ["id"] = 246332,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-leatherworking-knowledge",]] ["id"] = 246333,["minCount"] = 1},
+    {--[[ ["name"] = "flicker-of-midnight-tailoring-knowledge",]] ["id"] = 246334,["minCount"] = 1},
+    {--[[ ["name"] = "glimmer-of-midnight-tailoring-knowledge",]] ["id"] = 246335,["minCount"] = 1},
+    {--[[ ["name"] = "beyond-the-event-horizon-alchemy",]] ["id"] = 262645,["minCount"] = 1},
+    {--[[ ["name"] = "beyond-the-event-horizon-blacksmithing",]] ["id"] = 262644,["minCount"] = 1},
+    {--[[ ["name"] = "beyond-the-event-horizon-engineering",]] ["id"] = 262646,["minCount"] = 1},
+    {--[[ ["name"] = "echo-of-abundance-enchanting",]] ["id"] = 250445,["minCount"] = 1},
+    {--[[ ["name"] = "echo-of-abundance-herbalism",]] ["id"] = 250443,["minCount"] = 1},
+    {--[[ ["name"] = "echo-of-abundance-mining",]] ["id"] = 250444,["minCount"] = 1},
+    {--[[ ["name"] = "echo-of-abundance-skinning",]] ["id"] = 250360,["minCount"] = 1},
+    {--[[ ["name"] = "skill-issue-enchanting",]] ["id"] = 257600,["minCount"] = 1},
+    {--[[ ["name"] = "skill-issue-jewelcrafting",]] ["id"] = 257599,["minCount"] = 1},
+    {--[[ ["name"] = "skill-issue-tailoring",]] ["id"] = 257601,["minCount"] = 1},
+    {--[[ ["name"] = "traditions-of-the-haranir-herbalism",]] ["id"] = 258410,["minCount"] = 1},
+    {--[[ ["name"] = "traditions-of-the-haranir-inscription",]] ["id"] = 258411,["minCount"] = 1},
+    {--[[ ["name"] = "whisper-of-the-loa-leatherworking",]] ["id"] = 250922,["minCount"] = 1},
+    {--[[ ["name"] = "whisper-of-the-loa-mining",]] ["id"] = 250924,["minCount"] = 1},
+    {--[[ ["name"] = "whisper-of-the-loa-skinning",]] ["id"] = 250923,["minCount"] = 1},
+
+    -- Midnight 12.0 Arathi Knowledge Items
+    {--[[ ["name"] = "arathi-craftsmans-spokeshave",]] ["id"] = 238609,["minCount"] = 1},
+    {--[[ ["name"] = "arathi-garden-trowel",]] ["id"] = 238568,["minCount"] = 1},
+    {--[[ ["name"] = "arathi-herb-pruner",]] ["id"] = 238569,["minCount"] = 1},
+    {--[[ ["name"] = "arathi-tanning-agent",]] ["id"] = 238608,["minCount"] = 1},
+
+    -- Midnight 12.0 Knowledge Points
+    {--[[ ["name"] = "aged-cruor",]] ["id"] = 259189,["minCount"] = 1},
+    {--[[ ["name"] = "cloudy-quartz",]] ["id"] = 237507,["minCount"] = 1},
+    {--[[ ["name"] = "embroidered-memento",]] ["id"] = 259202,["minCount"] = 1},
+    {--[[ ["name"] = "finely-woven-lynx-collar",]] ["id"] = 259203,["minCount"] = 1},
+    {--[[ ["name"] = "glimmering-powder",]] ["id"] = 267653,["minCount"] = 1},
+    {--[[ ["name"] = "lightbloomed-spore-sample",]] ["id"] = 259188,["minCount"] = 1},
+    {--[[ ["name"] = "loa-blessed-rune",]] ["id"] = 259197,["minCount"] = 1},
+    {--[[ ["name"] = "ancient-flower",]] ["id"] = 238564,["minCount"] = 1},
+    {--[[ ["name"] = "artisans-drawing-knife",]] ["id"] = 238606,["minCount"] = 1},
+    {--[[ ["name"] = "carapace-shiner",]] ["id"] = 238611,["minCount"] = 1},
+    {--[[ ["name"] = "dornogal-carving-knife",]] ["id"] = 238604,["minCount"] = 1},
+    {--[[ ["name"] = "dornogal-gardening-scythe",]] ["id"] = 238565,["minCount"] = 1},
+    {--[[ ["name"] = "earthen-digging-fork",]] ["id"] = 238566,["minCount"] = 1},
+    {--[[ ["name"] = "earthen-workers-beams",]] ["id"] = 238605,["minCount"] = 1},
+    {--[[ ["name"] = "freshly-plucked-peacebloom",]] ["id"] = 238536,["minCount"] = 1},
+    {--[[ ["name"] = "fungarian-slicers-knife",]] ["id"] = 238567,["minCount"] = 1},
+    {--[[ ["name"] = "fungarians-rich-tannin",]] ["id"] = 238607,["minCount"] = 1},
+    {--[[ ["name"] = "measured-ladle",]] ["id"] = 238537,["minCount"] = 1},
+    {--[[ ["name"] = "nerubians-slicking-iron",]] ["id"] = 238610,["minCount"] = 1},
+    {--[[ ["name"] = "pristine-potion",]] ["id"] = 238538,["minCount"] = 1},
+    {--[[ ["name"] = "tunnelers-shovel",]] ["id"] = 238571,["minCount"] = 1},
+    {--[[ ["name"] = "vial-of-eversong-oddities",]] ["id"] = 238532,["minCount"] = 1},
+    {--[[ ["name"] = "vial-of-rootlands-oddities",]] ["id"] = 238534,["minCount"] = 1},
+    {--[[ ["name"] = "vial-of-voidstorm-oddities",]] ["id"] = 238533,["minCount"] = 1},
+    {--[[ ["name"] = "vial-of-zulaman-oddities",]] ["id"] = 238535,["minCount"] = 1},
+    {--[[ ["name"] = "web-entangled-lotus",]] ["id"] = 238570,["minCount"] = 1},
+        -- Midnight 12.0 Openable
+    {--[[ ["name"] = "victorious-stormarion-pinnacle-cache",]] ["id"] = 260940,["minCount"] = 1},
+    {--[[ ["name"] = "victorious-stormarion-cache",]] ["id"] = 260979,["minCount"] = 1},
+    {--[[ ["name"] = "victorious-stormarion-pinnacle-cache",]] ["id"] = 268485,["minCount"] = 1},
+    {--[[ ["name"] = "void-touched-satchel-of-cooperation",]] ["id"] = 259086,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-adventurer-chest",]] ["id"] = 257023,["minCount"] = 1},
+    {--[[ ["name"] = "slayers-duellum-trove",]] ["id"] = 267299,["minCount"] = 1},
+    {--[[ ["name"] = "generous-bundle-of-petrified-roots",]] ["id"] = 251287,["minCount"] = 1},
+    {--[[ ["name"] = "collection-of-eversong-minerals",]] ["id"] = 251321,["minCount"] = 1},
+    {--[[ ["name"] = "bundle-of-petrified-roots",]] ["id"] = 251286,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-leatherworkers-duffel",]] ["id"] = 251322,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-tailors-tote-bag",]] ["id"] = 251327,["minCount"] = 1},
+    {--[[ ["name"] = "basket-of-eversong-herbs",]] ["id"] = 251324,["minCount"] = 1},
+    {--[[ ["name"] = "overflowing-abundant-satchel",]] ["id"] = 263466,["minCount"] = 1},
+    {--[[ ["name"] = "box-of-rocks",]] ["id"] = 242650,["minCount"] = 1},
+    {--[[ ["name"] = "surplus-bag-of-party-favors",]] ["id"] = 263465,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-enchanters-purse",]] ["id"] = 251326,["minCount"] = 1},
+    {--[[ ["name"] = "victorious-stormarion-cache",]] ["id"] = 269704,["minCount"] = 1},
+    {--[[ ["name"] = "surplus-bag-of-party-favors",]] ["id"] = 268489,["minCount"] = 1},
+    {--[[ ["name"] = "master-miners-surplus-reagents",]] ["id"] = 260543,["minCount"] = 1},
+    {--[[ ["name"] = "tolbanis-medicine-satchel",]] ["id"] = 255428,["minCount"] = 1},
+    {--[[ ["name"] = "illustrious-contenders-strongbox",]] ["id"] = 258534,["minCount"] = 1},
+    {--[[ ["name"] = "concealed-catalogue",]] ["id"] = 258839,["minCount"] = 1},
+    {--[[ ["name"] = "master-herbalists-surplus-reagents",]] ["id"] = 260539,["minCount"] = 1},
+    {--[[ ["name"] = "overflowing-abundant-satchel",]] ["id"] = 268488,["minCount"] = 1},
+    {--[[ ["name"] = "umbral-tin-lockbox",]] ["id"] = 264475,["minCount"] = 1},
+    {--[[ ["name"] = "radiant-stomach",]] ["id"] = 238531,["minCount"] = 1},
+    {--[[ ["name"] = "bouquet-of-herbs",]] ["id"] = 245651,["minCount"] = 1},
+    {--[[ ["name"] = "aspiring-preyseekers-chest",]] ["id"] = 268545,["minCount"] = 1},
+    {--[[ ["name"] = "avid-learners-supply-pack",]] ["id"] = 263467,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-general-goods",]] ["id"] = 255666,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-veteran-chest",]] ["id"] = 257026,["minCount"] = 1},
+    {--[[ ["name"] = "apex-cache",]] ["id"] = 254677,["minCount"] = 1},
+    {--[[ ["name"] = "school-of-gems",]] ["id"] = 245647,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-adventurer-sack",]] ["id"] = 262928,["minCount"] = 1},
+    {--[[ ["name"] = "master-skinners-surplus-reagents",]] ["id"] = 260544,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-leatherworking-goods",]] ["id"] = 255684,["minCount"] = 1},
+    {--[[ ["name"] = "bouquet-of-herbs",]] ["id"] = 245650,["minCount"] = 1},
+    {--[[ ["name"] = "crystallized-dawnlight-manaflux",]] ["id"] = 260173,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-skins",]] ["id"] = 255682,["minCount"] = 1},
+    {--[[ ["name"] = "overflowing-abundant-satchel",]] ["id"] = 269702,["minCount"] = 1},
+    {--[[ ["name"] = "box-of-rocks",]] ["id"] = 245644,["minCount"] = 1},
+    {--[[ ["name"] = "apex-cache",]] ["id"] = 268490,["minCount"] = 1},
+    {--[[ ["name"] = "fabled-adventurers-cache",]] ["id"] = 264274,["minCount"] = 1},
+    {--[[ ["name"] = "surplus-bag-of-party-favors",]] ["id"] = 269701,["minCount"] = 1},
+    {--[[ ["name"] = "avid-learners-supply-pack",]] ["id"] = 268487,["minCount"] = 1},
+    {--[[ ["name"] = "master-alchemists-surplus-reagents",]] ["id"] = 260534,["minCount"] = 1},
+    {--[[ ["name"] = "bag-of-cracked-orebits",]] ["id"] = 250753,["minCount"] = 1},
+    {--[[ ["name"] = "overflowing-silvermoon-trove",]] ["id"] = 263433,["minCount"] = 1},
+    {--[[ ["name"] = "bag-of-wild-skinnings",]] ["id"] = 250754,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-optional-goods",]] ["id"] = 255687,["minCount"] = 1},
+    {--[[ ["name"] = "anis-trinket-bag",]] ["id"] = 264587,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-cache-of-voidlight-marl",]] ["id"] = 262634,["minCount"] = 1},
+    {--[[ ["name"] = "school-of-gems",]] ["id"] = 245648,["minCount"] = 1},
+    {--[[ ["name"] = "pouch-of-sprouted-clippings",]] ["id"] = 250750,["minCount"] = 1},
+    {--[[ ["name"] = "master-engineers-surplus-reagents",]] ["id"] = 260538,["minCount"] = 1},
+    {--[[ ["name"] = "master-enchanters-surplus-reagents",]] ["id"] = 260537,["minCount"] = 1},
+    {--[[ ["name"] = "artisans-consortium-payout",]] ["id"] = 246585,["minCount"] = 1},
+    {--[[ ["name"] = "master-smiths-surplus-reagents",]] ["id"] = 260536,["minCount"] = 1},
+    {--[[ ["name"] = "harandar-peridot-prism",]] ["id"] = 241138,["minCount"] = 1},
+    {--[[ ["name"] = "ash-tied-offering",]] ["id"] = 264470,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-tailoring-goods",]] ["id"] = 255691,["minCount"] = 1},
+    {--[[ ["name"] = "master-tailors-surplus-reagents",]] ["id"] = 260545,["minCount"] = 1},
+    {--[[ ["name"] = "overflowing-amani-trove",]] ["id"] = 251970,["minCount"] = 1},
+    {--[[ ["name"] = "overflowing-singularity-trove",]] ["id"] = 259334,["minCount"] = 1},
+    {--[[ ["name"] = "master-jewelcrafters-surplus-reagents",]] ["id"] = 260541,["minCount"] = 1},
+    {--[[ ["name"] = "pouch-of-mystic-grindings",]] ["id"] = 250755,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-minerals",]] ["id"] = 255679,["minCount"] = 1},
+    {--[[ ["name"] = "thalassian-distinguishment",]] ["id"] = 262662,["minCount"] = 1},
+    {--[[ ["name"] = "tenebrous-amethyst-prism",]] ["id"] = 241134,["minCount"] = 1},
+    {--[[ ["name"] = "harandar-peridot-prism",]] ["id"] = 241137,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-alchemy-goods",]] ["id"] = 255686,["minCount"] = 1},
+    {--[[ ["name"] = "master-leatherworkers-surplus-reagents",]] ["id"] = 260542,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-cache-of-champion-dawncrests",]] ["id"] = 262633,["minCount"] = 1},
+    {--[[ ["name"] = "delvers-cosmetic-surprise-bag",]] ["id"] = 263179,["minCount"] = 1},
+    {--[[ ["name"] = "quelthalas-adventurers-cache",]] ["id"] = 265995,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-herbs",]] ["id"] = 255678,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-cache-of-anguish",]] ["id"] = 262631,["minCount"] = 1},
+    {--[[ ["name"] = "stormarion-spoils",]] ["id"] = 263468,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-glittering-coin-pouch",]] ["id"] = 269007,["minCount"] = 1},
+    {--[[ ["name"] = "avid-learners-supply-pack",]] ["id"] = 269703,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-veteran-sack",]] ["id"] = 262936,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-glinting-coin-pouch",]] ["id"] = 269005,["minCount"] = 1},
+    {--[[ ["name"] = "chest-of-gold",]] ["id"] = 263934,["minCount"] = 1},
+    {--[[ ["name"] = "sanguine-garnet-prism",]] ["id"] = 241136,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-jewelcrafting-goods",]] ["id"] = 255683,["minCount"] = 1},
+    {--[[ ["name"] = "overflowing-harati-trove",]] ["id"] = 256055,["minCount"] = 1},
+    {--[[ ["name"] = "amani-lapis-prism",]] ["id"] = 241131,["minCount"] = 1},
+    {--[[ ["name"] = "sanguine-garnet-prism",]] ["id"] = 241135,["minCount"] = 1},
+    {--[[ ["name"] = "cache-of-quelthalas-treasures",]] ["id"] = 250117,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-gleaming-coin-pouch",]] ["id"] = 269006,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-box-of-voidlight-marl",]] ["id"] = 262630,["minCount"] = 1},
+    {--[[ ["name"] = "cache-of-delvers-spoils",]] ["id"] = 262635,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-boots",]] ["id"] = 263859,["minCount"] = 1},
+    {--[[ ["name"] = "tenebrous-amethyst-prism",]] ["id"] = 241133,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-inscription-goods",]] ["id"] = 255704,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-cache-of-coffer-key-shards",]] ["id"] = 262632,["minCount"] = 1},
+    {--[[ ["name"] = "amani-lapis-prism",]] ["id"] = 241132,["minCount"] = 1},
+    {--[[ ["name"] = "fabled-veterans-cache",]] ["id"] = 260193,["minCount"] = 1},
+    {--[[ ["name"] = "master-scribes-surplus-reagents",]] ["id"] = 260540,["minCount"] = 1},
+    {--[[ ["name"] = "delvers-starter-kit",]] ["id"] = 263178,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-enchanting-goods",]] ["id"] = 255690,["minCount"] = 1},
+    {--[[ ["name"] = "cache-of-quelthalas-treasures",]] ["id"] = 250116,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-box-of-coffer-key-shards",]] ["id"] = 262627,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-helm",]] ["id"] = 263713,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-belt",]] ["id"] = 263733,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-blacksmithing-goods",]] ["id"] = 255703,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-satchel-of-adventurer-dawncrests",]] ["id"] = 262623,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-champion-sack",]] ["id"] = 262938,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-satchel-of-voidlight-marl",]] ["id"] = 262596,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-helm",]] ["id"] = 263712,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-gloves",]] ["id"] = 263864,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-satchel-of-coffer-key-shards",]] ["id"] = 262622,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-satchel-of-anguish",]] ["id"] = 262624,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-boots",]] ["id"] = 263822,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-champion-chest",]] ["id"] = 262346,["minCount"] = 1},
+    {--[[ ["name"] = "weathered-lockbox",]] ["id"] = 262432,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-box-of-veteran-dawncrests",]] ["id"] = 262629,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-chestpiece",]] ["id"] = 263717,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-leggings",]] ["id"] = 263722,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-boots",]] ["id"] = 263862,["minCount"] = 1},
+    {--[[ ["name"] = "haranir-footlocker",]] ["id"] = 270431,["minCount"] = 1},
+    {--[[ ["name"] = "mound-of-mildly-meaningful-meat",]] ["id"] = 239077,["minCount"] = 1},
+    {--[[ ["name"] = "huge-bag-of-midnight-engineering-goods",]] ["id"] = 255689,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-boots",]] ["id"] = 263861,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-gloves",]] ["id"] = 263865,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-gloves",]] ["id"] = 263866,["minCount"] = 1},
+    {--[[ ["name"] = "dnt-big-pouch-of-supplies",]] ["id"] = 258279,["minCount"] = 1},
+    {--[[ ["name"] = "preyseekers-box-of-anguish",]] ["id"] = 262626,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-spaulders",]] ["id"] = 263727,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-ring",]] ["id"] = 263868,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-weapon",]] ["id"] = 257603,["minCount"] = 1},
+    {--[[ ["name"] = "satchel-of-compensation",]] ["id"] = 262349,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-trinket",]] ["id"] = 263714,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-chestpiece",]] ["id"] = 263716,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-leggings",]] ["id"] = 263720,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-belt",]] ["id"] = 263776,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-necklace",]] ["id"] = 263869,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-helm",]] ["id"] = 263711,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-chestpiece",]] ["id"] = 263715,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-chestpiece",]] ["id"] = 263718,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-spaulders",]] ["id"] = 263724,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-gloves",]] ["id"] = 263863,["minCount"] = 1},
+    {--[[ ["name"] = "field-medics-hazard-payout",]] ["id"] = 258620,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-helm",]] ["id"] = 263710,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-leggings",]] ["id"] = 263719,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-leggings",]] ["id"] = 263721,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-spaulders",]] ["id"] = 263726,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-leather-bracers",]] ["id"] = 263728,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-bracers",]] ["id"] = 263731,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-belt",]] ["id"] = 263740,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloak",]] ["id"] = 263867,["minCount"] = 1},
+    {--[[ ["name"] = "cache-of-delvers-spoils",]] ["id"] = 263400,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-plate-belt",]] ["id"] = 263732,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-spaulders",]] ["id"] = 263725,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-mail-bracers",]] ["id"] = 263729,["minCount"] = 1},
+    {--[[ ["name"] = "primalist-cloth-bracers",]] ["id"] = 263730,["minCount"] = 1},
+    {--[[ ["name"] = "voidstorm-victuals",]] ["id"] = 264972,["minCount"] = 1},
+    {--[[ ["name"] = "endgame-essentials",]] ["id"] = 264988,["minCount"] = 1},
+
 };
