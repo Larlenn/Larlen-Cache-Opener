@@ -1,7 +1,9 @@
 ## Interface: 120000
 ## Title: Larlen Cache Opener
-## Version: 1.0.3
+## Version: 1.0.4
 ## Author: Larlen
+## X-Curse-Project-ID: 1478428
+## X-Wago-ID: aNebRg62
 ## Notes: Adds a movable button to easily open Soulbind Rewards, Cache Rewards and more!
 ## SavedVariablesPerCharacter: LarlenCacheOpenerDB
 ## SavedVariables: LarlenCacheOpenerProfiles

@@ -1,6 +1,6 @@
 # Larlen Cache Opener Changelog
 
-## v1.03
+## v1.0.4
 - Added missing Midnight crafting weekly, treatise, and work order knowledge items. 
 - Profiles are now account-wide, switching profiles on one character applies to all characters.
 
