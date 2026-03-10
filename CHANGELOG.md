@@ -1,5 +1,8 @@
 # Larlen Cache Opener Changelog
 
+## v1.0.6
+- Fixed growth direction (Up/Down) not anchoring from btn1, causing icons to appear at the wrong position.
+
 ## v1.0.5
 - Added more missing Midnight 12.0 items to the database
 - Unified item database formatting and removed duplicate entry

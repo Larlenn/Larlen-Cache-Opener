@@ -25,7 +25,6 @@ LarlenCacheOpener.isInitialized = false;
 -- PROFILE SYSTEM
 ------------------------------------------------
 
--- Default profile template (used when creating new profiles or resetting)
 local defaultProfileData = {
     ["enable"]        = true,
     ["alignment"]     = "RIGHT",
@@ -44,7 +43,6 @@ local defaultProfileData = {
     ["position"]      = nil,
 }
 
--- Deep-copy a table (shallow enough for our profile data)
 local function CopyProfileData(src)
     local t = {}
     for k, v in pairs(src) do
@@ -59,42 +57,35 @@ local function CopyProfileData(src)
     return t
 end
 
--- Returns the currently active profile data table (writable)
 function LarlenCacheOpener:GetActiveProfile()
     local profileName = (LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile) or "Default"
     if not LarlenCacheOpenerProfiles or not LarlenCacheOpenerProfiles.profiles then
-        -- Profiles not initialized yet
         return CopyProfileData(defaultProfileData)
     end
     if not LarlenCacheOpenerProfiles.profiles[profileName] then
-        -- Profile missing - create it rather than returning a throwaway
         LarlenCacheOpenerProfiles.profiles[profileName] = CopyProfileData(defaultProfileData)
     end
     return LarlenCacheOpenerProfiles.profiles[profileName]
 end
 
--- Convenience: read a key from the active profile
 function LarlenCacheOpener:P(key)
     return self:GetActiveProfile()[key]
 end
 
--- Convenience: write a key to the active profile
 function LarlenCacheOpener:SetP(key, value)
     self:GetActiveProfile()[key] = value
 end
 
--- Switch to a profile by name (creates it if missing)
 function LarlenCacheOpener:SwitchProfile(name)
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     if not LarlenCacheOpenerProfiles.profiles[name] then
         LarlenCacheOpenerProfiles.profiles[name] = CopyProfileData(defaultProfileData)
     end
     LarlenCacheOpenerProfiles.activeProfile = name
-    -- Reposition the frame to the new profile's saved position
     local pos = self:GetActiveProfile().position
     self.frame:ClearAllPoints()
     if pos then
-        self.frame:SetPoint(pos[1], UIParent, pos[3], pos[4], pos[5])
+        self.frame:SetPoint("CENTER", UIParent, pos[1] or "CENTER", pos[4], pos[5])
     else
         self.frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
     end
@@ -109,7 +100,6 @@ function LarlenCacheOpener:SwitchProfile(name)
     print("|cffffa500Larlen Cache Opener|r: Switched to profile |cffffd100" .. name .. "|r")
 end
 
--- Create a new profile (copy from current or default)
 function LarlenCacheOpener:CreateProfile(name, copyFromCurrent)
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     if LarlenCacheOpenerProfiles.profiles[name] then
@@ -125,7 +115,6 @@ function LarlenCacheOpener:CreateProfile(name, copyFromCurrent)
     return true
 end
 
--- Delete a profile (cannot delete Default)
 function LarlenCacheOpener:DeleteProfile(name)
     if name == "Default" then
         print("|cffffa500Larlen Cache Opener|r: Cannot delete the Default profile.")
@@ -134,7 +123,6 @@ function LarlenCacheOpener:DeleteProfile(name)
     if LarlenCacheOpenerProfiles.profiles and LarlenCacheOpenerProfiles.profiles[name] then
         LarlenCacheOpenerProfiles.profiles[name] = nil
         print("|cffffa500Larlen Cache Opener|r: Deleted profile |cffffd100" .. name .. "|r")
-        -- If this was the active profile, fall back to Default
         if LarlenCacheOpenerProfiles.activeProfile == name then
             self:SwitchProfile("Default")
         end
@@ -144,7 +132,6 @@ function LarlenCacheOpener:DeleteProfile(name)
     return false
 end
 
--- Get sorted list of profile names (Default always first)
 function LarlenCacheOpener:GetProfileNames()
     local names = {"Default"}
     if LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.profiles then
@@ -176,6 +163,7 @@ function LarlenCacheOpener:HideGlow(btn)
 end
 
 function LarlenCacheOpener:updateButtons()
+    if self.isDragging then return end
     if debug == true then print("Testing", "4 - updateButtons Called") end
     
     local newShown = {}
@@ -189,7 +177,6 @@ function LarlenCacheOpener:updateButtons()
         self:HideGlow(LarlenCacheOpener.buttons[i]);
     end
     
-    -- Load default item database
     for i = 1, #self.items do
         if debug == true then print("Testing", "5 - self.items loop") end
         local wasPrevious = self.previous
@@ -204,7 +191,6 @@ function LarlenCacheOpener:updateButtons()
         end
     end
 
-    -- Load Custom Items
     local custom_items = self:P("custom_items")
     if custom_items then
         for custom_id, custom_minCount in pairs(custom_items) do
@@ -230,7 +216,6 @@ function LarlenCacheOpener:updateButtons()
     self.currentlyShown = newShown
     self.isInitialized = true
 
-    -- Resize the frame to exactly fit the shown icons so position 0,0 = true screen centre
     local iconSize = self:P("iconSize") or 36
     local spacing = 2
     local count = self.previous
@@ -242,6 +227,23 @@ function LarlenCacheOpener:updateButtons()
         else -- UP or DOWN
             self.frame:SetWidth(iconSize)
             self.frame:SetHeight(count * iconSize + (count - 1) * spacing)
+        end
+
+        local pos = self:GetActiveProfile().position
+        local isize = self:P("iconSize") or 36
+        local b1x = pos and pos[4] or (GetScreenWidth() / 2)
+        local b1y = pos and pos[5] or (GetScreenHeight() / 2)
+        local fw = self.frame:GetWidth()
+        local fh = self.frame:GetHeight()
+        self.frame:ClearAllPoints()
+        if align == "RIGHT" then
+            self.frame:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - isize/2, b1y)
+        elseif align == "LEFT" then
+            self.frame:SetPoint("RIGHT", UIParent, "BOTTOMLEFT", b1x + isize/2, b1y)
+        elseif align == "DOWN" then
+            self.frame:SetPoint("TOP", UIParent, "BOTTOMLEFT", b1x, b1y + isize/2)
+        else -- UP
+            self.frame:SetPoint("BOTTOM", UIParent, "BOTTOMLEFT", b1x, b1y - isize/2)
         end
     end
 end
@@ -291,7 +293,6 @@ function LarlenCacheOpener:updateButton(currItem, btn)
         btn.countString:SetText(format("%d",count));
         btn.texture:SetDesaturated(false);
         
-        -- Default Macro behavior restored
         btn:SetAttribute("type", "macro");
         btn:SetAttribute("macrotext", format("/use [nomod:shift] item:%d", id));
         btn:RegisterForDrag("RightButton");
@@ -324,29 +325,64 @@ function LarlenCacheOpener:createButton(btn,id)
     btn:EnableMouse(true);
     btn:SetMovable(true);
     
-    btn:SetScript("OnDragStart", function(self) 
-        if not LarlenCacheOpener:P("locked") then
-            self:GetParent():StartMoving(); 
-        end
-    end);
+
     
-    btn:SetScript("OnDragStop", function(self) 
+    btn:SetScript("OnDragStart", function(self)
         if not LarlenCacheOpener:P("locked") then
-            self:GetParent():StopMovingOrSizing();
-            self:GetParent():SetUserPlaced(false);
-            local point, relativeTo, relativePoint, xOfs, yOfs = self:GetParent():GetPoint();
-            LarlenCacheOpener:GetActiveProfile().position = {point, nil, relativePoint, xOfs, yOfs};
-            
+            LarlenCacheOpener.isDragging = true
+            self:GetParent():StartMoving()
+        end
+    end)
+
+    btn:SetScript("OnDragStop", function(self)
+        if not LarlenCacheOpener:P("locked") then
+            local f = self:GetParent()
+            f:StopMovingOrSizing()
+            f:SetUserPlaced(false)
+
+            local align = LarlenCacheOpener:P("alignment") or "RIGHT"
+            local isize = LarlenCacheOpener:P("iconSize") or 36
+            local fw = f:GetWidth()
+            local fh = f:GetHeight()
+            local b1x, b1y
+
+            if align == "RIGHT" then
+                b1x = f:GetLeft() + isize/2
+                b1y = f:GetBottom() + fh/2
+            elseif align == "LEFT" then
+                b1x = f:GetRight() - isize/2
+                b1y = f:GetBottom() + fh/2
+            elseif align == "DOWN" then
+                b1x = f:GetLeft() + fw/2
+                b1y = f:GetTop() - isize/2
+            else -- UP
+                b1x = f:GetLeft() + fw/2
+                b1y = f:GetBottom() + isize/2
+            end
+
+            LarlenCacheOpener:GetActiveProfile().position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", b1x, b1y}
+            f:ClearAllPoints()
+            if align == "RIGHT" then
+                f:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - isize/2, b1y)
+            elseif align == "LEFT" then
+                f:SetPoint("RIGHT", UIParent, "BOTTOMLEFT", b1x + isize/2, b1y)
+            elseif align == "DOWN" then
+                f:SetPoint("TOP", UIParent, "BOTTOMLEFT", b1x, b1y + isize/2)
+            else -- UP
+                f:SetPoint("BOTTOM", UIParent, "BOTTOMLEFT", b1x, b1y - isize/2)
+            end
+
+            LarlenCacheOpener.isDragging = false
+
             if _G["SCO_XSlider"] and _G["SCO_XSlider"]:IsVisible() then
-                _G["SCO_XSlider"]:SetValue(xOfs)
-                _G["SCO_XInput"]:SetText(math.floor(xOfs + 0.5))
-                _G["SCO_YSlider"]:SetValue(yOfs)
-                _G["SCO_YInput"]:SetText(math.floor(yOfs + 0.5))
+                _G["SCO_XSlider"]:SetValue(b1x)
+                _G["SCO_XInput"]:SetText(math.floor(b1x + 0.5))
+                _G["SCO_YSlider"]:SetValue(b1y)
+                _G["SCO_YInput"]:SetText(math.floor(b1y + 0.5))
             end
         end
-    end);
+    end)
 
-    -- Original Clicks Restored
     btn:RegisterForClicks("LeftButtonUp", "LeftButtonDown", "RightButtonUp");
     btn:SetAttribute("type", "macro");
     btn:SetAttribute("macrotext", format("/use [nomod:shift] item:%d",id));
@@ -402,7 +438,6 @@ end
 
 function LarlenCacheOpener:reset()
     if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "8 - Reset Called") end end
-    -- Reset the active profile's data to defaults
     local profileName = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     LarlenCacheOpenerProfiles.profiles[profileName] = CopyProfileData(defaultProfileData)
@@ -721,15 +756,7 @@ LarlenCacheOpener.frame:RegisterEvent("BAG_UPDATE");
 end
 
 LarlenCacheOpener.frame:SetScript("OnEvent", function(self,event,...) LarlenCacheOpener:OnEvent(event,...) end);
-LarlenCacheOpener.frame:SetScript("OnShow", function(self,event,...) 
-    self:ClearAllPoints();
-    local pos = LarlenCacheOpener:GetActiveProfile().position
-    if pos then
-        self:SetPoint(pos[1], UIParent, pos[3], pos[4], pos[5]);
-    else
-        self:SetPoint('CENTER', UIParent, 'CENTER', 0, 0);
-    end     
- end);
+LarlenCacheOpener.frame:SetScript("OnShow", nil);
 
 ------------------------------------------------
 -- Minimap Button (LibDBIcon-1.0)

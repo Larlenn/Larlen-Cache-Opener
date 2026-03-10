@@ -50,18 +50,44 @@ function LarlenCacheOpener:initializeOptions()
     CreateTitle(panel, L["addon_name"], 15, -15)
 
     local function ToggleTestIcons(count)
-        LarlenCacheOpener:updateButtons() 
+        LarlenCacheOpener:updateButtons()
         if count > 0 then
-            LarlenCacheOpener.frame:Show()
             local iconSize = LarlenCacheOpener:P("iconSize") or 38
+            local spacing = 2
+            local align = LarlenCacheOpener:P("alignment") or "RIGHT"
+
+            -- Resize frame to fit test icons, then re-anchor (same logic as updateButtons)
+            if align == "RIGHT" or align == "LEFT" then
+                LarlenCacheOpener.frame:SetWidth(count * iconSize + (count - 1) * spacing)
+                LarlenCacheOpener.frame:SetHeight(iconSize)
+            else
+                LarlenCacheOpener.frame:SetWidth(iconSize)
+                LarlenCacheOpener.frame:SetHeight(count * iconSize + (count - 1) * spacing)
+            end
+
+            local pos = LarlenCacheOpener:GetActiveProfile().position
+            local b1x = pos and pos[4] or (GetScreenWidth() / 2)
+            local b1y = pos and pos[5] or (GetScreenHeight() / 2)
+            local fw = LarlenCacheOpener.frame:GetWidth()
+            local fh = LarlenCacheOpener.frame:GetHeight()
+            LarlenCacheOpener.frame:ClearAllPoints()
+            if align == "RIGHT" then
+                LarlenCacheOpener.frame:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - iconSize/2, b1y)
+            elseif align == "LEFT" then
+                LarlenCacheOpener.frame:SetPoint("RIGHT", UIParent, "BOTTOMLEFT", b1x + iconSize/2, b1y)
+            elseif align == "DOWN" then
+                LarlenCacheOpener.frame:SetPoint("TOP", UIParent, "BOTTOMLEFT", b1x, b1y + iconSize/2)
+            else -- UP
+                LarlenCacheOpener.frame:SetPoint("BOTTOM", UIParent, "BOTTOMLEFT", b1x, b1y - iconSize/2)
+            end
+
+            LarlenCacheOpener.frame:Show()
+
             for i = 1, count do
                 local btn = LarlenCacheOpener.buttons[i]
                 btn:ClearAllPoints()
                 btn:SetWidth(iconSize)
                 btn:SetHeight(iconSize)
-                
-                local spacing = 2
-                local align = LarlenCacheOpener:P("alignment") or "RIGHT"
 
                 if align == "LEFT" then
                     if i == 1 then btn:SetPoint("RIGHT", LarlenCacheOpener.frame, "RIGHT", 0, 0)
@@ -72,7 +98,7 @@ function LarlenCacheOpener:initializeOptions()
                 elseif align == "DOWN" then
                     if i == 1 then btn:SetPoint("TOP", LarlenCacheOpener.frame, "TOP", 0, 0)
                     else btn:SetPoint("TOP", LarlenCacheOpener.buttons[i-1], "BOTTOM", 0, -spacing) end
-                else 
+                else
                     if i == 1 then btn:SetPoint("LEFT", LarlenCacheOpener.frame, "LEFT", 0, 0)
                     else btn:SetPoint("LEFT", LarlenCacheOpener.buttons[i-1], "RIGHT", spacing, 0) end
                 end
@@ -80,10 +106,8 @@ function LarlenCacheOpener:initializeOptions()
                 btn.icon:SetTexture(132596)
                 btn.countString:SetText("99")
                 btn.texture:SetDesaturated(false)
-                
                 btn:SetAlpha(LarlenCacheOpener:P("alpha") or 1.0)
                 if LarlenCacheOpener:P("showGlow") then LarlenCacheOpener:ShowGlow(btn) else LarlenCacheOpener:HideGlow(btn) end
-                
                 btn:Show()
             end
         end
@@ -250,11 +274,11 @@ function LarlenCacheOpener:initializeOptions()
     -- X Slider
     local xSlider = CreateFrame("Slider", "SCO_XSlider", panel, "OptionsSliderTemplate")
     xSlider:SetPoint("TOPLEFT", 20, -420)
-    xSlider:SetMinMaxValues(-1000, 1000)
+    xSlider:SetMinMaxValues(0, 2560)
     xSlider:SetValueStep(1)
     xSlider:SetObeyStepOnDrag(true)
-    _G["SCO_XSliderLow"]:SetText("-1000")
-    _G["SCO_XSliderHigh"]:SetText("1000")
+    _G["SCO_XSliderLow"]:SetText("0")
+    _G["SCO_XSliderHigh"]:SetText("2560")
     _G["SCO_XSliderText"]:SetText("X Position")
     
     local xInput = CreateFrame("EditBox", "SCO_XInput", panel, "InputBoxTemplate")
@@ -266,10 +290,9 @@ function LarlenCacheOpener:initializeOptions()
         if isRefreshing then return end
         local val = math.floor(value + 0.5)
         local p = LarlenCacheOpener:GetActiveProfile()
-        if not p.position then p.position = {"CENTER", nil, "CENTER", 0, 0} end
+        if not p.position then p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2} end
         p.position[4] = val
-        LarlenCacheOpener.frame:ClearAllPoints()
-        LarlenCacheOpener.frame:SetPoint(p.position[1] or "CENTER", UIParent, p.position[3] or "CENTER", p.position[4], p.position[5] or 0)
+        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
         xInput:SetText(tostring(val))
     end)
 
@@ -283,11 +306,11 @@ function LarlenCacheOpener:initializeOptions()
     -- Y Slider
     local ySlider = CreateFrame("Slider", "SCO_YSlider", panel, "OptionsSliderTemplate")
     ySlider:SetPoint("TOPLEFT", 20, -470)
-    ySlider:SetMinMaxValues(-600, 600)
+    ySlider:SetMinMaxValues(0, 1440)
     ySlider:SetValueStep(1)
     ySlider:SetObeyStepOnDrag(true)
-    _G["SCO_YSliderLow"]:SetText("-600")
-    _G["SCO_YSliderHigh"]:SetText("600")
+    _G["SCO_YSliderLow"]:SetText("0")
+    _G["SCO_YSliderHigh"]:SetText("1440")
     _G["SCO_YSliderText"]:SetText("Y Position")
 
     local yInput = CreateFrame("EditBox", "SCO_YInput", panel, "InputBoxTemplate")
@@ -299,10 +322,9 @@ function LarlenCacheOpener:initializeOptions()
         if isRefreshing then return end
         local val = math.floor(value + 0.5)
         local p = LarlenCacheOpener:GetActiveProfile()
-        if not p.position then p.position = {"CENTER", nil, "CENTER", 0, 0} end
+        if not p.position then p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2} end
         p.position[5] = val
-        LarlenCacheOpener.frame:ClearAllPoints()
-        LarlenCacheOpener.frame:SetPoint(p.position[1] or "CENTER", UIParent, p.position[3] or "CENTER", p.position[4] or 0, p.position[5])
+        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
         yInput:SetText(tostring(val))
     end)
 
@@ -543,10 +565,12 @@ function LarlenCacheOpener:initializeOptions()
             ySlider:SetValue(p.position[5])
             yInput:SetText(tostring(math.floor(p.position[5] + 0.5)))
         else
-            xSlider:SetValue(0)
-            xInput:SetText("0")
-            ySlider:SetValue(0)
-            yInput:SetText("0")
+            local cx = math.floor(GetScreenWidth() / 2)
+            local cy = math.floor(GetScreenHeight() / 2)
+            xSlider:SetValue(cx)
+            xInput:SetText(tostring(cx))
+            ySlider:SetValue(cy)
+            yInput:SetText(tostring(cy))
         end
 
         for _, name in ipairs(LarlenCacheOpener.group_ids_ordered) do
