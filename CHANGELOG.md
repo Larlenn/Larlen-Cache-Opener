@@ -1,5 +1,8 @@
 # Larlen Cache Opener Changelog
 
+## v1.0.7
+- Fixed Reset Position placing icons in the bottom-left corner instead of the middle of the screen.
+
 ## v1.0.6
 - Fixed growth direction (Up/Down) not anchoring from btn1, causing icons to appear at the wrong position.
 

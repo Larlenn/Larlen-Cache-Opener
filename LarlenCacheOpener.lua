@@ -82,13 +82,6 @@ function LarlenCacheOpener:SwitchProfile(name)
         LarlenCacheOpenerProfiles.profiles[name] = CopyProfileData(defaultProfileData)
     end
     LarlenCacheOpenerProfiles.activeProfile = name
-    local pos = self:GetActiveProfile().position
-    self.frame:ClearAllPoints()
-    if pos then
-        self.frame:SetPoint("CENTER", UIParent, pos[1] or "CENTER", pos[4], pos[5])
-    else
-        self.frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-    end
     self:updateIgnoreItems()
     self:UpdateCombatState()
     self:UpdateMinimapPosition()
@@ -375,10 +368,12 @@ function LarlenCacheOpener:createButton(btn,id)
             LarlenCacheOpener.isDragging = false
 
             if _G["SCO_XSlider"] and _G["SCO_XSlider"]:IsVisible() then
-                _G["SCO_XSlider"]:SetValue(b1x)
-                _G["SCO_XInput"]:SetText(math.floor(b1x + 0.5))
-                _G["SCO_YSlider"]:SetValue(b1y)
-                _G["SCO_YInput"]:SetText(math.floor(b1y + 0.5))
+                local xOff = math.floor(b1x - GetScreenWidth()/2 + 0.5)
+                local yOff = math.floor(b1y - GetScreenHeight()/2 + 0.5)
+                _G["SCO_XSlider"]:SetValue(xOff)
+                _G["SCO_XInput"]:SetText(tostring(xOff))
+                _G["SCO_YSlider"]:SetValue(yOff)
+                _G["SCO_YInput"]:SetText(tostring(yOff))
             end
         end
     end)
@@ -441,7 +436,6 @@ function LarlenCacheOpener:reset()
     local profileName = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     LarlenCacheOpenerProfiles.profiles[profileName] = CopyProfileData(defaultProfileData)
-    self.frame:SetPoint('CENTER', UIParent, 'CENTER', 0, 0);
     self:GetActiveProfile().position = nil;
     self:UpdateCombatState();
     self:UpdateMinimapPosition();
@@ -450,7 +444,7 @@ function LarlenCacheOpener:reset()
 end
 
 function LarlenCacheOpener:resetPosition() 
-    self.frame:SetPoint('CENTER', UIParent, 'CENTER', 0, 0);
+    self:GetActiveProfile().position = nil;
     self:OnEvent("UPDATE");
 end
 

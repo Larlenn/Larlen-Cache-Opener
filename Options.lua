@@ -274,11 +274,11 @@ function LarlenCacheOpener:initializeOptions()
     -- X Slider
     local xSlider = CreateFrame("Slider", "SCO_XSlider", panel, "OptionsSliderTemplate")
     xSlider:SetPoint("TOPLEFT", 20, -420)
-    xSlider:SetMinMaxValues(0, 2560)
+    xSlider:SetMinMaxValues(-960, 960)
     xSlider:SetValueStep(1)
     xSlider:SetObeyStepOnDrag(true)
-    _G["SCO_XSliderLow"]:SetText("0")
-    _G["SCO_XSliderHigh"]:SetText("2560")
+    _G["SCO_XSliderLow"]:SetText("-960")
+    _G["SCO_XSliderHigh"]:SetText("960")
     _G["SCO_XSliderText"]:SetText("X Position")
     
     local xInput = CreateFrame("EditBox", "SCO_XInput", panel, "InputBoxTemplate")
@@ -291,7 +291,7 @@ function LarlenCacheOpener:initializeOptions()
         local val = math.floor(value + 0.5)
         local p = LarlenCacheOpener:GetActiveProfile()
         if not p.position then p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2} end
-        p.position[4] = val
+        p.position[4] = GetScreenWidth()/2 + val
         if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
         xInput:SetText(tostring(val))
     end)
@@ -306,11 +306,11 @@ function LarlenCacheOpener:initializeOptions()
     -- Y Slider
     local ySlider = CreateFrame("Slider", "SCO_YSlider", panel, "OptionsSliderTemplate")
     ySlider:SetPoint("TOPLEFT", 20, -470)
-    ySlider:SetMinMaxValues(0, 1440)
+    ySlider:SetMinMaxValues(-540, 540)
     ySlider:SetValueStep(1)
     ySlider:SetObeyStepOnDrag(true)
-    _G["SCO_YSliderLow"]:SetText("0")
-    _G["SCO_YSliderHigh"]:SetText("1440")
+    _G["SCO_YSliderLow"]:SetText("-540")
+    _G["SCO_YSliderHigh"]:SetText("540")
     _G["SCO_YSliderText"]:SetText("Y Position")
 
     local yInput = CreateFrame("EditBox", "SCO_YInput", panel, "InputBoxTemplate")
@@ -323,7 +323,7 @@ function LarlenCacheOpener:initializeOptions()
         local val = math.floor(value + 0.5)
         local p = LarlenCacheOpener:GetActiveProfile()
         if not p.position then p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2} end
-        p.position[5] = val
+        p.position[5] = GetScreenHeight()/2 + val
         if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
         yInput:SetText(tostring(val))
     end)
@@ -342,11 +342,12 @@ function LarlenCacheOpener:initializeOptions()
     resetPosBtn:SetText("Reset Position")
     resetPosBtn:SetScript("OnClick", function()
         local p = LarlenCacheOpener:GetActiveProfile()
-        p.position = {"CENTER", nil, "CENTER", 0, 0}
-        LarlenCacheOpener.frame:ClearAllPoints()
-        LarlenCacheOpener.frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+        p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2}
+        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
         xSlider:SetValue(0)
+        xInput:SetText("0")
         ySlider:SetValue(0)
+        yInput:SetText("0")
     end)
 
     local testBtn = CreateFrame("Button", "SCO_TestButton", panel, "UIPanelButtonTemplate")
@@ -560,17 +561,17 @@ function LarlenCacheOpener:initializeOptions()
         alphaInput:SetText(tostring(currentAlpha))
 
         if p.position and p.position[4] then
-            xSlider:SetValue(p.position[4])
-            xInput:SetText(tostring(math.floor(p.position[4] + 0.5)))
-            ySlider:SetValue(p.position[5])
-            yInput:SetText(tostring(math.floor(p.position[5] + 0.5)))
+            local xOff = math.floor(p.position[4] - GetScreenWidth()/2 + 0.5)
+            local yOff = math.floor(p.position[5] - GetScreenHeight()/2 + 0.5)
+            xSlider:SetValue(xOff)
+            xInput:SetText(tostring(xOff))
+            ySlider:SetValue(yOff)
+            yInput:SetText(tostring(yOff))
         else
-            local cx = math.floor(GetScreenWidth() / 2)
-            local cy = math.floor(GetScreenHeight() / 2)
-            xSlider:SetValue(cx)
-            xInput:SetText(tostring(cx))
-            ySlider:SetValue(cy)
-            yInput:SetText(tostring(cy))
+            xSlider:SetValue(0)
+            xInput:SetText("0")
+            ySlider:SetValue(0)
+            yInput:SetText("0")
         end
 
         for _, name in ipairs(LarlenCacheOpener.group_ids_ordered) do
