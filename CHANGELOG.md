@@ -1,5 +1,8 @@
 # Larlen Cache Opener Changelog
 
+## v1.0.8
+- Fixed Lua error when bags updated during combat.
+
 ## v1.0.7
 - Fixed Reset Position placing icons in the bottom-left corner instead of the middle of the screen.
 

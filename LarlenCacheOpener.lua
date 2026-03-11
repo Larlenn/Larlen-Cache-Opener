@@ -157,6 +157,7 @@ end
 
 function LarlenCacheOpener:updateButtons()
     if self.isDragging then return end
+    if InCombatLockdown() then return end
     if debug == true then print("Testing", "4 - updateButtons Called") end
     
     local newShown = {}
