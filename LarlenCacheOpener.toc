@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Title: Larlen Cache Opener
-## Version: 1.0.8
+## Version: 1.0.9
 ## Author: Larlen
 ## X-Curse-Project-ID: 1478428
 ## X-Wago-ID: aNebRg62

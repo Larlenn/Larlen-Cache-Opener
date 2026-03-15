@@ -1,5 +1,8 @@
 # Larlen Cache Opener Changelog
 
+## v1.0.9
+- Added Lockboxes as a hideable item category.
+
 ## v1.0.8
 - Fixed Lua error when bags updated during combat.
 
