@@ -137,22 +137,14 @@ function LarlenCacheOpener:GetProfileNames()
     return names
 end
 
+local LCG = LibStub and LibStub("LibCustomGlow-1.0", true)
+
 function LarlenCacheOpener:ShowGlow(btn)
-    if not btn.scocGlow then
-        btn.scocGlow = btn:CreateTexture(nil, "OVERLAY")
-        btn.scocGlow:SetTexture("Interface\\SpellActivationOverlay\\IconAlert")
-        btn.scocGlow:SetTexCoord(0.00781250, 0.50781250, 0.27734375, 0.52734375)
-        btn.scocGlow:SetPoint("CENTER")
-        btn.scocGlow:SetSize(btn:GetWidth() * 1.4, btn:GetHeight() * 1.4)
-        btn.scocGlow:SetBlendMode("ADD")
-    end
-    btn.scocGlow:Show()
+    if LCG then LCG.ButtonGlow_Start(btn) end
 end
 
 function LarlenCacheOpener:HideGlow(btn)
-    if btn.scocGlow then
-        btn.scocGlow:Hide()
-    end
+    if LCG then LCG.ButtonGlow_Stop(btn) end
 end
 
 function LarlenCacheOpener:updateButtons()
@@ -227,8 +219,6 @@ function LarlenCacheOpener:updateButtons()
         local isize = self:P("iconSize") or 36
         local b1x = pos and pos[4] or (GetScreenWidth() / 2)
         local b1y = pos and pos[5] or (GetScreenHeight() / 2)
-        local fw = self.frame:GetWidth()
-        local fh = self.frame:GetHeight()
         self.frame:ClearAllPoints()
         if align == "RIGHT" then
             self.frame:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - isize/2, b1y)
@@ -287,9 +277,7 @@ function LarlenCacheOpener:updateButton(currItem, btn)
         btn.countString:SetText(format("%d",count));
         btn.texture:SetDesaturated(false);
         
-        btn:SetAttribute("type", "macro");
         btn:SetAttribute("macrotext", format("/use [nomod:shift] item:%d", id));
-        btn:RegisterForDrag("RightButton");
 
         btn.icon:SetTexture(C_Item.GetItemIconByID(id));
         btn.texture = btn.icon;
@@ -722,15 +710,6 @@ function LarlenCacheOpener_OnCompartmentClick()
     Settings.OpenToCategory(LarlenCacheOpener.category.ID)
 end
 
-local function cout(msg, premsg)
-    premsg = premsg or "[".."Larlen Cache Opener".."]"
-    print("|cFFE8A317"..premsg.."|r "..msg);
-end
-
-local function coutBool(msg,bool)
-    if bool then print(msg..": true"); else print(msg..": false"); end
-end
-
 --Main Frame
 LarlenCacheOpener.frame = CreateFrame("Frame", "LarlenCacheOpener_Frame", UIParent);
 LarlenCacheOpener.frame:Hide();
@@ -789,4 +768,4 @@ if ldb then
 end
 
 LarlenCacheOpener.ldbi = LibStub("LibDBIcon-1.0")
-LarlenCacheOpener.ldb = ldb  -- store reference so ADDON_LOADED can reach it
+LarlenCacheOpener.ldb = ldb

@@ -1,5 +1,8 @@
 # Larlen Cache Opener Changelog
 
+## v1.1.0
+- Replaced static glow effect with animated button glow using LibCustomGlow-1.0.
+
 ## v1.0.9
 - Added Lockboxes as a hideable item category.
 

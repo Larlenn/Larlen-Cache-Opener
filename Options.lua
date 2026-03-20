@@ -46,7 +46,6 @@ function LarlenCacheOpener:initializeOptions()
     LarlenCacheOpener.category = category; 
     Settings.RegisterAddOnCategory(category);
 
-    -- Main Title
     CreateTitle(panel, L["addon_name"], 15, -15)
 
     local function ToggleTestIcons(count)
@@ -56,7 +55,6 @@ function LarlenCacheOpener:initializeOptions()
             local spacing = 2
             local align = LarlenCacheOpener:P("alignment") or "RIGHT"
 
-            -- Resize frame to fit test icons, then re-anchor (same logic as updateButtons)
             if align == "RIGHT" or align == "LEFT" then
                 LarlenCacheOpener.frame:SetWidth(count * iconSize + (count - 1) * spacing)
                 LarlenCacheOpener.frame:SetHeight(iconSize)
@@ -68,8 +66,6 @@ function LarlenCacheOpener:initializeOptions()
             local pos = LarlenCacheOpener:GetActiveProfile().position
             local b1x = pos and pos[4] or (GetScreenWidth() / 2)
             local b1y = pos and pos[5] or (GetScreenHeight() / 2)
-            local fw = LarlenCacheOpener.frame:GetWidth()
-            local fh = LarlenCacheOpener.frame:GetHeight()
             LarlenCacheOpener.frame:ClearAllPoints()
             if align == "RIGHT" then
                 LarlenCacheOpener.frame:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - iconSize/2, b1y)

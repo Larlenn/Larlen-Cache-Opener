@@ -1,6 +1,6 @@
 ## Interface: 120001
 ## Title: Larlen Cache Opener
-## Version: 1.0.9
+## Version: 1.1.0
 ## Author: Larlen
 ## X-Curse-Project-ID: 1478428
 ## X-Wago-ID: aNebRg62
@@ -21,6 +21,7 @@
 ## Category-zhTW: 物品欄
 
 libs\LibStub\LibStub.lua
+libs\LibCustomGlow-1.0\LibCustomGlow-1.0.lua
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 
