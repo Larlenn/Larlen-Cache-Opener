@@ -1,626 +1,1123 @@
 local _, L = ...;
 
 LarlenCacheOpener.option_buttons = {};
-local testActive = false;
-local isRefreshing = false;
 
-local directions = {
-    {name = "Grow Right", value = "RIGHT"},
-    {name = "Grow Left", value = "LEFT"},
-    {name = "Grow Up", value = "UP"},
-    {name = "Grow Down", value = "DOWN"}
+local testActive = false
+local profileNameInput = ""
+
+local function NotifyChange()
+    LibStub("AceConfigRegistry-3.0"):NotifyChange("LarlenCacheOpener")
+end
+
+local function GetP(key)      return LarlenCacheOpener:P(key) end
+local function SetP(key, val) LarlenCacheOpener:SetP(key, val) end
+
+-----------------------------------------
+-- Custom Items Popup Window
+-----------------------------------------
+local ACCENT  = { 1.00, 0.65, 0.00 }
+local WHITE   = { 1.00, 1.00, 1.00 }
+local DIM     = { 0.38, 0.38, 0.42 }
+local BTN_BG  = { 0.08, 0.08, 0.12, 1 }
+local BTN_HOV = { 0.14, 0.14, 0.20, 1 }
+local ROW_H   = 26
+
+local FLAT_BD = {
+    bgFile   = "Interface\\Buttons\\WHITE8x8",
+    edgeFile = "Interface\\Buttons\\WHITE8x8",
+    edgeSize = 1, tile = true, tileSize = 8,
+    insets   = { left=1, right=1, top=1, bottom=1 },
 }
 
------------------------------------------
--- UI BUILDER HELPER FUNCTIONS
------------------------------------------
-local function CreateTitle(parent, text, x, y)
-    local title = parent:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
-    title:SetPoint("TOPLEFT", x, y)
-    title:SetText(text)
-    title:SetTextColor(1.0, 0.82, 0.0)
-    return title
+local _ci_uid = 0
+local function N(b) _ci_uid = _ci_uid + 1; return ("LCO_CI_%s%d"):format(b, _ci_uid) end
+
+local function MakeBtn(parent, label, w, h)
+    local b = CreateFrame("Button", N("B"), parent, "BackdropTemplate")
+    b:SetSize(w or 80, h or ROW_H)
+    b:SetBackdrop(FLAT_BD)
+    b:SetBackdropColor(BTN_BG[1], BTN_BG[2], BTN_BG[3], BTN_BG[4])
+    b:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.45)
+    local fs = b:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    fs:SetPoint("CENTER"); fs:SetText(label or ""); fs:SetTextColor(ACCENT[1], ACCENT[2], ACCENT[3], 1)
+    b:SetScript("OnEnter", function(s)
+        s:SetBackdropColor(BTN_HOV[1], BTN_HOV[2], BTN_HOV[3], BTN_HOV[4])
+        s:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.90)
+        fs:SetTextColor(WHITE[1], WHITE[2], WHITE[3], 1)
+    end)
+    b:SetScript("OnLeave", function(s)
+        s:SetBackdropColor(BTN_BG[1], BTN_BG[2], BTN_BG[3], BTN_BG[4])
+        s:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.45)
+        fs:SetTextColor(ACCENT[1], ACCENT[2], ACCENT[3], 1)
+    end)
+    return b
 end
 
-local function CreateSectionHeader(parent, text, x, y)
-    local header = parent:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    header:SetPoint("TOPLEFT", x, y)
-    header:SetText(text)
-    header:SetTextColor(1.0, 1.0, 1.0)
-    return header
-end
+local customWin = nil
+local blacklistWin = nil
 
-local function CreateSeparator(parent, yOffset)
-    local line = parent:CreateTexture(nil, "ARTWORK")
-    line:SetColorTexture(1, 1, 1, 0.15)
-    line:SetHeight(1)
-    line:SetPoint("TOPLEFT", 15, yOffset)
-    line:SetPoint("TOPRIGHT", -15, yOffset)
-    return line
-end
+local function BuildCustomItemsWindow()
+    if customWin then return end
 
-function LarlenCacheOpener:initializeOptions() 
-    local panel = CreateFrame("Frame");
-    panel.name = L["addon_name"];
-    local category = Settings.RegisterCanvasLayoutCategory(panel, L["addon_name"]);
-    LarlenCacheOpener.category = category; 
-    Settings.RegisterAddOnCategory(category);
+    local WIN_W = 460
+    local WIN_H = 540
+    local LIST_H  = 220
+    local ITEM_ROW = 28
+    local PAD = 12
 
-    CreateTitle(panel, L["addon_name"], 15, -15)
+    local win = CreateFrame("Frame", "LCO_CustomItemsWindow", UIParent, "BackdropTemplate")
+    win:SetSize(WIN_W, WIN_H)
+    win:SetPoint("CENTER", UIParent, "CENTER", 340, 0)
+    win:SetBackdrop(FLAT_BD)
+    win:SetBackdropColor(0.06, 0.06, 0.09, 0.97)
+    win:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.60)
+    win:SetFrameStrata("DIALOG")
+    win:SetMovable(true)
+    win:EnableMouse(true)
+    win:RegisterForDrag("LeftButton")
+    win:SetScript("OnDragStart", win.StartMoving)
+    win:SetScript("OnDragStop",  win.StopMovingOrSizing)
+    win:SetClampedToScreen(true)
+    win:Hide()
+    tinsert(UISpecialFrames, "LCO_CustomItemsWindow")
 
-    local function ToggleTestIcons(count)
-        LarlenCacheOpener:updateButtons()
-        if count > 0 then
-            local iconSize = LarlenCacheOpener:P("iconSize") or 38
-            local spacing = 2
-            local align = LarlenCacheOpener:P("alignment") or "RIGHT"
+    local titleFS = win:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    titleFS:SetPoint("TOPLEFT", win, PAD, -10)
+    titleFS:SetTextColor(ACCENT[1], ACCENT[2], ACCENT[3], 1)
+    titleFS:SetText("Custom Items")
 
-            if align == "RIGHT" or align == "LEFT" then
-                LarlenCacheOpener.frame:SetWidth(count * iconSize + (count - 1) * spacing)
-                LarlenCacheOpener.frame:SetHeight(iconSize)
-            else
-                LarlenCacheOpener.frame:SetWidth(iconSize)
-                LarlenCacheOpener.frame:SetHeight(count * iconSize + (count - 1) * spacing)
+    local titleLine = win:CreateTexture(nil, "ARTWORK")
+    titleLine:SetHeight(1)
+    titleLine:SetPoint("TOPLEFT",  win, PAD,      -30)
+    titleLine:SetPoint("TOPRIGHT", win, -PAD - 28, -30)
+    titleLine:SetColorTexture(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+
+    local closeBtn = CreateFrame("Button", N("X"), win, "BackdropTemplate")
+    closeBtn:SetSize(24, 24)
+    closeBtn:SetPoint("TOPRIGHT", win, -4, -4)
+    closeBtn:SetBackdrop(FLAT_BD)
+    closeBtn:SetBackdropColor(0.10, 0.10, 0.14, 1)
+    closeBtn:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+    local xFS = closeBtn:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    xFS:SetPoint("CENTER"); xFS:SetText("×"); xFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    closeBtn:SetScript("OnClick", function() win:Hide() end)
+    closeBtn:SetScript("OnEnter", function(s)
+        s:SetBackdropColor(0.22, 0.08, 0.08, 1)
+        s:SetBackdropBorderColor(0.90, 0.30, 0.30, 0.80)
+        xFS:SetTextColor(1, 0.4, 0.4, 1)
+    end)
+    closeBtn:SetScript("OnLeave", function(s)
+        s:SetBackdropColor(0.10, 0.10, 0.14, 1)
+        s:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+        xFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    end)
+
+    local subFS = win:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    subFS:SetPoint("TOPLEFT", win, PAD, -36)
+    subFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    subFS:SetText("Track additional items not in the built-in database.")
+
+    local sf = CreateFrame("ScrollFrame", N("SF"), win, "UIPanelScrollFrameTemplate")
+    sf:SetPoint("TOPLEFT",     win, PAD,      -50)
+    sf:SetPoint("BOTTOMRIGHT", win, -PAD - 18, PAD)
+
+    local CONTENT_W = WIN_W - PAD * 2 - 18 - 4
+    local content = CreateFrame("Frame", N("CH"), sf)
+    content:SetWidth(CONTENT_W)
+    sf:SetScrollChild(content)
+
+    local yOff = 0
+    local searchStr  = ""
+    local pendingID  = nil
+    local pendingData = nil
+    local RebuildList
+
+    local addCont = CreateFrame("Frame", N("ADC"), content, "BackdropTemplate")
+    addCont:SetHeight(ROW_H)
+    addCont:SetPoint("TOPLEFT",  content, 0,         yOff)
+    addCont:SetPoint("TOPRIGHT", content, -74,       yOff)
+    addCont:SetBackdrop(FLAT_BD)
+    addCont:SetBackdropColor(0.06, 0.06, 0.09, 1)
+    addCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.45)
+
+    local addPlaceholder = addCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    addPlaceholder:SetPoint("LEFT", addCont, 8, 0)
+    addPlaceholder:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    addPlaceholder:SetText("Drag an item here or type an item ID...")
+
+    local addEB = CreateFrame("EditBox", N("AEB"), addCont)
+    addEB:SetPoint("LEFT",  addCont,  8, 0)
+    addEB:SetPoint("RIGHT", addCont, -8, 0)
+    addEB:SetHeight(ROW_H - 4)
+    addEB:SetAutoFocus(false)
+    addEB:SetFontObject("GameFontNormal")
+    addEB:SetTextColor(WHITE[1], WHITE[2], WHITE[3], 1)
+    addEB:SetMaxLetters(200)
+    addEB:SetScript("OnEscapePressed", function(s) s:ClearFocus() end)
+
+    local addBtn = MakeBtn(content, "Add", 66, ROW_H)
+    addBtn:SetPoint("TOPLEFT", addCont, "TOPRIGHT", 4, 0)
+
+    yOff = yOff - ROW_H - 4
+
+    local prevCont = CreateFrame("Button", N("PRC"), content, "BackdropTemplate")
+    prevCont:SetHeight(ROW_H)
+    prevCont:SetPoint("TOPLEFT",  content, 0, yOff)
+    prevCont:SetPoint("TOPRIGHT", content, 0, yOff)
+    prevCont:SetBackdrop(FLAT_BD)
+    prevCont:SetBackdropColor(0.04, 0.04, 0.06, 0)
+    prevCont:SetBackdropBorderColor(0, 0, 0, 0)
+    prevCont:EnableMouse(true)
+
+    local prevIcon = prevCont:CreateTexture(nil, "ARTWORK")
+    prevIcon:SetSize(20, 20)
+    prevIcon:SetPoint("LEFT", prevCont, 5, 0)
+    prevIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+    prevIcon:Hide()
+
+    local prevNameFS = prevCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    prevNameFS:SetPoint("LEFT",  prevIcon, "RIGHT", 5, 0)
+    prevNameFS:SetPoint("RIGHT", prevCont, -5, 0)
+    prevNameFS:SetJustifyH("LEFT"); prevNameFS:SetWordWrap(false)
+
+    yOff = yOff - ROW_H - 4
+
+    local listCont = CreateFrame("Frame", N("LC"), content, "BackdropTemplate")
+    listCont:SetHeight(LIST_H)
+    listCont:SetPoint("TOPLEFT",  content, 0, yOff)
+    listCont:SetPoint("TOPRIGHT", content, 0, yOff)
+    listCont:SetBackdrop(FLAT_BD)
+    listCont:SetBackdropColor(0.04, 0.04, 0.06, 1)
+    listCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.20)
+
+    yOff = yOff - LIST_H - 4
+
+    local listSF = CreateFrame("ScrollFrame", N("LSF"), listCont, "UIPanelScrollFrameTemplate")
+    listSF:SetPoint("TOPLEFT",     listCont,  3,  -3)
+    listSF:SetPoint("BOTTOMRIGHT", listCont, -22,  3)
+
+    local listContent = CreateFrame("Frame", N("CT"), listSF)
+    listSF:SetScrollChild(listContent)
+
+    local emptyFS = listCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    emptyFS:SetPoint("CENTER", listCont, 0, 0)
+    emptyFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    emptyFS:Hide()
+
+    local activeRows = {}
+    local rowPool    = {}
+
+    local function GetOrMakeRow()
+        local r = table.remove(rowPool)
+        if r then r:Show(); return r end
+
+        r = CreateFrame("Frame", nil, listContent, "BackdropTemplate")
+        r:SetHeight(ITEM_ROW); r:SetBackdrop(FLAT_BD)
+
+        local icon = r:CreateTexture(nil, "ARTWORK")
+        icon:SetSize(20, 20); icon:SetPoint("LEFT", r, 6, 0)
+        icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        r._icon = icon
+
+        local hover = CreateFrame("Frame", nil, r)
+        hover:SetAllPoints(r); hover:SetFrameLevel(r:GetFrameLevel() + 1); hover:EnableMouse(true)
+        hover:SetScript("OnEnter", function()
+            if r._tooltipLink then
+                GameTooltip:SetOwner(r, "ANCHOR_RIGHT")
+                GameTooltip:SetHyperlink(r._tooltipLink)
+                GameTooltip:Show()
             end
-
-            local pos = LarlenCacheOpener:GetActiveProfile().position
-            local b1x = pos and pos[4] or (GetScreenWidth() / 2)
-            local b1y = pos and pos[5] or (GetScreenHeight() / 2)
-            LarlenCacheOpener.frame:ClearAllPoints()
-            if align == "RIGHT" then
-                LarlenCacheOpener.frame:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - iconSize/2, b1y)
-            elseif align == "LEFT" then
-                LarlenCacheOpener.frame:SetPoint("RIGHT", UIParent, "BOTTOMLEFT", b1x + iconSize/2, b1y)
-            elseif align == "DOWN" then
-                LarlenCacheOpener.frame:SetPoint("TOP", UIParent, "BOTTOMLEFT", b1x, b1y + iconSize/2)
-            else -- UP
-                LarlenCacheOpener.frame:SetPoint("BOTTOM", UIParent, "BOTTOMLEFT", b1x, b1y - iconSize/2)
-            end
-
-            LarlenCacheOpener.frame:Show()
-
-            for i = 1, count do
-                local btn = LarlenCacheOpener.buttons[i]
-                btn:ClearAllPoints()
-                btn:SetWidth(iconSize)
-                btn:SetHeight(iconSize)
-
-                if align == "LEFT" then
-                    if i == 1 then btn:SetPoint("RIGHT", LarlenCacheOpener.frame, "RIGHT", 0, 0)
-                    else btn:SetPoint("RIGHT", LarlenCacheOpener.buttons[i-1], "LEFT", -spacing, 0) end
-                elseif align == "UP" then
-                    if i == 1 then btn:SetPoint("BOTTOM", LarlenCacheOpener.frame, "BOTTOM", 0, 0)
-                    else btn:SetPoint("BOTTOM", LarlenCacheOpener.buttons[i-1], "TOP", 0, spacing) end
-                elseif align == "DOWN" then
-                    if i == 1 then btn:SetPoint("TOP", LarlenCacheOpener.frame, "TOP", 0, 0)
-                    else btn:SetPoint("TOP", LarlenCacheOpener.buttons[i-1], "BOTTOM", 0, -spacing) end
-                else
-                    if i == 1 then btn:SetPoint("LEFT", LarlenCacheOpener.frame, "LEFT", 0, 0)
-                    else btn:SetPoint("LEFT", LarlenCacheOpener.buttons[i-1], "RIGHT", spacing, 0) end
-                end
-
-                btn.icon:SetTexture(132596)
-                btn.countString:SetText("99")
-                btn.texture:SetDesaturated(false)
-                btn:SetAlpha(LarlenCacheOpener:P("alpha") or 1.0)
-                if LarlenCacheOpener:P("showGlow") then LarlenCacheOpener:ShowGlow(btn) else LarlenCacheOpener:HideGlow(btn) end
-                btn:Show()
-            end
-        end
-    end
-
-    -----------------------------------------
-    -- LEFT COLUMN: GENERAL SETTINGS
-    -----------------------------------------
-    CreateSeparator(panel, -45)
-    CreateSectionHeader(panel, "General Settings", 15, -55)
-
-    local soundCb = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    soundCb:SetPoint("TOPLEFT", 15, -80)
-    soundCb.Text:SetText(" Play sound when an item appears")
-    soundCb:HookScript("OnClick", function(self) LarlenCacheOpener:SetP("playSound", self:GetChecked()) end)
-
-    local soundDropdownLabel = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    soundDropdownLabel:SetPoint("TOPLEFT", 35, -115)
-    soundDropdownLabel:SetText("Select Sound:")
-
-    local soundDropdown = CreateFrame("Frame", "SCO_SoundDropdown", panel, "UIDropDownMenuTemplate")
-    soundDropdown:SetPoint("TOPLEFT", 120, -110)
-    UIDropDownMenu_SetWidth(soundDropdown, 130)
-
-    UIDropDownMenu_Initialize(soundDropdown, function(self, level, menuList)
-        local info = UIDropDownMenu_CreateInfo()
-        for i, sound in ipairs(LarlenCacheOpener.sounds) do
-            info.text = sound.name
-            info.arg1 = i
-            info.func = function(self, arg1)
-                UIDropDownMenu_SetText(soundDropdown, LarlenCacheOpener.sounds[arg1].name)
-                LarlenCacheOpener:SetP("soundChoice", arg1)
-                PlaySound(LarlenCacheOpener.sounds[arg1].id, "Master")
-            end
-            info.checked = (LarlenCacheOpener:P("soundChoice") == i)
-            UIDropDownMenu_AddButton(info)
-        end
-    end)
-
-    local combatCb = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    combatCb:SetPoint("TOPLEFT", 15, -140)
-    combatCb.Text:SetText(" Hide icons while in combat")
-    combatCb:HookScript("OnClick", function(self)
-        LarlenCacheOpener:SetP("hideInCombat", self:GetChecked())
-        LarlenCacheOpener:UpdateCombatState()
-    end)
-
-    local minimapCb = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    minimapCb:SetPoint("TOPLEFT", 15, -165)
-    minimapCb.Text:SetText(" Show Minimap Icon")
-    minimapCb:HookScript("OnClick", function(self)
-        LarlenCacheOpener:SetP("showMinimap", self:GetChecked() == 1 or self:GetChecked() == true)
-        LarlenCacheOpener:UpdateMinimapVisibility()
-    end)
-
-    local glowCb = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    glowCb:SetPoint("TOPLEFT", 15, -190)
-    glowCb.Text:SetText(" Show Action Button Glow")
-    glowCb:HookScript("OnClick", function(self)
-        LarlenCacheOpener:SetP("showGlow", self:GetChecked())
-        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
-    end)
-
-    -----------------------------------------
-    -- LEFT COLUMN: APPEARANCE & POSITION
-    -----------------------------------------
-    CreateSeparator(panel, -230)
-    CreateSectionHeader(panel, "Appearance & Position", 15, -240)
-
-    -- Size Slider
-    local sizeSlider = CreateFrame("Slider", "SCO_SizeSlider", panel, "OptionsSliderTemplate")
-    sizeSlider:SetPoint("TOPLEFT", 20, -280)
-    sizeSlider:SetMinMaxValues(16, 64)
-    sizeSlider:SetValueStep(1)
-    sizeSlider:SetObeyStepOnDrag(true)
-    _G["SCO_SizeSliderLow"]:SetText("16")
-    _G["SCO_SizeSliderHigh"]:SetText("64")
-    _G["SCO_SizeSliderText"]:SetText("Icon Size")
-    
-    local sizeInput = CreateFrame("EditBox", "SCO_SizeInput", panel, "InputBoxTemplate")
-    sizeInput:SetSize(40, 20)
-    sizeInput:SetPoint("LEFT", sizeSlider, "RIGHT", 15, 0)
-    sizeInput:SetAutoFocus(false)
-    sizeInput:SetNumeric(true)
-    
-    sizeSlider:SetScript("OnValueChanged", function(self, value)
-        if isRefreshing then return end
-        local val = math.floor(value + 0.5)
-        LarlenCacheOpener:SetP("iconSize", val)
-        LarlenCacheOpener.frame:SetHeight(val)
-        sizeInput:SetText(tostring(val))
-        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
-    end)
-
-    sizeInput:SetScript("OnEnterPressed", function(self)
-        local val = tonumber(self:GetText())
-        if val then
-            val = math.max(16, math.min(64, val))
-            sizeSlider:SetValue(val)
-        end
-        self:ClearFocus()
-    end)
-    sizeInput:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-
-    -- Direction Dropdown
-    local alignDropdownLabel = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    alignDropdownLabel:SetPoint("TOPLEFT", 20, -320)
-    alignDropdownLabel:SetText("Growth Direction:")
-
-    local alignDropdown = CreateFrame("Frame", "SCO_AlignDropdown", panel, "UIDropDownMenuTemplate")
-    alignDropdown:SetPoint("TOPLEFT", 120, -315)
-    UIDropDownMenu_SetWidth(alignDropdown, 100)
-
-    UIDropDownMenu_Initialize(alignDropdown, function(self, level, menuList)
-        local info = UIDropDownMenu_CreateInfo()
-        for i, dir in ipairs(directions) do
-            info.text = dir.name
-            info.arg1 = dir.value
-            info.func = function(self, arg1)
-                UIDropDownMenu_SetText(alignDropdown, dir.name)
-                LarlenCacheOpener:SetP("alignment", arg1)
-                if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
-            end
-            info.checked = (LarlenCacheOpener:P("alignment") == dir.value)
-            UIDropDownMenu_AddButton(info)
-        end
-    end)
-
-    -- Alpha Slider
-    local alphaSlider = CreateFrame("Slider", "SCO_AlphaSlider", panel, "OptionsSliderTemplate")
-    alphaSlider:SetPoint("TOPLEFT", 20, -370)
-    alphaSlider:SetMinMaxValues(10, 100)
-    alphaSlider:SetValueStep(1)
-    alphaSlider:SetObeyStepOnDrag(true)
-    _G["SCO_AlphaSliderLow"]:SetText("10%")
-    _G["SCO_AlphaSliderHigh"]:SetText("100%")
-    _G["SCO_AlphaSliderText"]:SetText("Transparency (Alpha)")
-
-    local alphaInput = CreateFrame("EditBox", "SCO_AlphaInput", panel, "InputBoxTemplate")
-    alphaInput:SetSize(40, 20)
-    alphaInput:SetPoint("LEFT", alphaSlider, "RIGHT", 15, 0)
-    alphaInput:SetAutoFocus(false)
-    alphaInput:SetNumeric(true)
-
-    alphaSlider:SetScript("OnValueChanged", function(self, value)
-        if isRefreshing then return end
-        local val = math.floor(value + 0.5)
-        LarlenCacheOpener:SetP("alpha", val / 100)
-        alphaInput:SetText(tostring(val))
-        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
-    end)
-
-    alphaInput:SetScript("OnEnterPressed", function(self)
-        local val = tonumber(self:GetText())
-        if val then
-            val = math.max(10, math.min(100, val))
-            alphaSlider:SetValue(val)
-        end
-        self:ClearFocus()
-    end)
-    alphaInput:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-
-
-    -- X Slider
-    local xSlider = CreateFrame("Slider", "SCO_XSlider", panel, "OptionsSliderTemplate")
-    xSlider:SetPoint("TOPLEFT", 20, -420)
-    xSlider:SetMinMaxValues(-960, 960)
-    xSlider:SetValueStep(1)
-    xSlider:SetObeyStepOnDrag(true)
-    _G["SCO_XSliderLow"]:SetText("-960")
-    _G["SCO_XSliderHigh"]:SetText("960")
-    _G["SCO_XSliderText"]:SetText("X Position")
-    
-    local xInput = CreateFrame("EditBox", "SCO_XInput", panel, "InputBoxTemplate")
-    xInput:SetSize(50, 20)
-    xInput:SetPoint("LEFT", xSlider, "RIGHT", 15, 0)
-    xInput:SetAutoFocus(false)
-    
-    xSlider:SetScript("OnValueChanged", function(self, value)
-        if isRefreshing then return end
-        local val = math.floor(value + 0.5)
-        local p = LarlenCacheOpener:GetActiveProfile()
-        if not p.position then p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2} end
-        p.position[4] = GetScreenWidth()/2 + val
-        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
-        xInput:SetText(tostring(val))
-    end)
-
-    xInput:SetScript("OnEnterPressed", function(self)
-        local val = tonumber(self:GetText())
-        if val then xSlider:SetValue(val) end
-        self:ClearFocus()
-    end)
-    xInput:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-
-    -- Y Slider
-    local ySlider = CreateFrame("Slider", "SCO_YSlider", panel, "OptionsSliderTemplate")
-    ySlider:SetPoint("TOPLEFT", 20, -470)
-    ySlider:SetMinMaxValues(-540, 540)
-    ySlider:SetValueStep(1)
-    ySlider:SetObeyStepOnDrag(true)
-    _G["SCO_YSliderLow"]:SetText("-540")
-    _G["SCO_YSliderHigh"]:SetText("540")
-    _G["SCO_YSliderText"]:SetText("Y Position")
-
-    local yInput = CreateFrame("EditBox", "SCO_YInput", panel, "InputBoxTemplate")
-    yInput:SetSize(50, 20)
-    yInput:SetPoint("LEFT", ySlider, "RIGHT", 15, 0)
-    yInput:SetAutoFocus(false)
-
-    ySlider:SetScript("OnValueChanged", function(self, value)
-        if isRefreshing then return end
-        local val = math.floor(value + 0.5)
-        local p = LarlenCacheOpener:GetActiveProfile()
-        if not p.position then p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2} end
-        p.position[5] = GetScreenHeight()/2 + val
-        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
-        yInput:SetText(tostring(val))
-    end)
-
-    yInput:SetScript("OnEnterPressed", function(self)
-        local val = tonumber(self:GetText())
-        if val then ySlider:SetValue(val) end
-        self:ClearFocus()
-    end)
-    yInput:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-
-    -- Action Buttons
-    local resetPosBtn = CreateFrame("Button", "SCO_ResetPosBtn", panel, "UIPanelButtonTemplate")
-    resetPosBtn:SetPoint("LEFT", yInput, "RIGHT", 20, 0)
-    resetPosBtn:SetSize(110, 25)
-    resetPosBtn:SetText("Reset Position")
-    resetPosBtn:SetScript("OnClick", function()
-        local p = LarlenCacheOpener:GetActiveProfile()
-        p.position = {"BOTTOMLEFT", nil, "BOTTOMLEFT", GetScreenWidth()/2, GetScreenHeight()/2}
-        if testActive then ToggleTestIcons(5) else LarlenCacheOpener:updateButtons() end
-        xSlider:SetValue(0)
-        xInput:SetText("0")
-        ySlider:SetValue(0)
-        yInput:SetText("0")
-    end)
-
-    local testBtn = CreateFrame("Button", "SCO_TestButton", panel, "UIPanelButtonTemplate")
-    testBtn:SetPoint("LEFT", resetPosBtn, "RIGHT", 10, 0)
-    testBtn:SetSize(110, 25)
-    testBtn:SetText("Test Icons")
-    testBtn:SetScript("OnClick", function()
-        testActive = not testActive
-        if testActive then ToggleTestIcons(5) else ToggleTestIcons(0) end
-    end)
-
-    local lockCb = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    lockCb:SetPoint("TOPLEFT", 15, -510)
-    lockCb.Text:SetText(" Lock Position")
-    lockCb:HookScript("OnClick", function(self)
-        LarlenCacheOpener:SetP("locked", self:GetChecked())
-    end)
-
-    local moveHint = panel:CreateFontString(nil, "ARTWORK", "GameFontWhiteSmall")
-    moveHint:SetPoint("TOPLEFT", 190, -515)
-    moveHint:SetText("|cffffd100Tip:|r If unlocked, use Right-Click to drag and move icons freely.")
-
-    -----------------------------------------
-    -- RIGHT COLUMN: PROFILE MANAGEMENT
-    -----------------------------------------
-    CreateSeparator(panel, -45)
-    CreateSectionHeader(panel, "Profiles", 350, -55)
-
-    -- Profile dropdown row
-    local profileDropdownLabel = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    profileDropdownLabel:SetPoint("TOPLEFT", 350, -80)
-    profileDropdownLabel:SetText("Active Profile:")
-
-    local profileDropdown = CreateFrame("Frame", "SCO_ProfileDropdown", panel, "UIDropDownMenuTemplate")
-    profileDropdown:SetPoint("TOPLEFT", 428, -75)
-    UIDropDownMenu_SetWidth(profileDropdown, 120)
-
-    local function RebuildProfileDropdown()
-        UIDropDownMenu_Initialize(profileDropdown, function(self, level, menuList)
-            local info = UIDropDownMenu_CreateInfo()
-            local names = LarlenCacheOpener:GetProfileNames()
-            local active = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
-            for _, name in ipairs(names) do
-                info.text = name
-                info.arg1 = name
-                info.func = function(self, arg1)
-                    UIDropDownMenu_SetText(profileDropdown, arg1)
-                    LarlenCacheOpener:SwitchProfile(arg1)
-                    if LarlenCacheOpener.RefreshOptionsPanelValues then
-                        LarlenCacheOpener.RefreshOptionsPanelValues()
-                    end
-                end
-                info.checked = (active == name)
-                UIDropDownMenu_AddButton(info)
-            end
+            r:SetBackdropColor(ACCENT[1]*0.15, ACCENT[2]*0.08, ACCENT[3]*0.02, 1)
         end)
-        UIDropDownMenu_SetText(profileDropdown, LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default")
-    end
-
-    -- Name input + New / Copy / Delete on one row
-    local newProfileInput = CreateFrame("EditBox", "SCO_NewProfileInput", panel, "InputBoxTemplate")
-    newProfileInput:SetSize(100, 20)
-    newProfileInput:SetPoint("TOPLEFT", 355, -115)
-    newProfileInput:SetAutoFocus(false)
-    newProfileInput:SetMaxLetters(32)
-    newProfileInput:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-
-    local newProfileBtn = CreateFrame("Button", "SCO_NewProfileBtn", panel, "UIPanelButtonTemplate")
-    newProfileBtn:SetPoint("LEFT", newProfileInput, "RIGHT", 5, 0)
-    newProfileBtn:SetSize(50, 22)
-    newProfileBtn:SetText("New")
-    newProfileBtn:SetScript("OnClick", function()
-        local name = newProfileInput:GetText()
-        if name and name ~= "" then
-            if LarlenCacheOpener:CreateProfile(name, false) then
-                LarlenCacheOpener:SwitchProfile(name)
-                newProfileInput:SetText("")
-                newProfileInput:ClearFocus()
-                RebuildProfileDropdown()
-            end
-        end
-    end)
-
-    local copyProfileBtn = CreateFrame("Button", "SCO_CopyProfileBtn", panel, "UIPanelButtonTemplate")
-    copyProfileBtn:SetPoint("LEFT", newProfileBtn, "RIGHT", 4, 0)
-    copyProfileBtn:SetSize(50, 22)
-    copyProfileBtn:SetText("Copy")
-    copyProfileBtn:SetScript("OnClick", function()
-        local name = newProfileInput:GetText()
-        if name and name ~= "" then
-            if LarlenCacheOpener:CreateProfile(name, true) then
-                LarlenCacheOpener:SwitchProfile(name)
-                newProfileInput:SetText("")
-                newProfileInput:ClearFocus()
-                RebuildProfileDropdown()
-            end
-        end
-    end)
-
-    local deleteProfileBtn = CreateFrame("Button", "SCO_DeleteProfileBtn", panel, "UIPanelButtonTemplate")
-    deleteProfileBtn:SetPoint("LEFT", copyProfileBtn, "RIGHT", 4, 0)
-    deleteProfileBtn:SetSize(55, 22)
-    deleteProfileBtn:SetText("Delete")
-    deleteProfileBtn:SetScript("OnClick", function()
-        local active = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
-        if LarlenCacheOpener:DeleteProfile(active) then
-            RebuildProfileDropdown()
-        end
-    end)
-
-    -----------------------------------------
-    -- RIGHT COLUMN: HIDDEN GROUPS
-    -----------------------------------------
-    CreateSeparator(panel, -230)
-    CreateSectionHeader(panel, L["hidden_groups"], 350, -240)
-
-    for i, name in ipairs(LarlenCacheOpener.group_ids_ordered) do
-        local cb = CreateFrame("CheckButton", nil, panel, "InterfaceOptionsCheckButtonTemplate")
-        cb:SetPoint("TOPLEFT", 350, -245 + (-25*i))
-        cb.Text:SetText(" " .. L[name])
-        cb.group_id = name
-        
-        cb:HookScript("OnClick", function(_, btn, down)
-            LarlenCacheOpener:GetActiveProfile().ignored_groups[name] = cb:GetChecked()
-            LarlenCacheOpener:updateIgnoreItems()
-            LarlenCacheOpener:updateButtons()
+        hover:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+            r:SetBackdropColor(r._bgR or 0.04, r._bgG or 0.04, r._bgB or 0.06, 0.90)
         end)
-        LarlenCacheOpener.option_buttons[name] = cb
+
+        local nameFS = r:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        nameFS:SetPoint("LEFT",  icon, "RIGHT", 5, 0)
+        nameFS:SetPoint("RIGHT", r, "RIGHT", -76, 0)
+        nameFS:SetJustifyH("LEFT"); nameFS:SetWordWrap(false)
+        r._name = nameFS
+
+        local idFS = r:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        idFS:SetPoint("RIGHT", r, -76, 0); idFS:SetJustifyH("RIGHT")
+        idFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+        r._idFS = idFS
+
+        local removeBtn = MakeBtn(r, "Remove", 66, ITEM_ROW - 6)
+        removeBtn:SetPoint("RIGHT", r, -4, 0)
+        removeBtn:SetFrameLevel(r:GetFrameLevel() + 5)
+        r._removeBtn = removeBtn
+        return r
     end
 
-    -----------------------------------------
-    -- RIGHT COLUMN: CUSTOM ITEMS
-    -----------------------------------------
-    local customYOffset = -245 + (-25 * #LarlenCacheOpener.group_ids_ordered) - 30
-    CreateSectionHeader(panel, "Custom Items", 350, customYOffset)
+    local function RecycleRow(r)
+        r:Hide(); r:ClearAllPoints()
+        r._removeBtn:SetScript("OnClick", nil)
+        r._tooltipLink = nil
+        table.insert(rowPool, r)
+    end
 
-    local customDesc = panel:CreateFontString(nil, "ARTWORK", "GameFontWhiteSmall")
-    customDesc:SetPoint("TOPLEFT", 350, customYOffset - 22)
-    customDesc:SetText("Add or remove custom item IDs.")
+    RebuildList = function()
+        for _, r in ipairs(activeRows) do RecycleRow(r) end
+        wipe(activeRows)
 
-    local customInput = CreateFrame("EditBox", "SCO_CustomInput", panel, "InputBoxTemplate")
-    customInput:SetSize(80, 20)
-    customInput:SetPoint("TOPLEFT", 355, customYOffset - 46)
-    customInput:SetAutoFocus(false)
-    customInput:SetNumeric(true)
-    customInput:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-
-    local addBtn = CreateFrame("Button", "SCO_AddCustomBtn", panel, "UIPanelButtonTemplate")
-    addBtn:SetPoint("LEFT", customInput, "RIGHT", 10, 0)
-    addBtn:SetSize(55, 22)
-    addBtn:SetText("Add")
-    addBtn:SetScript("OnClick", function()
-        local id = tonumber(customInput:GetText())
-        if id then
-            LarlenCacheOpener:GetActiveProfile().custom_items = LarlenCacheOpener:GetActiveProfile().custom_items or {}
-            LarlenCacheOpener:GetActiveProfile().custom_items[id] = 1
-            customInput:SetText("")
-            customInput:ClearFocus()
-            print("|cffffa500Larlen Cache Opener|r: |cff00ff00Added|r custom item ID", id)
-            LarlenCacheOpener:updateButtons()
-        end
-    end)
-
-    local removeBtn = CreateFrame("Button", "SCO_RemoveCustomBtn", panel, "UIPanelButtonTemplate")
-    removeBtn:SetPoint("LEFT", addBtn, "RIGHT", 5, 0)
-    removeBtn:SetSize(70, 22)
-    removeBtn:SetText("Remove")
-    removeBtn:SetScript("OnClick", function()
-        local id = tonumber(customInput:GetText())
         local custom = LarlenCacheOpener:GetActiveProfile().custom_items
-        if id and custom and custom[id] then
-            custom[id] = nil
-            customInput:SetText("")
-            customInput:ClearFocus()
-            print("|cffffa500Larlen Cache Opener|r: |cffff0000Removed|r custom item ID", id)
-            LarlenCacheOpener:updateButtons()
-        end
-    end)
-
-    -----------------------------------------
-    -- INITIALIZE & SYNC VALUES
-    -----------------------------------------
-    local function RefreshPanelValues()
-        if not LarlenCacheOpenerDB then return end
-        isRefreshing = true
-        local p = LarlenCacheOpener:GetActiveProfile()
-
-        soundCb:SetChecked(p.playSound ~= false)
-        combatCb:SetChecked(p.hideInCombat ~= false)
-        minimapCb:SetChecked(p.showMinimap ~= false)
-        glowCb:SetChecked(p.showGlow ~= false)
-        lockCb:SetChecked(p.locked == true)
-        
-        local currentSoundIdx = p.soundChoice or 1
-        if LarlenCacheOpener.sounds and LarlenCacheOpener.sounds[currentSoundIdx] then
-            UIDropDownMenu_SetText(soundDropdown, LarlenCacheOpener.sounds[currentSoundIdx].name)
+        if not custom or not next(custom) then
+            emptyFS:SetText("No custom items added.")
+            emptyFS:Show(); listContent:SetHeight(LIST_H - 6); return
         end
 
-        local currentAlign = p.alignment or "RIGHT"
-        for _, dir in ipairs(directions) do
-            if dir.value == currentAlign then
-                UIDropDownMenu_SetText(alignDropdown, dir.name)
+        local items = {}
+        local lo = searchStr:lower()
+        for id, _ in pairs(custom) do
+            local name, _, _, _, _, _, _, _, _, icon = C_Item.GetItemInfo(id)
+            name = name or ("Item " .. tostring(id))
+            if lo == "" or name:lower():find(lo, 1, true) then
+                items[#items + 1] = { id = id, name = name, icon = icon }
             end
         end
 
-        sizeSlider:SetValue(p.iconSize or 38)
-        sizeInput:SetText(tostring(p.iconSize or 38))
-
-        local currentAlpha = math.floor((p.alpha or 1.0) * 100)
-        alphaSlider:SetValue(currentAlpha)
-        alphaInput:SetText(tostring(currentAlpha))
-
-        if p.position and p.position[4] then
-            local xOff = math.floor(p.position[4] - GetScreenWidth()/2 + 0.5)
-            local yOff = math.floor(p.position[5] - GetScreenHeight()/2 + 0.5)
-            xSlider:SetValue(xOff)
-            xInput:SetText(tostring(xOff))
-            ySlider:SetValue(yOff)
-            yInput:SetText(tostring(yOff))
-        else
-            xSlider:SetValue(0)
-            xInput:SetText("0")
-            ySlider:SetValue(0)
-            yInput:SetText("0")
+        if #items == 0 then
+            emptyFS:SetText(lo ~= "" and ("No results for \"" .. searchStr .. "\".") or "No custom items added.")
+            emptyFS:Show(); listContent:SetHeight(LIST_H - 6); return
         end
 
-        for _, name in ipairs(LarlenCacheOpener.group_ids_ordered) do
-            local isChecked = false
-            if p.ignored_groups and p.ignored_groups[name] ~= nil then
-                isChecked = p.ignored_groups[name]
-            end
-            if LarlenCacheOpener.option_buttons[name] then
-                LarlenCacheOpener.option_buttons[name]:SetChecked(isChecked)
-            end
-        end
+        emptyFS:Hide()
+        table.sort(items, function(a, b) return a.name:lower() < b.name:lower() end)
 
-        if _G["SCO_ProfileDropdown"] then
-            UIDropDownMenu_SetText(_G["SCO_ProfileDropdown"], LarlenCacheOpenerProfiles.activeProfile or "Default")
-        end
+        local cw = listSF:GetWidth()
+        if cw <= 0 then cw = CONTENT_W - 26 end
+        listContent:SetWidth(cw)
 
-        isRefreshing = false
+        local y = 0
+        for i, item in ipairs(items) do
+            local r = GetOrMakeRow()
+            r:SetParent(listContent); r:SetWidth(cw)
+            r:SetPoint("TOPLEFT", listContent, 0, y)
+
+            local even = (i % 2 == 0)
+            local br, bg, bb = even and 0.06 or 0.04, even and 0.06 or 0.04, even and 0.09 or 0.06
+            r._bgR, r._bgG, r._bgB = br, bg, bb
+            r:SetBackdropColor(br, bg, bb, 0.90)
+            r:SetBackdropBorderColor(0, 0, 0, 0)
+            r._icon:SetTexture(item.icon or 134400)
+            r._name:SetText(item.name)
+            r._idFS:SetText("|cff555560ID " .. tostring(item.id) .. "|r")
+            r._tooltipLink = "item:" .. tostring(item.id)
+
+            local capturedID = item.id
+            r._removeBtn:SetScript("OnClick", function()
+                LarlenCacheOpener:GetActiveProfile().custom_items[capturedID] = nil
+                LarlenCacheOpener:updateButtons()
+                print("|cffffa500Larlen Cache Opener|r: |cffff0000Removed|r custom item ID", capturedID)
+                RebuildList()
+            end)
+
+            y = y - ITEM_ROW
+            activeRows[#activeRows + 1] = r
+        end
+        listContent:SetHeight(math.max(math.abs(y), 1))
     end
-    LarlenCacheOpener.RefreshOptionsPanelValues = RefreshPanelValues
 
-    panel:RegisterEvent("ADDON_LOADED")
-    panel:SetScript("OnEvent", function(self, event, addonName)
-        if addonName == "LarlenCacheOpener" then
-            RefreshPanelValues()
-            self:UnregisterEvent("ADDON_LOADED")
+    local searchCont = CreateFrame("Frame", N("SC"), content, "BackdropTemplate")
+    searchCont:SetHeight(ROW_H)
+    searchCont:SetPoint("TOPLEFT",  content, 0, yOff)
+    searchCont:SetPoint("TOPRIGHT", content, 0, yOff)
+    searchCont:SetBackdrop(FLAT_BD)
+    searchCont:SetBackdropColor(0.06, 0.06, 0.09, 1)
+    searchCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+
+    local searchPlaceholder = searchCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    searchPlaceholder:SetPoint("LEFT", searchCont, 8, 0)
+    searchPlaceholder:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    searchPlaceholder:SetText("Search custom items...")
+
+    local searchEB = CreateFrame("EditBox", N("SEB"), searchCont)
+    searchEB:SetPoint("LEFT",  searchCont,  8, 0)
+    searchEB:SetPoint("RIGHT", searchCont, -8, 0)
+    searchEB:SetHeight(ROW_H - 4)
+    searchEB:SetAutoFocus(false)
+    searchEB:SetFontObject("GameFontNormal")
+    searchEB:SetTextColor(WHITE[1], WHITE[2], WHITE[3], 1)
+    searchEB:SetMaxLetters(100)
+    searchEB:SetScript("OnEscapePressed", function(s) s:ClearFocus() end)
+
+    yOff = yOff - ROW_H
+    content:SetHeight(math.abs(yOff) + 10)
+
+    local function SetPreview(itemID, name, icon, rarity, link, isError)
+        if isError then
+            prevIcon:Hide()
+            prevNameFS:SetText("|cffff4444" .. (name or "Invalid item or ID") .. "|r")
+            prevCont:SetBackdropColor(0.10, 0.04, 0.04, 0.80)
+            prevCont:SetBackdropBorderColor(0.60, 0.10, 0.10, 0.40)
+            pendingID = nil; pendingData = nil
+        elseif itemID then
+            prevIcon:SetTexture(icon or 134400); prevIcon:Show()
+            local _, _, _, hex = C_Item.GetItemQualityColor(rarity or 1)
+            local cc = hex and ("|c" .. hex) or "|cffffffff"
+            prevNameFS:SetText(cc .. (name or "Unknown") .. "|r  |cff555560(ID " .. tostring(itemID) .. ")|r")
+            prevCont:SetBackdropColor(0.04, 0.08, 0.04, 0.80)
+            prevCont:SetBackdropBorderColor(0.10, 0.50, 0.10, 0.40)
+            pendingID = itemID
+            pendingData = { name = name, icon = icon }
+        else
+            prevIcon:Hide(); prevNameFS:SetText("")
+            prevCont:SetBackdropColor(0.04, 0.04, 0.06, 0)
+            prevCont:SetBackdropBorderColor(0, 0, 0, 0)
+            pendingID = nil; pendingData = nil
+        end
+    end
+
+    local function TryParseInput(text)
+        if not text or text:gsub("%s", "") == "" then SetPreview(nil); return end
+        local itemID = tonumber(text:match("item:(%d+)")) or tonumber(text:match("^%s*(%d+)%s*$"))
+        if not itemID then
+            SetPreview(nil, "Not a valid item link or item ID.", nil, nil, nil, true); return
+        end
+        local name, link, rarity, _, _, _, _, _, _, icon = C_Item.GetItemInfo(itemID)
+        if name then
+            SetPreview(itemID, name, icon, rarity, link)
+        else
+            prevIcon:Hide()
+            prevNameFS:SetText("|cff888888Loading item data...|r")
+            prevCont:SetBackdropColor(0.04, 0.04, 0.06, 0.60)
+            prevCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.25)
+            pendingID = nil; pendingData = nil
+            local captured = itemID
+            C_Timer.After(0.4, function()
+                local cur = addEB:GetText()
+                local curID = tonumber(cur:match("item:(%d+)")) or tonumber(cur:match("^%s*(%d+)%s*$"))
+                if curID ~= captured then return end
+                local n, l, r2, _, _, _, _, _, _, ic = C_Item.GetItemInfo(captured)
+                if n then SetPreview(captured, n, ic, r2, l)
+                else SetPreview(nil, "Item not found (ID: " .. tostring(captured) .. ").", nil, nil, nil, true) end
+            end)
+        end
+    end
+
+    local function CommitAdd()
+        if not pendingID or not pendingData then return end
+        if LarlenCacheOpener:IsInMainDB(pendingID) then
+            SetPreview(nil, "Item ID " .. pendingID .. " is already in the built-in database.", nil, nil, nil, true)
+            return
+        end
+        LarlenCacheOpener:GetActiveProfile().custom_items = LarlenCacheOpener:GetActiveProfile().custom_items or {}
+        LarlenCacheOpener:GetActiveProfile().custom_items[pendingID] = 1
+        LarlenCacheOpener:updateButtons()
+        print("|cffffa500Larlen Cache Opener|r: |cff00ff00Added|r custom item ID", pendingID)
+        addEB:SetText(""); addPlaceholder:Show(); SetPreview(nil)
+        searchStr = ""; searchEB:SetText(""); searchPlaceholder:Show()
+        RebuildList()
+    end
+
+    addEB:SetScript("OnTextChanged", function(self, userInput)
+        if not userInput then return end
+        local t = self:GetText()
+        addPlaceholder:SetShown(t == "")
+        TryParseInput(t)
+    end)
+    addEB:SetScript("OnEnterPressed", CommitAdd)
+    local function HandleDrop(self)
+        local dtype, id = GetCursorInfo()
+        if dtype == "item" then
+            local _, link = C_Item.GetItemInfo(id)
+            if link then self:SetText(link); TryParseInput(link) end
+            ClearCursor()
+        end
+    end
+    addEB:SetScript("OnReceiveDrag", HandleDrop)
+    addEB:SetScript("OnMouseDown",   HandleDrop)
+    addEB:SetScript("OnEditFocusGained", function()
+        addPlaceholder:Hide()
+        addCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.90)
+    end)
+    addEB:SetScript("OnEditFocusLost", function(self)
+        if self:GetText() == "" then addPlaceholder:Show() end
+        addCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.45)
+    end)
+
+    addBtn:SetScript("OnClick", CommitAdd)
+
+    prevCont:SetScript("OnClick", function() if pendingID then CommitAdd() end end)
+    prevCont:SetScript("OnEnter", function()
+        if pendingID then
+            prevCont:SetBackdropColor(0.08, 0.12, 0.04, 0.90)
+            prevCont:SetBackdropBorderColor(0.15, 0.60, 0.10, 0.60)
+            GameTooltip:SetOwner(prevCont, "ANCHOR_TOP")
+            GameTooltip:SetText("|cff44ff44Click to add custom item|r", 1, 1, 1, 1, true)
+            GameTooltip:Show()
+        end
+    end)
+    prevCont:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+        if pendingID then
+            prevCont:SetBackdropColor(0.04, 0.08, 0.04, 0.80)
+            prevCont:SetBackdropBorderColor(0.10, 0.50, 0.10, 0.40)
         end
     end)
 
-    panel:HookScript("OnShow", function()
-        RebuildProfileDropdown()
-        RefreshPanelValues()
+    searchEB:SetScript("OnTextChanged", function(self, userInput)
+        if not userInput then return end
+        local t = self:GetText()
+        searchStr = t; searchPlaceholder:SetShown(t == "")
+        RebuildList()
     end)
-    panel:HookScript("OnHide", function()
-        if testActive then
-            testActive = false
-            LarlenCacheOpener:updateButtons()
-        end
+    searchEB:SetScript("OnEditFocusGained", function()
+        searchPlaceholder:Hide()
+        searchCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.70)
+    end)
+    searchEB:SetScript("OnEditFocusLost", function(self)
+        if self:GetText() == "" then searchPlaceholder:Show() end
+        searchCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
     end)
 
-    -- Footer text
-    local text = panel:CreateFontString("ARTWORK", nil, "GameFontWhiteSmall")
-    text:SetText(L["option_description"])
-    text:SetPoint("BOTTOMLEFT", 15, 15)
-    text:SetWidth(550)
-    text:SetJustifyH("LEFT")
+    win._rebuild = RebuildList
+    customWin = win
+    C_Timer.After(0, RebuildList)
 end
 
-function LarlenCacheOpener:updateOptionCheckbox(group_id, state) 
-    if (LarlenCacheOpener.option_buttons[group_id] ~= nil) then
-        LarlenCacheOpener.option_buttons[group_id]:SetChecked(state);
+local function OpenCustomItemsWindow()
+    if not customWin then BuildCustomItemsWindow() end
+    if customWin:IsShown() then
+        customWin:Hide()
+    else
+        customWin:Show()
+        if customWin._rebuild then customWin._rebuild() end
     end
-end 
+end
 
-L["hidden_groups"] = "Hidden Item Categories"
-L["addon_name"] = "Larlen Cache Opener"
+local function BuildBlacklistWindow()
+    if blacklistWin then return end
+
+    local WIN_W = 460
+    local WIN_H = 540
+    local LIST_H   = 220
+    local ITEM_ROW = 28
+    local PAD = 12
+
+    local win = CreateFrame("Frame", "LCO_BlacklistWindow", UIParent, "BackdropTemplate")
+    win:SetSize(WIN_W, WIN_H)
+    win:SetPoint("CENTER", UIParent, "CENTER", 340, 0)
+    win:SetBackdrop(FLAT_BD)
+    win:SetBackdropColor(0.06, 0.06, 0.09, 0.97)
+    win:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.60)
+    win:SetFrameStrata("DIALOG")
+    win:SetMovable(true); win:EnableMouse(true); win:RegisterForDrag("LeftButton")
+    win:SetScript("OnDragStart", win.StartMoving)
+    win:SetScript("OnDragStop",  win.StopMovingOrSizing)
+    win:SetClampedToScreen(true)
+    win:Hide()
+    tinsert(UISpecialFrames, "LCO_BlacklistWindow")
+
+    local titleFS = win:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    titleFS:SetPoint("TOPLEFT", win, PAD, -10)
+    titleFS:SetTextColor(ACCENT[1], ACCENT[2], ACCENT[3], 1)
+    titleFS:SetText("Item Blacklist")
+
+    local titleLine = win:CreateTexture(nil, "ARTWORK")
+    titleLine:SetHeight(1)
+    titleLine:SetPoint("TOPLEFT",  win, PAD,      -30)
+    titleLine:SetPoint("TOPRIGHT", win, -PAD - 28, -30)
+    titleLine:SetColorTexture(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+
+    local closeBtn = CreateFrame("Button", N("BLX"), win, "BackdropTemplate")
+    closeBtn:SetSize(24, 24); closeBtn:SetPoint("TOPRIGHT", win, -4, -4)
+    closeBtn:SetBackdrop(FLAT_BD)
+    closeBtn:SetBackdropColor(0.10, 0.10, 0.14, 1)
+    closeBtn:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+    local xFS = closeBtn:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    xFS:SetPoint("CENTER"); xFS:SetText("×"); xFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    closeBtn:SetScript("OnClick", function() win:Hide() end)
+    closeBtn:SetScript("OnEnter", function(s)
+        s:SetBackdropColor(0.22, 0.08, 0.08, 1); s:SetBackdropBorderColor(0.90, 0.30, 0.30, 0.80)
+        xFS:SetTextColor(1, 0.4, 0.4, 1)
+    end)
+    closeBtn:SetScript("OnLeave", function(s)
+        s:SetBackdropColor(0.10, 0.10, 0.14, 1); s:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+        xFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    end)
+
+    local subFS = win:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    subFS:SetPoint("TOPLEFT", win, PAD, -36)
+    subFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    subFS:SetText("Blacklisted items will never appear in your icon bar.")
+
+    local sf = CreateFrame("ScrollFrame", N("BLSF"), win, "UIPanelScrollFrameTemplate")
+    sf:SetPoint("TOPLEFT",     win, PAD,      -50)
+    sf:SetPoint("BOTTOMRIGHT", win, -PAD - 18, PAD)
+
+    local CONTENT_W = WIN_W - PAD * 2 - 18 - 4
+    local content = CreateFrame("Frame", N("BLCH"), sf)
+    content:SetWidth(CONTENT_W)
+    sf:SetScrollChild(content)
+
+    local yOff = 0
+    local searchStr  = ""
+    local pendingID  = nil
+    local pendingData = nil
+    local RebuildBlacklist
+
+    local addCont = CreateFrame("Frame", N("BLADC"), content, "BackdropTemplate")
+    addCont:SetHeight(ROW_H)
+    addCont:SetPoint("TOPLEFT",  content, 0,   yOff)
+    addCont:SetPoint("TOPRIGHT", content, -74, yOff)
+    addCont:SetBackdrop(FLAT_BD)
+    addCont:SetBackdropColor(0.06, 0.06, 0.09, 1)
+    addCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.45)
+
+    local addPlaceholder = addCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    addPlaceholder:SetPoint("LEFT", addCont, 8, 0)
+    addPlaceholder:SetTextColor(DIM[1], DIM[2], DIM[3], 1)
+    addPlaceholder:SetText("Drag an item here or type an item ID...")
+
+    local addEB = CreateFrame("EditBox", N("BLAEB"), addCont)
+    addEB:SetPoint("LEFT",  addCont,  8, 0); addEB:SetPoint("RIGHT", addCont, -8, 0)
+    addEB:SetHeight(ROW_H - 4); addEB:SetAutoFocus(false); addEB:SetFontObject("GameFontNormal")
+    addEB:SetTextColor(WHITE[1], WHITE[2], WHITE[3], 1); addEB:SetMaxLetters(200)
+    addEB:SetScript("OnEscapePressed", function(s) s:ClearFocus() end)
+
+    local addBtn = MakeBtn(content, "Add", 66, ROW_H)
+    addBtn:SetPoint("TOPLEFT", addCont, "TOPRIGHT", 4, 0)
+
+    yOff = yOff - ROW_H - 4
+
+    local prevCont = CreateFrame("Button", N("BLPRC"), content, "BackdropTemplate")
+    prevCont:SetHeight(ROW_H)
+    prevCont:SetPoint("TOPLEFT",  content, 0, yOff); prevCont:SetPoint("TOPRIGHT", content, 0, yOff)
+    prevCont:SetBackdrop(FLAT_BD); prevCont:SetBackdropColor(0.04, 0.04, 0.06, 0)
+    prevCont:SetBackdropBorderColor(0, 0, 0, 0); prevCont:EnableMouse(true)
+
+    local prevIcon = prevCont:CreateTexture(nil, "ARTWORK")
+    prevIcon:SetSize(20, 20); prevIcon:SetPoint("LEFT", prevCont, 5, 0)
+    prevIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93); prevIcon:Hide()
+
+    local prevNameFS = prevCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    prevNameFS:SetPoint("LEFT", prevIcon, "RIGHT", 5, 0); prevNameFS:SetPoint("RIGHT", prevCont, -5, 0)
+    prevNameFS:SetJustifyH("LEFT"); prevNameFS:SetWordWrap(false)
+
+    yOff = yOff - ROW_H - 4
+
+    local listCont = CreateFrame("Frame", N("BLLC"), content, "BackdropTemplate")
+    listCont:SetHeight(LIST_H)
+    listCont:SetPoint("TOPLEFT",  content, 0, yOff); listCont:SetPoint("TOPRIGHT", content, 0, yOff)
+    listCont:SetBackdrop(FLAT_BD); listCont:SetBackdropColor(0.04, 0.04, 0.06, 1)
+    listCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.20)
+
+    yOff = yOff - LIST_H - 4
+
+    local listSF = CreateFrame("ScrollFrame", N("BLLSF"), listCont, "UIPanelScrollFrameTemplate")
+    listSF:SetPoint("TOPLEFT",     listCont,  3,  -3); listSF:SetPoint("BOTTOMRIGHT", listCont, -22,  3)
+
+    local listContent = CreateFrame("Frame", N("BLCT"), listSF)
+    listSF:SetScrollChild(listContent)
+
+    local emptyFS = listCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    emptyFS:SetPoint("CENTER", listCont, 0, 0); emptyFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1); emptyFS:Hide()
+
+    local activeRows = {}
+    local rowPool    = {}
+
+    local function GetOrMakeRow()
+        local r = table.remove(rowPool)
+        if r then r:Show(); return r end
+        r = CreateFrame("Frame", nil, listContent, "BackdropTemplate")
+        r:SetHeight(ITEM_ROW); r:SetBackdrop(FLAT_BD)
+        local icon = r:CreateTexture(nil, "ARTWORK")
+        icon:SetSize(20, 20); icon:SetPoint("LEFT", r, 6, 0); icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        r._icon = icon
+        local hover = CreateFrame("Frame", nil, r)
+        hover:SetAllPoints(r); hover:SetFrameLevel(r:GetFrameLevel() + 1); hover:EnableMouse(true)
+        hover:SetScript("OnEnter", function()
+            if r._tooltipLink then
+                GameTooltip:SetOwner(r, "ANCHOR_RIGHT"); GameTooltip:SetHyperlink(r._tooltipLink); GameTooltip:Show()
+            end
+            r:SetBackdropColor(ACCENT[1]*0.15, ACCENT[2]*0.08, ACCENT[3]*0.02, 1)
+        end)
+        hover:SetScript("OnLeave", function()
+            GameTooltip:Hide()
+            r:SetBackdropColor(r._bgR or 0.04, r._bgG or 0.04, r._bgB or 0.06, 0.90)
+        end)
+        local nameFS = r:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        nameFS:SetPoint("LEFT", icon, "RIGHT", 5, 0); nameFS:SetPoint("RIGHT", r, "RIGHT", -76, 0)
+        nameFS:SetJustifyH("LEFT"); nameFS:SetWordWrap(false); r._name = nameFS
+        local idFS = r:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        idFS:SetPoint("RIGHT", r, -76, 0); idFS:SetJustifyH("RIGHT")
+        idFS:SetTextColor(DIM[1], DIM[2], DIM[3], 1); r._idFS = idFS
+        local removeBtn = MakeBtn(r, "Unignore", 66, ITEM_ROW - 6)
+        removeBtn:SetPoint("RIGHT", r, -4, 0); removeBtn:SetFrameLevel(r:GetFrameLevel() + 5)
+        r._removeBtn = removeBtn
+        return r
+    end
+
+    local function RecycleRow(r)
+        r:Hide(); r:ClearAllPoints(); r._removeBtn:SetScript("OnClick", nil)
+        r._tooltipLink = nil; table.insert(rowPool, r)
+    end
+
+    RebuildBlacklist = function()
+        for _, r in ipairs(activeRows) do RecycleRow(r) end
+        wipe(activeRows)
+        local ignored = LarlenCacheOpener:GetActiveProfile().ignored_items
+        if not ignored or not next(ignored) then
+            emptyFS:SetText("No items blacklisted."); emptyFS:Show()
+            listContent:SetHeight(LIST_H - 6); return
+        end
+        local items = {}
+        local lo = searchStr:lower()
+        for id, blacklisted in pairs(ignored) do
+            if blacklisted then
+                local name, _, _, _, _, _, _, _, _, icon = C_Item.GetItemInfo(id)
+                name = name or ("Item " .. tostring(id))
+                if lo == "" or name:lower():find(lo, 1, true) then
+                    items[#items + 1] = { id = id, name = name, icon = icon }
+                end
+            end
+        end
+        if #items == 0 then
+            emptyFS:SetText(lo ~= "" and ("No results for \"" .. searchStr .. "\".")  or "No items blacklisted.")
+            emptyFS:Show(); listContent:SetHeight(LIST_H - 6); return
+        end
+        emptyFS:Hide()
+        table.sort(items, function(a, b) return a.name:lower() < b.name:lower() end)
+        local cw = listSF:GetWidth()
+        if cw <= 0 then cw = CONTENT_W - 26 end
+        listContent:SetWidth(cw)
+        local y = 0
+        for i, item in ipairs(items) do
+            local r = GetOrMakeRow()
+            r:SetParent(listContent); r:SetWidth(cw); r:SetPoint("TOPLEFT", listContent, 0, y)
+            local even = (i % 2 == 0)
+            local br, bg, bb = even and 0.06 or 0.04, even and 0.06 or 0.04, even and 0.09 or 0.06
+            r._bgR, r._bgG, r._bgB = br, bg, bb
+            r:SetBackdropColor(br, bg, bb, 0.90); r:SetBackdropBorderColor(0, 0, 0, 0)
+            r._icon:SetTexture(item.icon or 134400); r._name:SetText(item.name)
+            r._idFS:SetText("|cff555560ID " .. tostring(item.id) .. "|r")
+            r._tooltipLink = "item:" .. tostring(item.id)
+            local capturedID = item.id
+            r._removeBtn:SetScript("OnClick", function()
+                LarlenCacheOpener:GetActiveProfile().ignored_items[capturedID] = false
+                LarlenCacheOpener:updateIgnoreItems(); LarlenCacheOpener:updateButtons()
+                print("|cffffa500Larlen Cache Opener|r: |cff00ff00Un-ignoring|r item ID", capturedID)
+                RebuildBlacklist()
+            end)
+            y = y - ITEM_ROW; activeRows[#activeRows + 1] = r
+        end
+        listContent:SetHeight(math.max(math.abs(y), 1))
+    end
+
+    local searchCont = CreateFrame("Frame", N("BLSC"), content, "BackdropTemplate")
+    searchCont:SetHeight(ROW_H)
+    searchCont:SetPoint("TOPLEFT",  content, 0, yOff); searchCont:SetPoint("TOPRIGHT", content, 0, yOff)
+    searchCont:SetBackdrop(FLAT_BD); searchCont:SetBackdropColor(0.06, 0.06, 0.09, 1)
+    searchCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+
+    local searchPlaceholder = searchCont:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    searchPlaceholder:SetPoint("LEFT", searchCont, 8, 0)
+    searchPlaceholder:SetTextColor(DIM[1], DIM[2], DIM[3], 1); searchPlaceholder:SetText("Search blacklisted items...")
+
+    local searchEB = CreateFrame("EditBox", N("BLSEB"), searchCont)
+    searchEB:SetPoint("LEFT",  searchCont,  8, 0); searchEB:SetPoint("RIGHT", searchCont, -8, 0)
+    searchEB:SetHeight(ROW_H - 4); searchEB:SetAutoFocus(false); searchEB:SetFontObject("GameFontNormal")
+    searchEB:SetTextColor(WHITE[1], WHITE[2], WHITE[3], 1); searchEB:SetMaxLetters(100)
+    searchEB:SetScript("OnEscapePressed", function(s) s:ClearFocus() end)
+
+    yOff = yOff - ROW_H
+    content:SetHeight(math.abs(yOff) + 10)
+
+    local function SetPreview(itemID, name, icon, rarity, link, isError)
+        if isError then
+            prevIcon:Hide(); prevNameFS:SetText("|cffff4444" .. (name or "Invalid item or ID") .. "|r")
+            prevCont:SetBackdropColor(0.10, 0.04, 0.04, 0.80); prevCont:SetBackdropBorderColor(0.60, 0.10, 0.10, 0.40)
+            pendingID = nil; pendingData = nil
+        elseif itemID then
+            prevIcon:SetTexture(icon or 134400); prevIcon:Show()
+            local _, _, _, hex = C_Item.GetItemQualityColor(rarity or 1)
+            local cc = hex and ("|c" .. hex) or "|cffffffff"
+            prevNameFS:SetText(cc .. (name or "Unknown") .. "|r  |cff555560(ID " .. tostring(itemID) .. ")|r")
+            prevCont:SetBackdropColor(0.04, 0.08, 0.04, 0.80); prevCont:SetBackdropBorderColor(0.10, 0.50, 0.10, 0.40)
+            pendingID = itemID; pendingData = { name = name, icon = icon }
+        else
+            prevIcon:Hide(); prevNameFS:SetText("")
+            prevCont:SetBackdropColor(0.04, 0.04, 0.06, 0); prevCont:SetBackdropBorderColor(0, 0, 0, 0)
+            pendingID = nil; pendingData = nil
+        end
+    end
+
+    local function TryParseInput(text)
+        if not text or text:gsub("%s", "") == "" then SetPreview(nil); return end
+        local itemID = tonumber(text:match("item:(%d+)")) or tonumber(text:match("^%s*(%d+)%s*$"))
+        if not itemID then SetPreview(nil, "Not a valid item link or item ID.", nil, nil, nil, true); return end
+        local name, link, rarity, _, _, _, _, _, _, icon = C_Item.GetItemInfo(itemID)
+        if name then
+            SetPreview(itemID, name, icon, rarity, link)
+        else
+            prevIcon:Hide(); prevNameFS:SetText("|cff888888Loading item data...|r")
+            prevCont:SetBackdropColor(0.04, 0.04, 0.06, 0.60); prevCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.25)
+            pendingID = nil; pendingData = nil
+            local captured = itemID
+            C_Timer.After(0.4, function()
+                local cur = addEB:GetText()
+                local curID = tonumber(cur:match("item:(%d+)")) or tonumber(cur:match("^%s*(%d+)%s*$"))
+                if curID ~= captured then return end
+                local n, l, r2, _, _, _, _, _, _, ic = C_Item.GetItemInfo(captured)
+                if n then SetPreview(captured, n, ic, r2, l)
+                else SetPreview(nil, "Item not found (ID: " .. tostring(captured) .. ").", nil, nil, nil, true) end
+            end)
+        end
+    end
+
+    local function CommitAdd()
+        if not pendingID or not pendingData then return end
+        LarlenCacheOpener:GetActiveProfile().ignored_items[pendingID] = true
+        LarlenCacheOpener:updateIgnoreItems(); LarlenCacheOpener:updateButtons()
+        print("|cffffa500Larlen Cache Opener|r: |cffff0000Ignoring|r item ID", pendingID)
+        addEB:SetText(""); addPlaceholder:Show(); SetPreview(nil)
+        searchStr = ""; searchEB:SetText(""); searchPlaceholder:Show()
+        RebuildBlacklist()
+    end
+
+    addEB:SetScript("OnTextChanged", function(self, userInput)
+        if not userInput then return end
+        local t = self:GetText(); addPlaceholder:SetShown(t == ""); TryParseInput(t)
+    end)
+    addEB:SetScript("OnEnterPressed", CommitAdd)
+    local function HandleDrop(self)
+        local dtype, id = GetCursorInfo()
+        if dtype == "item" then
+            local _, link = C_Item.GetItemInfo(id)
+            if link then self:SetText(link); TryParseInput(link) end
+            ClearCursor()
+        end
+    end
+    addEB:SetScript("OnReceiveDrag", HandleDrop); addEB:SetScript("OnMouseDown", HandleDrop)
+    addEB:SetScript("OnEditFocusGained", function()
+        addPlaceholder:Hide(); addCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.90)
+    end)
+    addEB:SetScript("OnEditFocusLost", function(self)
+        if self:GetText() == "" then addPlaceholder:Show() end
+        addCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.45)
+    end)
+    addBtn:SetScript("OnClick", CommitAdd)
+    prevCont:SetScript("OnClick", function() if pendingID then CommitAdd() end end)
+    prevCont:SetScript("OnEnter", function()
+        if pendingID then
+            prevCont:SetBackdropColor(0.08, 0.12, 0.04, 0.90); prevCont:SetBackdropBorderColor(0.15, 0.60, 0.10, 0.60)
+            GameTooltip:SetOwner(prevCont, "ANCHOR_TOP"); GameTooltip:SetText("|cffff4444Click to blacklist item|r", 1, 1, 1, 1, true); GameTooltip:Show()
+        end
+    end)
+    prevCont:SetScript("OnLeave", function()
+        GameTooltip:Hide()
+        if pendingID then prevCont:SetBackdropColor(0.04, 0.08, 0.04, 0.80); prevCont:SetBackdropBorderColor(0.10, 0.50, 0.10, 0.40) end
+    end)
+    searchEB:SetScript("OnTextChanged", function(self, userInput)
+        if not userInput then return end
+        local t = self:GetText(); searchStr = t; searchPlaceholder:SetShown(t == ""); RebuildBlacklist()
+    end)
+    searchEB:SetScript("OnEditFocusGained", function()
+        searchPlaceholder:Hide(); searchCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.70)
+    end)
+    searchEB:SetScript("OnEditFocusLost", function(self)
+        if self:GetText() == "" then searchPlaceholder:Show() end
+        searchCont:SetBackdropBorderColor(ACCENT[1], ACCENT[2], ACCENT[3], 0.30)
+    end)
+
+    win._rebuild = RebuildBlacklist
+    blacklistWin = win
+    C_Timer.After(0, RebuildBlacklist)
+end
+
+local function OpenBlacklistWindow()
+    if not blacklistWin then BuildBlacklistWindow() end
+    if blacklistWin:IsShown() then
+        blacklistWin:Hide()
+    else
+        blacklistWin:Show()
+        if blacklistWin._rebuild then blacklistWin._rebuild() end
+    end
+end
+
+-----------------------------------------
+-- AceConfig Options Table
+-----------------------------------------
+local function BuildOptions()
+    local soundValues = {}
+    for i, s in ipairs(LarlenCacheOpener.sounds) do soundValues[i] = s.name end
+
+    local alignValues = { RIGHT="Grow Right", LEFT="Grow Left", UP="Grow Up", DOWN="Grow Down" }
+
+    local function GetProfileNames()
+        local t = {}
+        for _, n in ipairs(LarlenCacheOpener:GetProfileNames()) do t[n] = n end
+        return t
+    end
+
+    local function GetGroupToggles()
+        local args = {}
+        for i, name in ipairs(LarlenCacheOpener.group_ids_ordered) do
+            local n = name
+            args["group_" .. n] = {
+                order = i, type = "toggle", name = L[n] or n,
+                get   = function()
+                    local ig = LarlenCacheOpener:GetActiveProfile().ignored_groups
+                    return ig and ig[n] == true
+                end,
+                set   = function(_, v)
+                    LarlenCacheOpener:GetActiveProfile().ignored_groups[n] = v
+                    LarlenCacheOpener:updateIgnoreItems()
+                    LarlenCacheOpener:updateButtons()
+                end,
+            }
+        end
+        return args
+    end
+
+    return {
+        name = "Larlen Cache Opener", type = "group",
+        args = {
+            generalHeader = { order=1, type="header", name="General Settings" },
+            playSound = {
+                order=2, type="toggle", name="Play sound when an item appears",
+                get=function() return GetP("playSound") end,
+                set=function(_, v) SetP("playSound", v) end,
+            },
+            soundChoice = {
+                order=3, type="select", name="Select Sound", values=soundValues,
+                get=function() return GetP("soundChoice") or 1 end,
+                set=function(_, v) SetP("soundChoice", v); PlaySound(LarlenCacheOpener.sounds[v].id, "Master") end,
+            },
+            hideInCombat = {
+                order=4, type="toggle", name="Hide icons while in combat",
+                get=function() return GetP("hideInCombat") end,
+                set=function(_, v) SetP("hideInCombat", v); LarlenCacheOpener:UpdateCombatState() end,
+            },
+            showMinimap = {
+                order=5, type="toggle", name="Show Minimap Icon",
+                get=function() return GetP("showMinimap") ~= false end,
+                set=function(_, v) SetP("showMinimap", v); LarlenCacheOpener:UpdateMinimapVisibility() end,
+            },
+            showGlow = {
+                order=6, type="toggle", name="Show Action Button Glow",
+                get=function() return GetP("showGlow") end,
+                set=function(_, v) SetP("showGlow", v); if testActive then LarlenCacheOpener:ShowTestIcons(5) else LarlenCacheOpener:updateButtons() end end,
+            },
+
+            appearanceHeader = { order=10, type="header", name="Appearance & Position" },
+            iconSize = {
+                order=11, type="range", name="Icon Size", min=16, max=64, step=1,
+                get=function() return GetP("iconSize") or 36 end,
+                set=function(_, v) SetP("iconSize", v); if testActive then LarlenCacheOpener:ShowTestIcons(5) else LarlenCacheOpener:updateButtons() end end,
+            },
+            alignment = {
+                order=12, type="select", name="Growth Direction", values=alignValues,
+                get=function() return GetP("alignment") or "RIGHT" end,
+                set=function(_, v) SetP("alignment", v); if testActive then LarlenCacheOpener:ShowTestIcons(5) else LarlenCacheOpener:updateButtons() end end,
+            },
+            alpha = {
+                order=13, type="range", name="Transparency", min=10, max=100, step=1,
+                get=function() return math.floor((GetP("alpha") or 1.0) * 100 + 0.5) end,
+                set=function(_, v) SetP("alpha", v/100); if testActive then LarlenCacheOpener:ShowTestIcons(5) else LarlenCacheOpener:updateButtons() end end,
+            },
+            xPos = {
+                order=14, type="range", name="X Position", desc="Offset from center. 0 = center.", min=-960, max=960, step=1,
+                get=function()
+                    local pos = LarlenCacheOpener:GetActiveProfile().position
+                    return pos and pos[4] and math.floor(pos[4] - GetScreenWidth()/2 + 0.5) or 0
+                end,
+                set=function(_, v)
+                    local p = LarlenCacheOpener:GetActiveProfile()
+                    if not p.position then p.position = {"BOTTOMLEFT",nil,"BOTTOMLEFT",GetScreenWidth()/2,GetScreenHeight()/2} end
+                    p.position[4] = GetScreenWidth()/2 + v
+                    LarlenCacheOpener:updateButtons()
+                end,
+            },
+            yPos = {
+                order=15, type="range", name="Y Position", desc="Offset from center. 0 = center.", min=-540, max=540, step=1,
+                get=function()
+                    local pos = LarlenCacheOpener:GetActiveProfile().position
+                    return pos and pos[5] and math.floor(pos[5] - GetScreenHeight()/2 + 0.5) or 0
+                end,
+                set=function(_, v)
+                    local p = LarlenCacheOpener:GetActiveProfile()
+                    if not p.position then p.position = {"BOTTOMLEFT",nil,"BOTTOMLEFT",GetScreenWidth()/2,GetScreenHeight()/2} end
+                    p.position[5] = GetScreenHeight()/2 + v
+                    LarlenCacheOpener:updateButtons()
+                end,
+            },
+            resetPosition = {
+                order=16, type="execute", name="Reset Position",
+                func=function()
+                    local p = LarlenCacheOpener:GetActiveProfile()
+                    p.position = {"BOTTOMLEFT",nil,"BOTTOMLEFT",GetScreenWidth()/2,GetScreenHeight()/2}
+                    if testActive then LarlenCacheOpener:ShowTestIcons(5) else LarlenCacheOpener:updateButtons() end
+                    NotifyChange()
+                end,
+            },
+            testIcons = {
+                order=17, type="execute",
+                name=function() return testActive and "Hide Test Icons" or "Test Icons" end,
+                func=function()
+                    testActive = not testActive
+                    if testActive then LarlenCacheOpener:ShowTestIcons(5) else LarlenCacheOpener:updateButtons() end
+                    NotifyChange()
+                end,
+            },
+            locked = {
+                order=18, type="toggle", name="Lock Position",
+                get=function() return GetP("locked") end,
+                set=function(_, v) SetP("locked", v) end,
+            },
+
+            profileHeader = { order=20, type="header", name="Profiles" },
+            activeProfile = {
+                order=21, type="select", name="Active Profile", values=GetProfileNames,
+                get=function() return LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default" end,
+                set=function(_, v) LarlenCacheOpener:SwitchProfile(v); NotifyChange() end,
+            },
+            profileName = {
+                order=22, type="input", name="Add New Profile",
+                desc="Type a name and press Enter to create a new blank profile.",
+                get=function() return profileNameInput end,
+                set=function(_, v)
+                    profileNameInput = v
+                    if profileNameInput ~= "" then
+                        if LarlenCacheOpener:CreateProfile(profileNameInput, false) then
+                            LarlenCacheOpener:SwitchProfile(profileNameInput)
+                            profileNameInput = ""; NotifyChange()
+                        end
+                    end
+                end,
+            },
+            copyProfile = {
+                order=24, type="execute", name="Copy",
+                func=function()
+                    if profileNameInput ~= "" then
+                        if LarlenCacheOpener:CreateProfile(profileNameInput, true) then
+                            LarlenCacheOpener:SwitchProfile(profileNameInput)
+                            profileNameInput = ""; NotifyChange()
+                        end
+                    end
+                end,
+            },
+            deleteProfile = {
+                order=25, type="execute", name="Delete Active Profile",
+                func=function()
+                    local active = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
+                    LarlenCacheOpener:DeleteProfile(active); NotifyChange()
+                end,
+            },
+
+            categoriesHeader = { order=30, type="header", name="Hidden Item Categories" },
+            categories = {
+                order=31, type="group", name="Categories", inline=true,
+                args=GetGroupToggles(),
+            },
+
+            customHeader = { order=40, type="header", name="Custom Items" },
+            customDesc = {
+                order=41, type="description",
+                name="Add or remove custom item IDs not in the built-in database.",
+            },
+            openCustomItems = {
+                order=42, type="execute", name="Manage Custom Items",
+                desc="Open the custom items window to add, remove, and search custom item IDs.",
+                func=function() OpenCustomItemsWindow() end,
+            },
+
+            blacklistHeader = { order=50, type="header", name="Item Blacklist" },
+            blacklistDesc = {
+                order=51, type="description",
+                name="Blacklisted items will never appear in your icon bar. You can also Shift+Right-Click any icon to instantly blacklist it.",
+            },
+            openBlacklist = {
+                order=52, type="execute", name="Manage Blacklist",
+                desc="Open the blacklist window to add, remove, and search ignored items.",
+                func=function() OpenBlacklistWindow() end,
+            },
+
+            creditsHeader = { order=60, type="header", name="Credits" },
+            creditsDesc = {
+                order=61, type="description",
+                name="Type /lco for commands.\n\n|cffffa500Massive thanks and all original credit to nerino1 (Soulbind Cache Opener) and Tamuko (Soulbind Cache Opener Continued) for creating the amazing foundation this addon is built upon.|r",
+            },
+        },
+    }
+end
+
+-----------------------------------------
+-- Test Icons
+-----------------------------------------
+function LarlenCacheOpener:ShowTestIcons(count)
+    self:updateButtons()
+    if count <= 0 then return end
+    local iconSize = self:P("iconSize") or 36
+    local spacing  = 2
+    local align    = self:P("alignment") or "RIGHT"
+    if align == "RIGHT" or align == "LEFT" then
+        self.frame:SetWidth(count * iconSize + (count - 1) * spacing)
+        self.frame:SetHeight(iconSize)
+    else
+        self.frame:SetWidth(iconSize)
+        self.frame:SetHeight(count * iconSize + (count - 1) * spacing)
+    end
+    local pos = self:GetActiveProfile().position
+    local b1x = pos and pos[4] or (GetScreenWidth() / 2)
+    local b1y = pos and pos[5] or (GetScreenHeight() / 2)
+    self.frame:ClearAllPoints()
+    if     align == "RIGHT" then self.frame:SetPoint("LEFT",   UIParent, "BOTTOMLEFT", b1x - iconSize/2, b1y)
+    elseif align == "LEFT"  then self.frame:SetPoint("RIGHT",  UIParent, "BOTTOMLEFT", b1x + iconSize/2, b1y)
+    elseif align == "DOWN"  then self.frame:SetPoint("TOP",    UIParent, "BOTTOMLEFT", b1x, b1y + iconSize/2)
+    else                         self.frame:SetPoint("BOTTOM", UIParent, "BOTTOMLEFT", b1x, b1y - iconSize/2) end
+    self.frame:Show()
+    for i = 1, count do
+        local btn = self.buttons[i]
+        btn:ClearAllPoints(); btn:SetWidth(iconSize); btn:SetHeight(iconSize)
+        if     align == "LEFT" then
+            if i==1 then btn:SetPoint("RIGHT",  self.frame,        "RIGHT",  0, 0)
+            else         btn:SetPoint("RIGHT",  self.buttons[i-1], "LEFT",  -spacing, 0) end
+        elseif align == "UP" then
+            if i==1 then btn:SetPoint("BOTTOM", self.frame,        "BOTTOM", 0, 0)
+            else         btn:SetPoint("BOTTOM", self.buttons[i-1], "TOP",    0, spacing) end
+        elseif align == "DOWN" then
+            if i==1 then btn:SetPoint("TOP",    self.frame,        "TOP",    0, 0)
+            else         btn:SetPoint("TOP",    self.buttons[i-1], "BOTTOM", 0, -spacing) end
+        else
+            if i==1 then btn:SetPoint("LEFT",   self.frame,        "LEFT",   0, 0)
+            else         btn:SetPoint("LEFT",   self.buttons[i-1], "RIGHT",  spacing, 0) end
+        end
+        btn.icon:SetTexture(132596); btn.countString:SetText("99"); btn.texture:SetDesaturated(false)
+        btn:SetAlpha(self:P("alpha") or 1.0)
+        if self:P("showGlow") then self:ShowGlow(btn) else self:HideGlow(btn) end
+        btn:Show()
+    end
+end
+
+-----------------------------------------
+-- Register & Open
+-----------------------------------------
+function LarlenCacheOpener:initializeOptions()
+    LibStub("AceConfig-3.0"):RegisterOptionsTable("LarlenCacheOpener", BuildOptions)
+    local ACD = LibStub("AceConfigDialog-3.0")
+    ACD:AddToBlizOptions("LarlenCacheOpener", "Larlen Cache Opener")
+    ACD:SetDefaultSize("LarlenCacheOpener", 680, 600)
+end
+
+function LarlenCacheOpener:OpenOptions()
+    LibStub("AceConfigDialog-3.0"):Open("LarlenCacheOpener")
+end
+
+function LarlenCacheOpener:RefreshOptionsPanelValues()
+    LibStub("AceConfigRegistry-3.0"):NotifyChange("LarlenCacheOpener")
+end
+
+function LarlenCacheOpener:updateOptionCheckbox(group_id, state)
+    if LarlenCacheOpener.option_buttons[group_id] ~= nil then
+        LarlenCacheOpener.option_buttons[group_id]:SetChecked(state)
+    end
+end
+
+L["hidden_groups"]      = "Hidden Item Categories"
+L["addon_name"]         = "Larlen Cache Opener"
 L["option_description"] = "Type /lco for commands.\n\n|cffffa500Credits: nerino1 (original Soulbind Cache Opener) & Tamuko (Continued).|r"

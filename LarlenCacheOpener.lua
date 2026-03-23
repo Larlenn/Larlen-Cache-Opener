@@ -1,4 +1,3 @@
-local debug = false;
 local maxButtons = 20;
 
 local addonName, L = ...; 
@@ -26,7 +25,6 @@ LarlenCacheOpener.isInitialized = false;
 ------------------------------------------------
 
 local defaultProfileData = {
-    ["enable"]        = true,
     ["alignment"]     = "RIGHT",
     ["ignored_items"] = {},
     ["ignored_groups"]= {},
@@ -84,7 +82,6 @@ function LarlenCacheOpener:SwitchProfile(name)
     LarlenCacheOpenerProfiles.activeProfile = name
     self:updateIgnoreItems()
     self:UpdateCombatState()
-    self:UpdateMinimapPosition()
     self:UpdateMinimapVisibility()
     self:updateButtons()
     if LarlenCacheOpener.RefreshOptionsPanelValues then
@@ -147,24 +144,33 @@ function LarlenCacheOpener:HideGlow(btn)
     if LCG then LCG.ButtonGlow_Stop(btn) end
 end
 
+local _mainDBSet = nil
+local function BuildMainDBSet()
+    _mainDBSet = {}
+    for i = 1, #LarlenCacheOpener.items do
+        _mainDBSet[LarlenCacheOpener.items[i].id] = true
+    end
+end
+
+function LarlenCacheOpener:IsInMainDB(id)
+    if not _mainDBSet then BuildMainDBSet() end
+    return _mainDBSet[id] == true
+end
+
 function LarlenCacheOpener:updateButtons()
     if self.isDragging then return end
     if InCombatLockdown() then return end
-    if debug == true then print("Testing", "4 - updateButtons Called") end
-    
     local newShown = {}
     local shouldPlaySound = false
     self.previous = 0;
     
     for i = 1, maxButtons do
-        if debug == true then print("Testing", "4 - Hiding button " .. i) end
         LarlenCacheOpener.buttons[i]:Hide();
         LarlenCacheOpener.buttons[i]:SetText("");
         self:HideGlow(LarlenCacheOpener.buttons[i]);
     end
     
     for i = 1, #self.items do
-        if debug == true then print("Testing", "5 - self.items loop") end
         local wasPrevious = self.previous
         self:updateButton(self.items[i], LarlenCacheOpener.buttons[self.previous + 1]);
         
@@ -180,13 +186,15 @@ function LarlenCacheOpener:updateButtons()
     local custom_items = self:P("custom_items")
     if custom_items then
         for custom_id, custom_minCount in pairs(custom_items) do
-            local wasPrevious = self.previous
-            self:updateButton({id = custom_id, minCount = custom_minCount}, LarlenCacheOpener.buttons[self.previous + 1]);
+            if not self:IsInMainDB(custom_id) then
+                local wasPrevious = self.previous
+                self:updateButton({id = custom_id, minCount = custom_minCount}, LarlenCacheOpener.buttons[self.previous + 1]);
 
-            if self.previous > wasPrevious then
-                newShown[custom_id] = true
-                if not self.currentlyShown[custom_id] then
-                    shouldPlaySound = true
+                if self.previous > wasPrevious then
+                    newShown[custom_id] = true
+                    if not self.currentlyShown[custom_id] then
+                        shouldPlaySound = true
+                    end
                 end
             end
         end
@@ -216,18 +224,17 @@ function LarlenCacheOpener:updateButtons()
         end
 
         local pos = self:GetActiveProfile().position
-        local isize = self:P("iconSize") or 36
         local b1x = pos and pos[4] or (GetScreenWidth() / 2)
         local b1y = pos and pos[5] or (GetScreenHeight() / 2)
         self.frame:ClearAllPoints()
         if align == "RIGHT" then
-            self.frame:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - isize/2, b1y)
+            self.frame:SetPoint("LEFT", UIParent, "BOTTOMLEFT", b1x - iconSize/2, b1y)
         elseif align == "LEFT" then
-            self.frame:SetPoint("RIGHT", UIParent, "BOTTOMLEFT", b1x + isize/2, b1y)
+            self.frame:SetPoint("RIGHT", UIParent, "BOTTOMLEFT", b1x + iconSize/2, b1y)
         elseif align == "DOWN" then
-            self.frame:SetPoint("TOP", UIParent, "BOTTOMLEFT", b1x, b1y + isize/2)
+            self.frame:SetPoint("TOP", UIParent, "BOTTOMLEFT", b1x, b1y + iconSize/2)
         else -- UP
-            self.frame:SetPoint("BOTTOM", UIParent, "BOTTOMLEFT", b1x, b1y - isize/2)
+            self.frame:SetPoint("BOTTOM", UIParent, "BOTTOMLEFT", b1x, b1y - iconSize/2)
         end
     end
 end
@@ -235,9 +242,9 @@ end
 function LarlenCacheOpener:updateButton(currItem, btn)
     local id = currItem.id;
     local count = C_Item.GetItemCount(id);
-    local btn_number = self.previous + 1;
+    local ignored = self:P("ignored_items")
 
-    if (count >= currItem.minCount and not self:P("ignored_items")[id] and not LarlenCacheOpener.group_ignored_items[id] and self.previous < maxButtons) then
+    if (count >= currItem.minCount and not ignored[id] and not LarlenCacheOpener.group_ignored_items[id] and self.previous < maxButtons) then
         
         local iconSize = self:P("iconSize") or 38;
         btn:SetWidth(iconSize);
@@ -273,7 +280,7 @@ function LarlenCacheOpener:updateButton(currItem, btn)
             end
         end
 
-        self.previous = btn_number;
+        self.previous = self.previous + 1;
         btn.countString:SetText(format("%d",count));
         btn.texture:SetDesaturated(false);
         
@@ -292,13 +299,11 @@ function LarlenCacheOpener:updateButton(currItem, btn)
             self:HideGlow(btn)
         end
 
-        if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "ButtonShow") end end
         btn:Show();
     end
 end
 
 function LarlenCacheOpener:createButton(btn,id)
-    if debug == true then print("Testing", "7 - createButton Called") end
     btn:Hide();
     btn.id = id;
     btn:SetWidth(38);
@@ -306,9 +311,7 @@ function LarlenCacheOpener:createButton(btn,id)
     btn:SetClampedToScreen(true);
     btn:EnableMouse(true);
     btn:SetMovable(true);
-    
 
-    
     btn:SetScript("OnDragStart", function(self)
         if not LarlenCacheOpener:P("locked") then
             LarlenCacheOpener.isDragging = true
@@ -356,14 +359,6 @@ function LarlenCacheOpener:createButton(btn,id)
 
             LarlenCacheOpener.isDragging = false
 
-            if _G["SCO_XSlider"] and _G["SCO_XSlider"]:IsVisible() then
-                local xOff = math.floor(b1x - GetScreenWidth()/2 + 0.5)
-                local yOff = math.floor(b1y - GetScreenHeight()/2 + 0.5)
-                _G["SCO_XSlider"]:SetValue(xOff)
-                _G["SCO_XInput"]:SetText(tostring(xOff))
-                _G["SCO_YSlider"]:SetValue(yOff)
-                _G["SCO_YInput"]:SetText(tostring(yOff))
-            end
         end
     end)
 
@@ -417,17 +412,13 @@ function LarlenCacheOpener:UpdateMinimapVisibility()
         self.ldbi:Hide("LarlenCacheOpener")
     end
 end
-function LarlenCacheOpener:UpdateMinimapPosition()
-end
 
 function LarlenCacheOpener:reset()
-    if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "8 - Reset Called") end end
     local profileName = LarlenCacheOpenerProfiles and LarlenCacheOpenerProfiles.activeProfile or "Default"
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     LarlenCacheOpenerProfiles.profiles[profileName] = CopyProfileData(defaultProfileData)
     self:GetActiveProfile().position = nil;
     self:UpdateCombatState();
-    self:UpdateMinimapPosition();
     self:UpdateMinimapVisibility();
     self:OnEvent("UPDATE");
 end
@@ -442,17 +433,14 @@ function resetAll()
     LarlenCacheOpenerProfiles.profiles = LarlenCacheOpenerProfiles.profiles or {}
     LarlenCacheOpenerProfiles.profiles[profileName] = CopyProfileData(defaultProfileData)
     LarlenCacheOpener:UpdateCombatState();
-    LarlenCacheOpener:UpdateMinimapPosition();
     LarlenCacheOpener:UpdateMinimapVisibility();
     LarlenCacheOpener:OnEvent("UPDATE");
 end
 
 function LarlenCacheOpener:AddButton()
-    if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "2 - Add Button Called") end end
     if not InCombatLockdown() then
         self.frame:Show();
     end
-    if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "3 - Frame Shown") end end
     LarlenCacheOpener:updateButtons();
 end
 
@@ -481,7 +469,6 @@ function LarlenCacheOpener:OnEvent(event, ...)
         local loadedAddon = ...;
         if loadedAddon ~= addonName then return end
 
-        if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "0 - Addon Loaded") end end
         self.frame:UnregisterEvent("ADDON_LOADED");
 
 
@@ -562,14 +549,11 @@ function LarlenCacheOpener:OnEvent(event, ...)
     end
 
     if event == "PLAYER_LOGIN" then
-        if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "9 - Player Login Event") end end
         self.frame:UnregisterEvent("PLAYER_LOGIN");
     end
     if UnitAffectingCombat("player") then
-        if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "10 - Player is in Combat") end end
         return
     end
-    if debug == true then if DLAPI then DLAPI.DebugLog("Testing", "1 - Event Called") end end
     LarlenCacheOpener:AddButton();
 end
 
@@ -595,10 +579,14 @@ local function slashHandler(msg)
     elseif (cmd == "add") then
         local id = tonumber(args)
         if id then
-            LarlenCacheOpener:GetActiveProfile().custom_items = LarlenCacheOpener:GetActiveProfile().custom_items or {}
-            LarlenCacheOpener:GetActiveProfile().custom_items[id] = 1;
-            LarlenCacheOpener:updateButtons();
-            print("|cffffa500Larlen Cache Opener|r: |cff00ff00Added|r custom item ID", id);
+            if LarlenCacheOpener:IsInMainDB(id) then
+                print("|cffffa500Larlen Cache Opener|r: |cffff0000Item ID " .. id .. " is already in the built-in database and does not need to be added.|r")
+            else
+                LarlenCacheOpener:GetActiveProfile().custom_items = LarlenCacheOpener:GetActiveProfile().custom_items or {}
+                LarlenCacheOpener:GetActiveProfile().custom_items[id] = 1;
+                LarlenCacheOpener:updateButtons();
+                print("|cffffa500Larlen Cache Opener|r: |cff00ff00Added|r custom item ID", id);
+            end
         else
             print("|cffffa500Larlen Cache Opener|r: Invalid Item ID. Usage: /lco add <id>");
         end
@@ -629,11 +617,7 @@ local function slashHandler(msg)
         print("|cffffa500Larlen Cache Opener|r: |cff00ff00Un-ignoring|r group", args);
 
     elseif (cmd == "options") then
-        if LarlenCacheOpener.category then
-            Settings.OpenToCategory(LarlenCacheOpener.category.ID);
-        else
-            print("|cffffa500Larlen Cache Opener|r: Options not ready yet, please wait.");
-        end
+        LarlenCacheOpener:OpenOptions();
 
     elseif (cmd == "minimap") then
         LarlenCacheOpener:SetP("showMinimap", not LarlenCacheOpener:P("showMinimap"));
@@ -685,6 +669,7 @@ local function slashHandler(msg)
         end
         
         print("|cffffa500--- Larlen Cache Opener Help ---|r");
+        print("  |cffffa500/lco options|r - Open the addon settings panel");
         print("  |cffffa500/lco ignore <id>|r - Blacklists an existing item so it stops appearing");
         print("  |cffffa500/lco unignore <id>|r - Removes an item from your blacklist");
         print("  |cffffa500/lco add <id>|r - Adds a custom item ID to track");
@@ -693,7 +678,6 @@ local function slashHandler(msg)
         print("  |cffffa500/lco unignoregroup <name>|r - Removes a category from blacklist");
         print("  |cffffa500/lco profile list/use/new/copy/delete|r - Manage profiles");
         print("  |cffffa500/lco minimap|r - Toggle the minimap icon on or off");
-        print("  |cffffa500/lco options|r - Open the addon settings panel");
         print("  |cffffa500/lco reset|r - Wipe all settings to default");
         print("  |cffffa500Available Groups:|r " .. groups_id_list_string);
         print("  |cff00ff00QOL Shortcut:|r Hold |cffffa500Shift + Right-Click|r on an icon to permanently ignore and prevent it from ever showing.");
@@ -705,9 +689,8 @@ SLASH_LarlenCacheOpener1 = "/LarlenCacheOpener";
 SLASH_LarlenCacheOpener2 = "/lco";
 SLASH_LarlenCacheOpener3 = "/LCO";
 
--- Addon Compartment Function (Modern WoW Minimap Dropdown)
 function LarlenCacheOpener_OnCompartmentClick()
-    Settings.OpenToCategory(LarlenCacheOpener.category.ID)
+    LarlenCacheOpener:OpenOptions()
 end
 
 --Main Frame
@@ -739,12 +722,10 @@ LarlenCacheOpener.frame:SetScript("OnShow", nil);
 local _ldb_data = {
     type  = "launcher",
     label = "Larlen Cache Opener",
-    icon  = 132596,  -- bag icon
+    icon  = 132596,
     OnClick = function(self, btn)
         if btn == "LeftButton" then
-            if LarlenCacheOpener.category then
-                Settings.OpenToCategory(LarlenCacheOpener.category.ID)
-            end
+            LarlenCacheOpener:OpenOptions()
         elseif btn == "RightButton" then
             LarlenCacheOpener:SetP("showMinimap", false)
             LarlenCacheOpener:UpdateMinimapVisibility()
@@ -754,9 +735,9 @@ local _ldb_data = {
     OnTooltipShow = function(tt)
         tt:AddLine("Larlen Cache Opener", 1, 0.82, 0)
         tt:AddLine(" ")
-        tt:AddLine("|cffffffffLeft-Click|r to open settings.", 1, 1, 1)
-        tt:AddLine("|cffffffffRight-Click|r to hide minimap icon.", 1, 1, 1)
-        tt:AddLine("|cffffffffDrag|r to move.", 1, 1, 1)
+        tt:AddLine("|cffffff00Left-Click|r to open settings.", 1, 1, 1)
+        tt:AddLine("|cffffff00Right-Click|r to hide minimap icon.", 1, 1, 1)
+        tt:AddLine("|cffffff00Drag|r to move.", 1, 1, 1)
     end,
 }
 local ldb = LibStub("LibDataBroker-1.1"):GetDataObjectByName("LarlenCacheOpener")

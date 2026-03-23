@@ -1,7 +1,10 @@
 # Larlen Cache Opener Changelog
 
-## v1.1.0
-- Replaced static glow effect with animated button glow using LibCustomGlow-1.0.
+## v2.0.0
+- Completely overhauled the options UI - now uses a proper popup window (same as the Blizzard AddOns panel) instead of the old embedded panel.
+- Added a dedicated Custom Items window with drag-and-drop support, item preview, scrollable list, and search.
+- Added a dedicated Item Blacklist window with the same style - add, remove, and search ignored items visually.
+- Added a detection system to prevent duplicate entries when custom database items overlap with the updated main database.
 
 ## v1.0.9
 - Added Lockboxes as a hideable item category.
@@ -16,11 +19,11 @@
 - Fixed growth direction (Up/Down) not anchoring from btn1, causing icons to appear at the wrong position.
 
 ## v1.0.5
-- Added more missing Midnight 12.0 items to the database
-- Unified item database formatting and removed duplicate entry
+- Added more missing Midnight 12.0 items to the database.
+- Unified item database formatting and removed duplicate entry.
 
 ## v1.0.4
-- Added missing Midnight crafting weekly, treatise, and work order knowledge items. 
+- Added missing Midnight crafting weekly, treatise, and work order knowledge items.
 - Profiles are now account-wide, switching profiles on one character applies to all characters.
 
 ## v1.0.2

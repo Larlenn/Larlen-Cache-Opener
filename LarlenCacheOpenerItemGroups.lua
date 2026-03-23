@@ -8,7 +8,6 @@ LarlenCacheOpener.groups = {
 
 LarlenCacheOpener.group_ids_ordered = { "rousing", "insignia", "lockboxes" }
 
--- UI strings, translation ready
 L["rousing"] = "Rousing Elements";
 L["insignia"] = "Dragonflight Reputation Insignias";
 L["lockboxes"] = "Lockboxes";
