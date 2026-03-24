@@ -1,39 +1,35 @@
-# Larlen Cache Opener
+# Larlen Overload Tracker
 
-Automatically shows a clickable button whenever you have an openable item in your bags. Click it, get your loot, button disappears. No digging through bags.
+## What Does It Do?
 
-Supports caches, profession knowledge, drake customizations, calling rewards, lockboxes, and thousands of other openable items - with full support for custom item IDs you add yourself.
+Shows the Overload/Sharpen spell icon on your cursor the moment you mouse over an eligible gathering node. No more checking your buffs or spell book — if the icon is there, you have a charge ready to use.
 
----
-
-## Features
-
-- **Dynamic buttons** - up to 20 icons appear only when you actually have something to open.
-- **Custom Items** - track any item in the game via the options window or `/lco add <id>`.
-- **Item Blacklist** - permanently hide specific items you never want to see.
-- **Hidden Categories** - toggle entire groups (Rousing Elements, Dragonflight Insignias, Lockboxes, etc.) on or off.
-- **Profiles** - account-wide profiles, switch between different configurations per character.
-- **Growth Direction** - grow the icon bar left, right, up, or down from a fixed anchor point.
-- **Visual Customization** - icon size, transparency, animated glow, free drag positioning.
-- **Audio Alerts** - optional sound when a cache appears, including BigWigs/DBM style alerts.
-- **Minimap Icon** - draggable minimap button, compatible with ElvUI and HidingBar.
-- **Test Mode** - preview your layout without needing items in your bags.
+Supports Mining, Herbalism, and Skinning across Midnight and previous expansions.
 
 ---
 
-## Chat Commands
+## Core Features
 
-- `/lco` - List all commands
-- `/lco options` - Open settings
-- `/lco add <id>` - Add a custom item ID
-- `/lco remove <id>` - Remove a custom item ID
-- `/lco ignore <id>` - Blacklist an item
-- `/lco unignore <id>` - Remove from blacklist
-- `/lco minimap` - Toggle minimap icon
-- `/lco reset` - Reset all settings and position
+* **Cursor Tracking:** The icon follows your cursor in real time and disappears the moment you move away from an eligible node.
+* **Charge Counter:** Displays remaining charges on the icon when you have more than one available.
+* **Per-Module Toggles:** Enable or disable tracking individually for each expansion and profession. Only track what you actually have learned.
+* **Appearance:** Adjustable icon size, opacity, and cursor offset X/Y so you can place the icon exactly where you want it relative to your cursor.
+* **Test Icon:** Preview the icon position live from the options panel without needing to be near a node.
+* **Minimap Button:** Draggable minimap button for quick access to settings.
 
 ---
 
-## Credits
+## 💬 Chat Commands
 
-All original credit goes to **nerino1** ([Soulbind Cache Opener](https://www.curseforge.com/wow/addons/soulbind-cache-opener)) and **Tamuko** ([Soulbind Cache Opener Continued](https://www.curseforge.com/wow/addons/soulbind-cache-opener-continued)). This addon is a modernized continuation of their work - please go give them love.
+* `/lot` - Opens the options panel
+* `/lot minimap` - Toggles the minimap button on or off
+* `/lot reset` - Wipes all saved settings and reloads
+
+---
+
+**INSPIRED BY THE ORIGINAL CREATOR** This addon is purely a vibe-coded passion project. It is a clean, configurable cursor tracker inspired by the popular Overload Reminder WeakAura by Markiv. It was built as a proper standalone addon for players who want the same great functionality, bringing the popular tracker back to life now that WeakAuras no longer exist!
+
+This project takes heavy inspiration from:
+* **Original WeakAura:** [Overload Reminder by Markiv](https://wago.io/j2pds1Qy0)
+
+Please go give them love! Without their brilliant original work, this wouldn't exist.
