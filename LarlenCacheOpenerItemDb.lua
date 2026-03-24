@@ -970,6 +970,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_dusty-drakonid-tome",]] ["id"] = 213187,["minCount"] = 1},
 
     -- Consumables
+    -- These may be consumed to provide Mysterious Fragments (Currency for Transmog) or sold for gold
     {--[[ ["name"] = "LarlenCacheOpener_pot-of-tattooing-ink",]] ["id"] = 212650,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_ancient-djaradin-bolt",]] ["id"] = 213025,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_drakonid-sign-placard",]] ["id"] = 212977,["minCount"] = 1},
@@ -1018,7 +1019,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_PTR-PlayTest-Equipment",]] ["id"] = 186520,["minCount"] = 1},
     --
 
-    -- Rousing (Stack of 10)
+    -- Rousing (Stack of 10) - Listed also in the updateButton function as items that need to be in a stack of 10
     {--[[ ["name"] = "LarlenCacheOpener_rousing-earth",]] ["id"] = 190315,["minCount"] = 10},
     {--[[ ["name"] = "LarlenCacheOpener_rousing-fire",]] ["id"] = 190320,["minCount"] = 10},
     {--[[ ["name"] = "LarlenCacheOpener_rousing-order",]] ["id"] = 190322,["minCount"] = 10},
@@ -1934,6 +1935,7 @@ LarlenCacheOpener.items = {
     {--[[ ["name"] = "LarlenCacheOpener_primalist-cache",]] ["id"] = 203476,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_stormed-primalist-cache",]] ["id"] = 203681,["minCount"] = 1},
 
+    -- Need to add an option to include these or not at users choice
     {--[[ ["name"] = "LarlenCacheOpener_maruuk-centaur-insignia",]] ["id"] = 200454,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_maruuk-centaur-insignia",]] ["id"] = 200288,["minCount"] = 1},
     {--[[ ["name"] = "LarlenCacheOpener_maruuk-centaur-insignia",]] ["id"] = 201923,["minCount"] = 1},
@@ -2006,8 +2008,6 @@ LarlenCacheOpener.items = {
 
     -- Midnight 12.0
         -- Knowledge Points
-
-    {--[[ ["name"] = "rattling-bag-o-gold",]] ["id"] = 268297,["minCount"] = 1},
 
     {--[[ ["name"] = "septarian-nodule",]] ["id"] = 237506,["minCount"] = 1},
     {--[[ ["name"] = "igneous-rock-specimen",]] ["id"] = 237496,["minCount"] = 1},

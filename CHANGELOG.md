@@ -1,26 +1,23 @@
-# Larlen Overload Tracker Changelog
+# Larlen Cache Opener Changelog
 
-## v1.0.3
-- Fixed icon showing on cursor in cities when hovering over NPCs or other objects while having mining/herb charges ready.
-- DF and TWW mining/herbalism modules now only trigger on actual overload-eligible nodes, same as Midnight always did.
+## v1.0.5
+- Added more missing Midnight 12.0 items to the database
+- Unified item database formatting and removed duplicate entry
+
+## v1.0.4
+- Added missing Midnight crafting weekly, treatise, and work order knowledge items. 
+- Profiles are now account-wide, switching profiles on one character applies to all characters.
 
 ## v1.0.2
-- Fixed Lua errors caused by secret number taint from C_Spell.GetSpellCharges in certain dungeon encounters.
+- Fixed a Lua error that could occasionally occur when bags updated during combat.
 
 ## v1.0.1
-- Fixed Lua errors caused by Blizzard's secret string type on tooltip lines in certain dungeons.
+- Added support for profiles.
+- Revamped the minimap icon to better support broker addons like HidingBar.
+- Added more IDs of openables to the database.
 
 ## v1.0.0 - Initial Release
-- Cursor-following icon that appears when mousing over an eligible overload node.
-- Supports Mining, Herbalism, and Skinning for Dragonflight, The War Within, and Midnight.
-- Midnight node detection via tooltip name lookup with full node name database.
-- Skinning detection via tooltip type line and buff fallback.
-- Charge counter displayed on icon when more than one charge is available.
-- Per-module toggles to enable or disable each expansion and profession individually.
-- Adjustable icon size, opacity, and cursor X/Y offset.
-- Test Icon button to preview position live from the options panel.
-- Minimap button with left-click to open options, right-click to hide.
-- Combat-safe: options panel queues to open after combat ends.
-- Zone and spell caching to keep the tooltip hot path allocation-free.
+- Reworked the add-on for the Midnight expansion.
+- Built a completely different GUI and added multiple new customization features.
 
-**Credits:** All original credit to **Markiv** for the Overload Reminder WeakAura that inspired this addon.
+**Credits:** Massive thanks and all original credit to **nerino1** (Soulbind Cache Opener) and **Tamuko** (Soulbind Cache Opener Continued) for creating the amazing foundation this addon is built upon.

@@ -3,11 +3,10 @@ local _, L = ...;
 LarlenCacheOpener.groups = {
  ["rousing"] = { 190315, 190320, 190322, 190326, 190328, 190330, 190451 } ,
  ["insignia"] = { 200454,200288, 201923, 202094, 200453, 201922, 200287, 202092, 200455, 200289, 201924, 200452, 201921, 200285, 205985, 205342 },
- ["lockboxes"] = { 264475, 16885, 29569, 31952, 5760, 16884, 203743, 5759, 4636, 16883, 68729, 4637, 63349, 220376, 5758, 43624, 194037, 45986, 43575, 4633, 169475, 4638, 16882, 88567, 179311, 88165, 180533, 6355, 186161, 116920, 121331, 43622, 6354, 180522, 198657, 180532, 106895, 4634, 12033, 13918, 190954, 7209, 186160, 4632, 13875, 204307, 191296, 188787 },
 }
 
-LarlenCacheOpener.group_ids_ordered = { "rousing", "insignia", "lockboxes" }
+LarlenCacheOpener.group_ids_ordered = { "rousing", "insignia" }
 
+-- UI strings, translation ready
 L["rousing"] = "Rousing Elements";
 L["insignia"] = "Dragonflight Reputation Insignias";
-L["lockboxes"] = "Lockboxes";
